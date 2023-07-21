@@ -8,6 +8,12 @@ title: >
   Constrained Application Protocol (CoAP): Corrections and Clarifications
 abbrev: Corrections and Clarifications to CoAP
 docname: draft-bormann-core-corr-clar-latest
+
+venue:
+  mail: core@ietf.org
+  github: core-wg/corrclar
+
+
 author:
  -
     name: Carsten Bormann
