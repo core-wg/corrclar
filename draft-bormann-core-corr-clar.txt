@@ -4,10 +4,10 @@
 
 Network Working Group                                         C. Bormann
 Internet-Draft                                    Universität Bremen TZI
-Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if             21 July 2023
+Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if             22 July 2023
          approved)                                                      
 Intended status: Standards Track                                        
-Expires: 22 January 2024
+Expires: 23 January 2024
 
 
 Constrained Application Protocol (CoAP): Corrections and Clarifications
@@ -48,6 +48,16 @@ Status of This Memo
    This Internet-Draft is submitted in full conformance with the
    provisions of BCP 78 and BCP 79.
 
+
+
+
+
+
+Bormann                  Expires 23 January 2024                [Page 1]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2023
+
+
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
@@ -58,7 +68,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 January 2024.
+   This Internet-Draft will expire on 23 January 2024.
 
 Copyright Notice
 
@@ -76,19 +86,19 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction
-     1.1.  Process
-     1.2.  Terminology
-   2.  RFC 7252
-     2.1.  RFC7252-5.10.5: Max-Age
-     2.2.  RFC7252-7.2.1: "ct" Attribute (content-format code)
-   3.  IANA Considerations
-   4.  Security Considerations
-   5.  References
-     5.1.  Normative References
-     5.2.  Informative References
-   Acknowledgements
-   Author's Address
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Process . . . . . . . . . . . . . . . . . . . . . . . . .   3
+     1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   3
+   2.  RFC 7252  . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     2.1.  RFC7252-5.10.5: Max-Age . . . . . . . . . . . . . . . . .   4
+     2.2.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   4
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   7
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
 
 1.  Introduction
 
@@ -96,6 +106,13 @@ Table of Contents
    with a number of additional specifications, including [RFC7641],
    [RFC7959], [RFC8132], and [RFC8323].  [RFC6690] defines the link
    format that is used in CoAP self-description documents.
+
+
+
+Bormann                  Expires 23 January 2024                [Page 2]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2023
+
 
    During implementation and interoperability testing of these RFCs, and
    in their practical use, some ambiguities and common
@@ -138,6 +155,20 @@ Table of Contents
    "OPTIONAL" in this document are to be interpreted as described in
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
+
+
+
+
+
+
+
+
+
+
+Bormann                  Expires 23 January 2024                [Page 3]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2023
+
 
    When a section of this document makes formal corrections, additions
    or invalidations to text in a referenced RFC, this is clearly
@@ -188,6 +219,13 @@ Table of Contents
    prohibition of multiple instances that the analogously structured
    "rt" and "if" attributes in Sections 3.1 and 3.2 of [RFC6690] have.
 
+
+
+Bormann                  Expires 23 January 2024                [Page 4]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2023
+
+
    This appears to be an oversight.  Published examples in Section 4.1
    of [RFC9148] and Section 4.3 of [RFC9176] further illustrate that the
    space-separated approach is generally accepted to be the one to be
@@ -233,6 +271,16 @@ Table of Contents
    [RFC6690]  Shelby, Z., "Constrained RESTful Environments (CoRE) Link
               Format", RFC 6690, DOI 10.17487/RFC6690, August 2012,
               <https://www.rfc-editor.org/rfc/rfc6690>.
+
+
+
+
+
+
+Bormann                  Expires 23 January 2024                [Page 5]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2023
+
 
    [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
@@ -280,6 +328,16 @@ Table of Contents
               DOI 10.17487/RFC9148, April 2022,
               <https://www.rfc-editor.org/rfc/rfc9148>.
 
+
+
+
+
+
+Bormann                  Expires 23 January 2024                [Page 6]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2023
+
+
    [RFC9176]  Amsüss, C., Ed., Shelby, Z., Koster, M., Bormann, C., and
               P. van der Stok, "Constrained RESTful Environments (CoRE)
               Resource Directory", RFC 9176, DOI 10.17487/RFC9176, April
@@ -301,3 +359,34 @@ Author's Address
    Germany
    Phone: +49-421-218-63921
    Email: cabo@tzi.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bormann                  Expires 23 January 2024                [Page 7]
