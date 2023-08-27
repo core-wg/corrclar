@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-08-24T01:11:36.147312+00:00",
+  "timestamp": "2023-08-27T01:16:51.154743+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1204,6 +1204,22 @@
       "body": "What should be done for the request for the next Block2 data of the server payload after the request payload has been transferred and has had the NUM=0 Block2 response?\r\n\r\n- Not include the Block1'd data in the request for the next block?\r\n- Include the Block1'd data in the request for the next block?\r\n\r\nCase for NOT including the data [RFC7959 2.7 Combining Block1 and Block2](https://www.rfc-editor.org/rfc/rfc7959.html#section-2.7)\r\n````\r\n   In PUT and particularly in POST exchanges, both the request body and\r\n   the response body may be large enough to require the use of block-\r\n   wise transfers.  First, the Block1 transfer of the request body\r\n   proceeds as usual.  In the exchange of the last slice of this block-\r\n   wise transfer, the response carries the first slice of the Block2\r\n   transfer (NUM is zero).  To continue this Block2 transfer, the client\r\n   continues to send requests similar to the requests in the Block1\r\n   phase, but leaves out the Block1 Options and includes a Block2\r\n   request option with non-zero NUM.\r\n````\r\nas Block1 option is not allowed and hence no data payload in the subsequent request for the next block.  Certainly true for PUT and POST.\r\n\r\n[RFC 9177 10.3.3 Handling Recovery](https://datatracker.ietf.org/doc/html/rfc9177#section-10.3.3) states\r\n````\r\n   Note that, following (https://www.rfc-editor.org/rfc/rfc7959#section-2.7, the FETCH request does\r\n   not include the Q-Block1 or any payload.\r\n````\r\n\r\nCase FOR including the data [RFC 8132 2.3.2 The ETag Option](https://datatracker.ietf.org/doc/html/rfc8132#section-2.3.2)\r\n````\r\n                                          The FETCH payload is input to\r\n   that selection process and therefore needs to be part of the cache\r\n   key.\r\n````\r\nso at least one cache-key which includes the payload needs to be maintained by the server.\r\n\r\nFurthermore, it is reasonably clear for a FETCH doing an Observe request using Block1 has to send the entire FETCH payload when de-registering the Observe Request [RFC 7641 3.6 Cancellation](https://datatracker.ietf.org/doc/html/rfc7641#section-3.6)\r\n````\r\n                 a client MAY explicitly deregister by issuing a GET\r\n   request that has the Token field set to the token of the observation\r\n   to be cancelled and includes an Observe Option with the value set to\r\n   1 (deregister).  All other options MUST be identical to those in the\r\n   registration request except for the set of ETag Options.  When the\r\n   server receives such a request, it will remove any matching entry\r\n   from the list of observers and process the GET request as usual.\r\n````\r\nas updated by [RFC 8132 2.4 Working with Observe](https://datatracker.ietf.org/doc/html/rfc8132#section-2.4)\r\n````\r\n   The Observe option [RFC7641] can be used with a FETCH request as it\r\n   can be used with a GET request.\r\n````\r\n\r\nWhat is the right answer here with the FETCH payload (which can span multiple Block1s) for requesting a subsequent block?\r\nIs that then consistent with POST and PUT as per RFC 7959?\r\n\r\n",
       "createdAt": "2023-07-06T13:22:19Z",
       "updatedAt": "2023-07-22T19:28:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 29,
+      "id": "I_kwDOJ-N8wM5vTW6o",
+      "title": "Compliant use of tokens in blockwise transfer (RFC7959)",
+      "url": "https://github.com/core-wg/corrclar/issues/29",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In the scope of LwM2M, a question about the usage of the token in relation with a blockwise transfer occurred.\r\n\r\nIs it valid to use the client's token to relation a server side state to the request? In particular, to make it mandatory, that follow up requests of an blockwise transfer MUST use the same token?\r\n\r\nFor more background information, please read the comment in \r\n\r\n[Eclipse/Californium](https://github.com/eclipse-californium/californium/pull/2088)\r\n\r\nand\r\n\r\n[Eclipse/Leshan](https://github.com/eclipse-leshan/leshan/issues/1499)\r\n\r\n   ",
+      "createdAt": "2023-08-25T16:26:02Z",
+      "updatedAt": "2023-08-25T16:26:02Z",
       "closedAt": null,
       "comments": []
     }
