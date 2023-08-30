@@ -21,17 +21,17 @@ RFCs.
 In addition, other clarifications related to the use of CoAP in other
 specifications, including RFC 7390 and RFC 8075, are also provided. 
     " name="description">
-<meta content="xml2rfc 3.17.4" name="generator">
+<meta content="xml2rfc 3.18.0" name="generator">
 <meta content="draft-bormann-core-corr-clar-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.17.4
+  xml2rfc 3.18.0
     Python 3.11.4
     ConfigArgParse 1.5.3
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.9.1
+    platformdirs 3.10.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
@@ -1058,11 +1058,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Corrections and Clarifications to CoAP</td>
-<td class="right">July 2023</td>
+<td class="right">August 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bormann</td>
-<td class="center">Expires 23 January 2024</td>
+<td class="center">Expires 2 March 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1078,12 +1078,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6690" class="eref">6690</a>, <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a>, <a href="https://www.rfc-editor.org/rfc/rfc7641" class="eref">7641</a>, <a href="https://www.rfc-editor.org/rfc/rfc7959" class="eref">7959</a>, <a href="https://www.rfc-editor.org/rfc/rfc8132" class="eref">8132</a>, <a href="https://www.rfc-editor.org/rfc/rfc8323" class="eref">8323</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-07-22" class="published">22 July 2023</time>
+<time datetime="2023-08-30" class="published">30 August 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-01-23">23 January 2024</time></dd>
+<dd class="expires"><time datetime="2024-03-02">2 March 2024</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1144,7 +1144,7 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 23 January 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 2 March 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1174,13 +1174,21 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
                 <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-process" class="internal xref">Process</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.1">
+                    <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="auto internal xref">1.1.1</a>.  <a href="#name-original-text" class="internal xref">Original text</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.2">
+                    <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="auto internal xref">1.1.2</a>.  <a href="#name-proposed-text-based-on-ietf" class="internal xref">Proposed text based on IETF 117 and 2023-08-30 CoRE WG interim discussion</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
-                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+                <p id="section-toc.1-1.1.2.2.1"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
 </li>
             </ul>
 </li>
@@ -1248,19 +1256,97 @@ documents that are related to CoAP, including RFC 7390 and RFC 8075.<a href="#se
         <h3 id="name-process">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-process" class="section-name selfRef">Process</a>
         </h3>
-<p id="section-1.1-1">The present document is an Internet-Draft, which is not intended to be
+<div id="original-text">
+<section id="section-1.1.1">
+          <h4 id="name-original-text">
+<a href="#section-1.1.1" class="section-number selfRef">1.1.1. </a><a href="#name-original-text" class="section-name selfRef">Original text</a>
+          </h4>
+<p id="section-1.1.1-1">The present document is an Internet-Draft, which is not intended to be
 published as an RFC quickly.  Instead, it will be maintained as a
 running document of the CoRE WG, probably for a number of years, until
 the need for new entries tails off and the document can finally be
 published as an RFC.  (This paragraph to be rephrased when that
-happens.)<a href="#section-1.1-1" class="pilcrow">¶</a></p>
-<p id="section-1.1-2">The status of this document as a running document of the WG implies a
+happens.)<a href="#section-1.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.1-2">The status of this document as a running document of the WG implies a
 consensus process that is applied in making updates to it.  The rest
 of this subsection provides more details about this consensus process.
-(This is the intended status; currently, the document is an individual submission only.)<a href="#section-1.1-2" class="pilcrow">¶</a></p>
-<p id="section-1.1-3">(Consensus process TBD, but it will likely be based on an editor's
+(This is the intended status; currently, the document is an individual submission only.)<a href="#section-1.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1.1-3">(Consensus process TBD, but it will likely be based on an editor's
 version in a publicly accessible git repository, as well as periodic
-calls for consensus that lead to a new published Internet-Draft;.)<a href="#section-1.1-3" class="pilcrow">¶</a></p>
+calls for consensus that lead to a new published Internet-Draft.)<a href="#section-1.1.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="proposed-text-based-on-ietf-117-and-2023-08-30-core-wg-interim-discussion">
+<section id="section-1.1.2">
+          <h4 id="name-proposed-text-based-on-ietf">
+<a href="#section-1.1.2" class="section-number selfRef">1.1.2. </a><a href="#name-proposed-text-based-on-ietf" class="section-name selfRef">Proposed text based on IETF 117 and 2023-08-30 CoRE WG interim discussion</a>
+          </h4>
+<p id="section-1.1.2-1">This section describes the process that will be used for developing
+the present document (called "-corr-clar" colloquially).<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.2-2">This process might be revised as its execution progresses.<a href="#section-1.1.2-2" class="pilcrow">¶</a></p>
+<ol start="0" type="1" class="normal type-1" id="section-1.1.2-3">
+<li id="section-1.1.2-3.1">(Done as of this a draft): include the present process proposal.<br>
+The document can then already be considered for WG adoption.<a href="#section-1.1.2-3.1" class="pilcrow">¶</a>
+</li>
+            <li id="section-1.1.2-3.2">
+              <p id="section-1.1.2-3.2.1">Go through the following available material and revise/create
+Github issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a> as needed:<a href="#section-1.1.2-3.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.2.2.1">
+                  <p id="section-1.1.2-3.2.2.1.1">Existing issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a><a href="#section-1.1.2-3.2.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.2.2.1.2.1">More to be opened by Jon Shallow regarding Block-wise, see <a href="https://datatracker.ietf.org/doc/minutes-interim-2023-core-11-202307051400/#attacks-on-the-constrained-application-protocol-coap-christian-amsuss-jon-shallow">JON-ISSUES</a><a href="#section-1.1.2-3.2.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                  </ul>
+</li>
+                <li class="normal" id="section-1.1.2-3.2.2.2">
+                  <p id="section-1.1.2-3.2.2.2.1">CoAP FAQ at the CoRE WIKI <a href="https://github.com/core-wg/wiki/wiki/CoAP-FAQ">WIKI-FAQ</a><a href="#section-1.1.2-3.2.2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.2.2.2.2.1">Each point likely to become a new, short issue<a href="#section-1.1.2-3.2.2.2.2.1" class="pilcrow">¶</a>
+</li>
+                  </ul>
+</li>
+              </ul>
+</li>
+            <li id="section-1.1.2-3.3">Categorize the Github issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a> as to the topics they relate to, by tagging them.<br>
+Completing a first round of this will be a task for a dedicated team.<a href="#section-1.1.2-3.3" class="pilcrow">¶</a>
+</li>
+            <li id="section-1.1.2-3.4">
+              <p id="section-1.1.2-3.4.1">For each issue or set of issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a>, confirm with the CoRE
+WG and gather feedback from affected protocol
+designers/implementors if the issue is best to be:<a href="#section-1.1.2-3.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.4.2.1">Included and covered in -corr-clar, as is or revised<a href="#section-1.1.2-3.4.2.1" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="section-1.1.2-3.4.2.2">Simply omitted in -corr-clar<a href="#section-1.1.2-3.4.2.2" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="section-1.1.2-3.4.2.3">Omitted in -corr-clar and left for a possible -bis document.<br>
+(For example, this might be the case for some specific points related to RFC 7959.)<a href="#section-1.1.2-3.4.2.3" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+            <li id="section-1.1.2-3.5">
+              <p id="section-1.1.2-3.5.1">Reshape the -corr-clar document in order to reflect a sequence of
+ pairs (Diagnosis, Therapy), where:<a href="#section-1.1.2-3.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.5.2.1">Diagnosis is the gist of a set of Github issues to cover, and<a href="#section-1.1.2-3.5.2.1" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="section-1.1.2-3.5.2.2">Therapy is the correction or clarification to address those.<a href="#section-1.1.2-3.5.2.2" class="pilcrow">¶</a>
+</li>
+              </ul>
+<p id="section-1.1.2-3.5.3">
+Even though at a high-level, the scope should be already clear by
+looking at the table of contents.
+That is, at this stage, there is no need to necessarily elaborate
+the Therapy in detail, but it is necessary to make a reader
+understand "what we are dealing with and taking which direction".<a href="#section-1.1.2-3.5.3" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-1.1.2-3.6">WG document work can then focus on improving the therapy parts,
+until all points are satisfactorily addressed and documented.<a href="#section-1.1.2-3.6" class="pilcrow">¶</a>
+</li>
+          </ol>
+</section>
+</div>
 </section>
 </div>
 <div id="terminology">
