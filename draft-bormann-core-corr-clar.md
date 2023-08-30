@@ -85,6 +85,8 @@ documents that are related to CoAP, including RFC 7390 and RFC 8075.
 
 ## Process
 
+### Original text
+
 The present document is an Internet-Draft, which is not intended to be
 published as an RFC quickly.  Instead, it will be maintained as a
 running document of the CoRE WG, probably for a number of years, until
@@ -99,7 +101,61 @@ of this subsection provides more details about this consensus process.
 
 (Consensus process TBD, but it will likely be based on an editor's
 version in a publicly accessible git repository, as well as periodic
-calls for consensus that lead to a new published Internet-Draft;.)
+calls for consensus that lead to a new published Internet-Draft.)
+
+### Proposed text based on IETF 117 and 2023-08-30 CoRE WG interim discussion
+
+This section describes the process that will be used for developing
+the present document (called "-corr-clar" colloquially).
+
+This process might be revised as its execution progresses.
+
+{: start="0"}
+0. (Done as of this a draft): include the present process proposal.\\
+   The document can then already be considered for WG adoption.
+
+1. Go through the following available material and revise/create
+   Github issues at [ISSUES] as needed:
+    - Existing issues at [ISSUES]
+        - More to be opened by Jon Shallow regarding Block-wise, see [JON-ISSUES]
+    - CoAP FAQ at the CoRE WIKI [WIKI-FAQ]
+        - Each point likely to become a new, short issue
+
+2. Categorize the Github issues at [ISSUES] as to the topics they relate to, by tagging them.\\
+Completing a first round of this will be a task for a dedicated team.
+
+3. For each issue or set of issues at [ISSUES], confirm with the CoRE
+   WG and gather feedback from affected protocol
+   designers/implementors if the issue is best to be:
+    - Included and covered in -corr-clar, as is or revised
+    - Simply omitted in -corr-clar
+    - Omitted in -corr-clar and left for a possible -bis document.\\
+      (For example, this might be the case for some specific points related to RFC 7959.)
+
+4. Reshape the -corr-clar document in order to reflect a sequence of
+ pairs (Diagnosis, Therapy), where:
+   - Diagnosis is the gist of a set of Github issues to cover, and
+   - Therapy is the correction or clarification to address those.
+
+   Even though at a high-level, the scope should be already clear by
+   looking at the table of contents.
+   That is, at this stage, there is no need to necessarily elaborate
+   the Therapy in detail, but it is necessary to make a reader
+   understand "what we are dealing with and taking which direction".
+
+5. WG document work can then focus on improving the therapy parts,
+   until all points are satisfactorily addressed and documented.
+
+
+
+[ISSUES]: https://github.com/core-wg/corrclar/issues
+
+[WIKI-FAQ]: https://github.com/core-wg/wiki/wiki/CoAP-FAQ
+
+[JON-ISSUES]: https://datatracker.ietf.org/doc/minutes-interim-2023-core-11-202307051400/#attacks-on-the-constrained-application-protocol-coap-christian-amsuss-jon-shallow
+
+[117-side-meeting]: https://notes.ietf.org/notes-ietf-core-side-meeting-ietf-117-core
+
 
 ## Terminology
 
