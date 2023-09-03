@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-08-31T01:14:07.740448+00:00",
+  "timestamp": "2023-09-03T01:17:12.285249+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1172,7 +1172,7 @@
       "labels": [],
       "body": "Currently, when a request with a payload that is not block1wise'd has a response that is block2wise'd, the request payload is not repeated. This is efficient in terms of traffic, but means that the common stateless optimization for GET (where the response is calculated internally on each request, but only the slice requested in block2 is sent) is impossible for FETCH.\r\n\r\nIf we do any alterations around block-wise, I suggest we reconsider that choice.\r\n\r\n(Also, this is what is making it necessary to fix 9175 for small-request-payload-and-then-block2 cases, but I for one am OK with using Request-Tag there, as in OSCORE the empty request tag can be recycled indefinitely; DTLS users may not be so lucky).",
       "createdAt": "2023-07-05T19:47:33Z",
-      "updatedAt": "2023-08-30T18:39:28Z",
+      "updatedAt": "2023-09-01T14:36:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -1258,6 +1258,34 @@
           "body": "As much as I'd like to leave the discussion of the response-option-that-guides-later-requests to a separate thread, we'll need a bit of that to carve out the option space. Likewise, I'd have hoped to leave [@mrdeep1's attack](https://github.com/core-wg/attacks-on-coap/issues/3) out, but that too is part of the outcome and thus needs to be considered.\r\n\r\n As I see it, options around a situation with a short request payload and a long response payload are\r\n\r\n1. Do nothing.\r\n    * Stateless FETCH stays impossible.\r\n    * We'll need to think hard about how to defeat the attack. Possible outcomes are \"the server must be extra careful with its ETags\" and \"the client must send Request-Tag quite often\".\r\n2. Add an option in which the server requests repetition of the payload.\r\n    * This allows stateless FETCH (when supported by the client, but that's the case for all solutions).\r\n    * It doesn't help with the attack; items of 1 still apply.\r\n2. Alter 7959 in short-request-long-response mode to send the payload by default\r\n    This requires a \"breaking\" update of 7959. I put breaking in quotes because AIU implementations do different things anyway.\r\n    (Or a variant that @cabo suggested in today's interim, possibly just the rules for block-wise FETCH, although I'd rather use a code independent model, also due to the attack; that'd only break 8132).\r\n    * Stateless FETCH becomes possible; stateful FETCH has now more overhead.\r\n    * The attack is practically defeated (as long as the client applies the rules of 9175 on when to set a Request-Tag, and the server the rules for when to use an ETag).\r\n    Possible mitigations for the increased overhead of FETCH:\r\n    1. The client can minimize the overhead by decreasing the block1 size to split the request payload in two parts, effectively creating a long-request-long-response situation. This adds a single round-trip, and works for requests > 16 bytes (but for the smaller ones, the repetition is not too bad). But it's weird to implement.\r\n    2. The server can tell the client that it *is* stateful, similar to how in a long-request situation it says 2.31 Continue. That option would be elective, stating that the client is free to just send the request payload all over again (as well as all options). If the client supports the option, it sends later requests only with Block2, the reflected option value, and the payload. This even saves data compared to the original scenario, because other request options can be elided as well (precise rules TBD; I think we better pick a different option to Request-Tag as otherwise we get mixups as to who is responsible for the namespace).\r\n    The breakage would be visible to clients that do not know the updated behavior (they don't need to know the new option). If the server sends a 4.08 Request Entity Incomplete for any later block request without a request payload, it's even kind of within spec (the server just has a *very* short timeout...). Servers that do have state may support the old behavior *if* they can be sure to not be affected by the attack. Servers that are stateless didn't work previously (or were just implemented assuming the new behavior), so they don't become broken by this change.\r\n\r\nI think that 3.ii is a good way to go.\r\n\r\nIf that's a direction we can converge on, the next question would be to ask implementers what their servers are doing -- would servers out there *tolerate* clients sending additional payloads? (For that is the case where actual breakage can occur -- in the other direction, there's the option \"*if* they can be sure to not be affected\" above).\r\n\r\nFor aiocoap (a stateful server), I can report that it ignores any request payload sent in later Block2 requests. This is compatible behavior. (It will break if clients start randomly accessing FETCH responses, but that is the essence of the attack, so I argue it's already broken).",
           "createdAt": "2023-08-30T18:39:28Z",
           "updatedAt": "2023-08-30T18:39:28Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Californium has two modes:\r\n\r\n- transparent mode: the blockwise transfer is handled by the coap-stack. This uses a stateful implementation. Payload in follow up request are not sent by the client and ignored by the server. That's the option, which is mainly used.\r\n- random mode: the blockwise requests are forwarded to the application layer. There it depends on the application specific implementation. There it is also possible, that the application ignores the block option and simply returns the full response, in that case the stack handles to cut the block. AFAIK, the random-mode is only rarely used.\r\n\r\nSometimes a client may resume such a blockwise transfer in the middle. Californium handles that as \"random mode\". If the client provides the payload, then the server is able to resume. If it doesn't add the payload on resume, the outcome is for now undefined. \r\n\r\nIf the payload gets added for the follow up requests, then it may help to be clear, if a FETCH (block2 0) will be valid even without payload. If FETCH without payload is not valid, a server may be able to detect the mode and may the either perform the transfer or fail. \r\n\r\nIf a FETCH without payload is invalid, that would also enable Californium to be strict on resuming a FETCH, because an empty payload will then be clearly and error. \r\n\r\nIn my sum up:\r\n- there are many protocols for different complex applications.\r\n- the domain of coap is in my opinion the more simple ones. So leave the complex stuff to other protocols.\r\n- I don't see a too big benefit in trying to support a \"stateless\" FETCH. Sure there are very tiny peers, but there are also a lot devices, which ore not that limited. If it gets complex, I see more the bigger devices and there the state is not a that big issue. \r\n- resuming a transfer is for me more attractive to be considered than a \"stateless\" transfer. \r\n",
+          "createdAt": "2023-08-31T08:24:25Z",
+          "updatedAt": "2023-08-31T08:24:25Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "From libcoap's perspective, the server does not care whether the data is there or not for FETCH Block2 NUM != 0, handling multiple Block1 for large payload if needed as it is operating in stateful mode, assuming the coap stack is enabled to request/ send the individual blocks rather than the application.\r\n",
+          "createdAt": "2023-09-01T10:23:19Z",
+          "updatedAt": "2023-09-01T10:26:14Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "> I think that 3.ii is a good way to go.\r\n\r\nI'm inclined to agree.  Only comment is that the new option should indicate stateless support (or stateful = yes/no) to be consistent with previous behavior (for FETCH in particular).\r\n\r\nHow far does the server have to go in being stateless?\r\n\r\n- State not required for Block2 transfers\r\n- State not required for Block1 transfers (Something needs to assemble data payload or stream it into the app)\r\n- State not required for NonSec UDP requests (remote IP/port tracked during processing of request)\r\n- State not required for DTLS\r\n- State not required for TCP based connections (PDU may need to be reassembled from multiple packets)\r\n\r\n",
+          "createdAt": "2023-09-01T13:07:07Z",
+          "updatedAt": "2023-09-01T13:07:07Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> How far does the server have to go in being stateless?\r\n\r\nThat's a good question. \"state\" is usually not \"every state\". e.g. the DTLS state may be lost and reestablished using an fresh handshake. That doesn't really affect the blockwise transfer, but requires to authorize the follow up requests again. For a single request response pair my interpretation of RFC 7252 is more strict and requires to use a new request response pair (means request - handshake - response isn't intended to work).\r\n\r\nWith that, I consider \"State not required for Block2 transfers\" and \"State not required for Block1 transfers\". But as I wrote, for more complex use-cases as a FETCH, I don't see this too important.\r\n    ",
+          "createdAt": "2023-09-01T14:36:53Z",
+          "updatedAt": "2023-09-01T14:36:53Z"
         }
       ]
     },
