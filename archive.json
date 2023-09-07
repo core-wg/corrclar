@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-09-05T01:12:19.061119+00:00",
+  "timestamp": "2023-09-07T01:13:50.310011+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1325,9 +1325,24 @@
       "labels": [],
       "body": "In the scope of LwM2M, a question about the usage of the token in relation with a blockwise transfer occurred.\r\n\r\nIs it valid to use the client's token to relation a server side state to the request? In particular, to make it mandatory, that follow up requests of an blockwise transfer MUST use the same token?\r\n\r\nFor more background information, please read the comment in \r\n\r\n[Eclipse/Californium](https://github.com/eclipse-californium/californium/pull/2088)\r\n\r\nand\r\n\r\n[Eclipse/Leshan](https://github.com/eclipse-leshan/leshan/issues/1499)\r\n\r\n   ",
       "createdAt": "2023-08-25T16:26:02Z",
-      "updatedAt": "2023-08-25T16:26:02Z",
+      "updatedAt": "2023-09-06T19:56:43Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "I think it's rather clear that this is not how requests are supposed to be matched; IIRC there was wide agreement on that in the [last interim](https://datatracker.ietf.org/doc/minutes-interim-2023-core-12-202308301400/).\r\n\r\nWhile clients are free to reuse the tokens, the server can not rely on it. Given we are seeing evidence that people start relying on this just because it works with the one or two peers they are testing it, I'd recommend that clients start mixing up their block numbers just to keep their servers from relying on the pattern. (It's sad we have to resort to this, but apparently either people don't read the specs or the specs are not written well enough).\r\n\r\nIf there is any property of its interactions a server can only obtain when exchanging with peers that do use those constant-over-the-body tokens, please point me to it, but I'm very confident that the tools we have allow doing it properly. (That is not to say that 7959+9175 are perfect, far from it -- just that everything that can be done relying on constant tokens can also be done without).",
+          "createdAt": "2023-09-06T19:22:16Z",
+          "updatedAt": "2023-09-06T19:22:16Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": ">  either people don't read the specs or the specs are not written well enough\r\n\r\nIn some cases the people want to improve the specs. I remember converting RFC7641 into time series. For blockwise it was to support concurrent transfers of changed resources. \r\nWhat is overseen frequently is the downside of such approaches. In that case it seems to be more the \"concurrent transfers\" what should be achieved. From my point, very crazy and dangerous. In the end a \"break\" will break 5 90% transfers instead of breaking one at 50% but have the other 4 done.",
+          "createdAt": "2023-09-06T19:43:03Z",
+          "updatedAt": "2023-09-06T19:56:43Z"
+        }
+      ]
     }
   ],
   "pulls": []
