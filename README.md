@@ -7,6 +7,7 @@ This is the working area for the individual Internet-Draft, "Constrained Applica
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-bormann-core-corr-clar)
 * [Compare Editor's Copy to Individual Draft](https://core-wg.github.io/corrclar/#go.draft-bormann-core-corr-clar.diff)
 
+[Access to all branches](https://core-wg.github.io/corrclar/)
 
 ## Contributing
 
@@ -27,4 +28,3 @@ $ make
 
 Command line usage requires that you have the necessary software installed.  See
 [the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
-
