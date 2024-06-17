@@ -228,10 +228,10 @@ PENDING (to be VERIFIED).
 
 # IANA Considerations
 
-None yet.
+This document makes no new requests to IANA.
 
-(Individual clarifications may contain IANA considerations; these will
-then be referenced here.)
+Individual clarifications may contain IANA considerations; as for
+example in {{ct}}.
 
 # Security Considerations
 
