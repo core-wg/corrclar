@@ -172,6 +172,31 @@ as RFC nnnn-\<number>, where \<number> is the section number.
 
 # RFC 7252
 
+## RFC7252-1.2: Terminology (Request-URI)
+
+{{RFC7252}} uses the term "request URI" repeatedly, but only provides a
+vague definition in {{Section 5.7.2 of RFC7252}}.
+Text should be added to the definitions in {{Section 1.2 (Terminology)
+of RFC7252}}.
+
+{: vspace='0'}
+INCOMPLETE; FORMAL ADDITION (Section 1.2):
+: Request URI:
+  : The URI that identifies a resource on a server intended to be
+    addressed by a request; constructed from the context of the
+    request combined with Options present in the request using the
+    process defined in {{Section 6.5 (Composing URIs from Options) of
+    RFC7252}}, see {{Section 5.7.2 (Forward-Proxies) of
+    RFC7252}} for further details.
+    Related to the HTTP concept of "target URI"; see {{Section 7.1
+    (Determining the Target Resource) of ?RFC9110}}; previously called
+    "effective request URI" in {{Section 5.5 (Effective Request URI) of
+    ?RFC7230}}.
+
+PENDING.
+
+
+
 ## RFC7252-5.10.5: Max-Age
 
 In the discussion of {{-RC429}}, a comment was
