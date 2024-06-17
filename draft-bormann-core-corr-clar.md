@@ -34,6 +34,12 @@ normative:
   RFC8323: coap-tcp
 informative:
   RFC8516: RC429
+  Err4954:
+    target: "https://www.rfc-editor.org/errata/eid5078"
+    title: Errata Report 4954
+    seriesinfo:
+      RFC: 7252
+    date: false
   Err5078:
     target: "https://www.rfc-editor.org/errata/eid5078"
     title: Errata Report 5078
@@ -224,7 +230,46 @@ INCOMPLETE; FORMAL ADDITION:
 : The Content-Format code attribute MUST NOT appear more than once in a
   link.
 
-PENDING (to be VERIFIED).
+## RFC 7252-12.3: Content-Format Registry {#ct}
+
+{{Section 12.3 of RFC7252}} established the CoAP Content-Formats
+Registry, which maps a combination of an Internet Media Type
+with an HTTP Content Coding, collectively called a Content-Format, to
+a concise numeric identifier for that Content-Format.
+The "Media Type" is more than a Media-Type-Name (see {{?RFC9193}} for an
+extensive discussion), i.e., it may contain parameters beyond the mere
+combination of a type-name and a subtype-name registered in
+{{?IANA.media-types}}, as per {{?RFC6838}}, conventionally identified by
+the two names separated by a slash.
+This construct is often called a Content Type to reduce the confusion
+with a Media-Type-Name (e.g., in {{Section 8.3 of ?RFC9110}}, which then
+however also opts to use the term Media Type for the same information set).
+
+The second column of the Content-Format registry is the Content
+Coding, which is defined in {{Section 8.4.1 of ?RFC9110}}.
+For historical reasons, the HTTP header field that actually carries
+the content coding is called Content-Encoding; this often leads to the
+misnaming of Content Coding as "content encoding".
+
+As has been noted in {{Err4954}}, the text in {{Section 12.3 of RFC7252}}
+incorrectly uses these terms in the context of content types and
+content coding:
+
+1. The field that describes the Content Type is called "Media Type".
+   This can lead to the misunderstanding that this column just carries
+   a Media-Type-Name (such as "`text/plain`"), while it actually also
+   can carry media type parameters (as in "`text/plain; charset=UTF-8`").
+
+2. The field that describes the Content Coding uses the incorrect name
+   "Content Encoding".
+
+{: vspace='0'}
+INCORRECT, CORRECTED:
+: The VERIFIED Errata Report {{Err4954}} corrects the usage of
+  "Content-Encoding" in the text and changes the name of the first
+  column of the Content-Format registry to "Content Type" and the name
+  of the second field to "Content Coding"; this change has been
+  carried out by IANA.
 
 # IANA Considerations
 
