@@ -217,11 +217,10 @@ There is no gain to be had from allowing both variants, and it would
 be likely to cause interoperability problems.
 
 At the 2022-11-23 CoRE WG interim meeting, there was agreement that
-{{Err5078}} should be marked "VERIFIED", which will be reflected here
-once implemented.
+{{Err5078}} should be marked "VERIFIED", which was done on 2023-01-18.
 
 {: vspace='0'}
-INCOMPLETE:
+INCOMPLETE; FORMAL ADDITION:
 : The Content-Format code attribute MUST NOT appear more than once in a
   link.
 
