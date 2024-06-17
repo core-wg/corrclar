@@ -35,7 +35,7 @@ normative:
 informative:
   RFC8516: RC429
   Err4954:
-    target: "https://www.rfc-editor.org/errata/eid5078"
+    target: "https://www.rfc-editor.org/errata/eid4954"
     title: Errata Report 4954
     seriesinfo:
       RFC: 7252
