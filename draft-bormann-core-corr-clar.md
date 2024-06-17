@@ -187,7 +187,7 @@ This extension was deemed acceptable for the purposes of {{-RC429}},
 but may be suboptimal when Max-Age is about the lifetime of a response
 object.
 
-{: vspace='0'}
+{:vspace}
 INCOMPLETE:
 : The value is intended to be current at the time of transmission.
 
@@ -215,7 +215,7 @@ be likely to cause interoperability problems.
 At the 2022-11-23 CoRE WG interim meeting, there was agreement that
 {{Err5078}} should be marked "VERIFIED", which was done on 2023-01-18.
 
-{: vspace='0'}
+{:vspace}
 INCOMPLETE; FORMAL ADDITION:
 : The Content-Format code attribute MUST NOT appear more than once in a
   link.
@@ -253,7 +253,7 @@ content coding:
 2. The field that describes the Content Coding uses the incorrect name
    "Content Encoding".
 
-{: vspace='0'}
+{:vspace}
 INCORRECT, CORRECTED:
 : The VERIFIED Errata Report {{Err4954}} corrects the usage of
   "Content-Encoding" in the text and changes the name of the first
