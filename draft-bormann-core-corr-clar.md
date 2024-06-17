@@ -34,18 +34,8 @@ normative:
   RFC8323: coap-tcp
 informative:
   RFC8516: RC429
-  Err4954:
-    target: "https://www.rfc-editor.org/errata/eid4954"
-    title: Errata Report 4954
-    seriesinfo:
-      RFC: 7252
-    date: false
-  Err5078:
-    target: "https://www.rfc-editor.org/errata/eid5078"
-    title: Errata Report 5078
-    seriesinfo:
-      RFC: 7252
-    date: false
+  Err4954: 7252
+  Err5078: 7252
 
 --- abstract
 
