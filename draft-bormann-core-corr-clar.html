@@ -21,23 +21,23 @@ RFCs.
 In addition, other clarifications related to the use of CoAP in other
 specifications, including RFC 7390 and RFC 8075, are also provided. 
     " name="description">
-<meta content="xml2rfc 3.18.0" name="generator">
+<meta content="xml2rfc 3.21.0" name="generator">
 <meta content="draft-bormann-core-corr-clar-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.0
-    Python 3.11.4
-    ConfigArgParse 1.5.3
+  xml2rfc 3.21.0
+    Python 3.12.3
+    ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
-    Jinja2 3.1.2
-    lxml 4.9.3
-    platformdirs 3.10.0
+    Jinja2 3.1.4
+    lxml 4.9.4
+    platformdirs 4.2.2
     pycountry 22.3.5
-    PyYAML 6.0
+    PyYAML 6.0.1
     requests 2.31.0
-    setuptools 67.7.2
+    setuptools 69.5.1
     six 1.16.0
-    wcwidth 0.2.6
+    wcwidth 0.2.13
 -->
 <link href="draft-bormann-core-corr-clar.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -660,7 +660,7 @@ sub, sup {
 }
 #toc nav li {
   line-height: 1.3em;
-  margin: 0.75em 0;
+  margin: 2px 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
 }
@@ -753,7 +753,7 @@ hr.addr {
     z-index: 2;
     top: 0;
     right: 0;
-    padding: 0;
+    padding: 1px 0 0 0;
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
@@ -877,16 +877,13 @@ hr.addr {
     border-top: none;
     padding-top: 0;
   }
-  figure, pre {
+  figure, pre, .vcard {
     page-break-inside: avoid;
-  }
-  figure {
-    overflow: scroll;
   }
   h1, h2, h3, h4, h5, h6 {
     page-break-after: avoid;
   }
-  h2+*, h3+*, h4+*, h5+*, h6+* {
+  :is(h2, h3, h4, h5, h6)+*, dd {
     page-break-before: avoid;
   }
   pre {
@@ -899,6 +896,9 @@ hr.addr {
   }
   td {
     border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
   }
 }
 
@@ -1000,28 +1000,6 @@ address div.right {
   text-align: right;
 }
 
-/* Give the table caption label the same styling as the figcaption */
-
-@media print {
-  .toplink {
-    display: none;
-  }
-
-  /* avoid overwriting the top border line with the ToC header */
-  #toc {
-    padding-top: 1px;
-  }
-
-  /* Avoid page breaks inside dl and author address entries */
-  dd {
-    page-break-before: avoid;
-  }
-  .vcard {
-    page-break-inside: avoid;
-  }
-
-}
-
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
 :root {
@@ -1058,11 +1036,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Corrections and Clarifications to CoAP</td>
-<td class="right">August 2023</td>
+<td class="right">June 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bormann</td>
-<td class="center">Expires 2 March 2024</td>
+<td class="center">Expires 19 December 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1078,12 +1056,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6690" class="eref">6690</a>, <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a>, <a href="https://www.rfc-editor.org/rfc/rfc7641" class="eref">7641</a>, <a href="https://www.rfc-editor.org/rfc/rfc7959" class="eref">7959</a>, <a href="https://www.rfc-editor.org/rfc/rfc8132" class="eref">8132</a>, <a href="https://www.rfc-editor.org/rfc/rfc8323" class="eref">8323</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-08-30" class="published">30 August 2023</time>
+<time datetime="2024-06-17" class="published">17 June 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-03-02">2 March 2024</time></dd>
+<dd class="expires"><time datetime="2024-12-19">19 December 2024</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1144,7 +1122,7 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 March 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1153,7 +1131,7 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1200,6 +1178,9 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
                 <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-rfc7252-721-ct-attribute-co" class="internal xref">RFC7252-7.2.1: "ct" Attribute (content-format code)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-rfc-7252-123-content-format" class="internal xref">RFC 7252-12.3: Content-Format Registry</a></p>
 </li>
             </ul>
 </li>
@@ -1285,8 +1266,9 @@ calls for consensus that lead to a new published Internet-Draft.)<a href="#secti
 the present document (called "-corr-clar" colloquially).<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
 <p id="section-1.1.2-2">This process might be revised as its execution progresses.<a href="#section-1.1.2-2" class="pilcrow">¶</a></p>
 <ol start="0" type="1" class="normal type-1" id="section-1.1.2-3">
-<li id="section-1.1.2-3.1">(Done as of this a draft): include the present process proposal.<br>
-The document can then already be considered for WG adoption.<a href="#section-1.1.2-3.1" class="pilcrow">¶</a>
+<li id="section-1.1.2-3.1">
+              <p id="section-1.1.2-3.1.1">(Done as of this a draft): include the present process proposal.<br>
+The document can then already be considered for WG adoption.<a href="#section-1.1.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-1.1.2-3.2">
               <p id="section-1.1.2-3.2.1">Go through the following available material and revise/create
@@ -1295,33 +1277,39 @@ Github issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a>
 <li class="normal" id="section-1.1.2-3.2.2.1">
                   <p id="section-1.1.2-3.2.2.1.1">Existing issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a><a href="#section-1.1.2-3.2.2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1.2-3.2.2.1.2.1">More to be opened by Jon Shallow regarding Block-wise, see <a href="https://datatracker.ietf.org/doc/minutes-interim-2023-core-11-202307051400/#attacks-on-the-constrained-application-protocol-coap-christian-amsuss-jon-shallow">JON-ISSUES</a><a href="#section-1.1.2-3.2.2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-3.2.2.1.2.1">
+                      <p id="section-1.1.2-3.2.2.1.2.1.1">More to be opened by Jon Shallow regarding Block-wise, see <a href="https://datatracker.ietf.org/doc/minutes-interim-2023-core-11-202307051400/#attacks-on-the-constrained-application-protocol-coap-christian-amsuss-jon-shallow">JON-ISSUES</a><a href="#section-1.1.2-3.2.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
                   </ul>
 </li>
                 <li class="normal" id="section-1.1.2-3.2.2.2">
                   <p id="section-1.1.2-3.2.2.2.1">CoAP FAQ at the CoRE WIKI <a href="https://github.com/core-wg/wiki/wiki/CoAP-FAQ">WIKI-FAQ</a><a href="#section-1.1.2-3.2.2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1.2-3.2.2.2.2.1">Each point likely to become a new, short issue<a href="#section-1.1.2-3.2.2.2.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-3.2.2.2.2.1">
+                      <p id="section-1.1.2-3.2.2.2.2.1.1">Each point likely to become a new, short issue<a href="#section-1.1.2-3.2.2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
                   </ul>
 </li>
               </ul>
 </li>
-            <li id="section-1.1.2-3.3">Categorize the Github issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a> as to the topics they relate to, by tagging them.<br>
-Completing a first round of this will be a task for a dedicated team.<a href="#section-1.1.2-3.3" class="pilcrow">¶</a>
+            <li id="section-1.1.2-3.3">
+              <p id="section-1.1.2-3.3.1">Categorize the Github issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a> as to the topics they relate to, by tagging them.<br>
+Completing a first round of this will be a task for a dedicated team.<a href="#section-1.1.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-1.1.2-3.4">
               <p id="section-1.1.2-3.4.1">For each issue or set of issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a>, confirm with the CoRE
 WG and gather feedback from affected protocol
 designers/implementors if the issue is best to be:<a href="#section-1.1.2-3.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1.2-3.4.2.1">Included and covered in -corr-clar, as is or revised<a href="#section-1.1.2-3.4.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-3.4.2.1">
+                  <p id="section-1.1.2-3.4.2.1.1">Included and covered in -corr-clar, as is or revised<a href="#section-1.1.2-3.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-1.1.2-3.4.2.2">Simply omitted in -corr-clar<a href="#section-1.1.2-3.4.2.2" class="pilcrow">¶</a>
+                <li class="normal" id="section-1.1.2-3.4.2.2">
+                  <p id="section-1.1.2-3.4.2.2.1">Simply omitted in -corr-clar<a href="#section-1.1.2-3.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-1.1.2-3.4.2.3">Omitted in -corr-clar and left for a possible -bis document.<br>
-(For example, this might be the case for some specific points related to RFC 7959.)<a href="#section-1.1.2-3.4.2.3" class="pilcrow">¶</a>
+                <li class="normal" id="section-1.1.2-3.4.2.3">
+                  <p id="section-1.1.2-3.4.2.3.1">Omitted in -corr-clar and left for a possible -bis document.<br>
+(For example, this might be the case for some specific points related to RFC 7959.)<a href="#section-1.1.2-3.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
@@ -1329,9 +1317,11 @@ designers/implementors if the issue is best to be:<a href="#section-1.1.2-3.4.1"
               <p id="section-1.1.2-3.5.1">Reshape the -corr-clar document in order to reflect a sequence of
  pairs (Diagnosis, Therapy), where:<a href="#section-1.1.2-3.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1.2-3.5.2.1">Diagnosis is the gist of a set of Github issues to cover, and<a href="#section-1.1.2-3.5.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-3.5.2.1">
+                  <p id="section-1.1.2-3.5.2.1.1">Diagnosis is the gist of a set of Github issues to cover, and<a href="#section-1.1.2-3.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-1.1.2-3.5.2.2">Therapy is the correction or clarification to address those.<a href="#section-1.1.2-3.5.2.2" class="pilcrow">¶</a>
+                <li class="normal" id="section-1.1.2-3.5.2.2">
+                  <p id="section-1.1.2-3.5.2.2.1">Therapy is the correction or clarification to address those.<a href="#section-1.1.2-3.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 <p id="section-1.1.2-3.5.3">
@@ -1341,8 +1331,9 @@ That is, at this stage, there is no need to necessarily elaborate
 the Therapy in detail, but it is necessary to make a reader
 understand "what we are dealing with and taking which direction".<a href="#section-1.1.2-3.5.3" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-1.1.2-3.6">WG document work can then focus on improving the therapy parts,
-until all points are satisfactorily addressed and documented.<a href="#section-1.1.2-3.6" class="pilcrow">¶</a>
+            <li id="section-1.1.2-3.6">
+              <p id="section-1.1.2-3.6.1">WG document work can then focus on improving the therapy parts,
+until all points are satisfactorily addressed and documented.<a href="#section-1.1.2-3.6.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -1423,17 +1414,65 @@ generally accepted to be the one to be used.
 There is no gain to be had from allowing both variants, and it would
 be likely to cause interoperability problems.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 <p id="section-2.2-4">At the 2022-11-23 CoRE WG interim meeting, there was agreement that
-<span>[<a href="#Err5078" class="cite xref">Err5078</a>]</span> should be marked "VERIFIED", which will be reflected here
-once implemented.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
+<span>[<a href="#Err5078" class="cite xref">Err5078</a>]</span> should be marked "VERIFIED", which was done on 2023-01-18.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-2.2-5">
-          <dt id="section-2.2-5.1">INCOMPLETE:</dt>
+          <dt id="section-2.2-5.1">INCOMPLETE; FORMAL ADDITION:</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-5.2">
             <p id="section-2.2-5.2.1">The Content-Format code attribute <span class="bcp14">MUST NOT</span> appear more than once in a
 link.<a href="#section-2.2-5.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-2.2-6">PENDING (to be VERIFIED).<a href="#section-2.2-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ct">
+<section id="section-2.3">
+        <h3 id="name-rfc-7252-123-content-format">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-rfc-7252-123-content-format" class="section-name selfRef">RFC 7252-12.3: Content-Format Registry</a>
+        </h3>
+<p id="section-2.3-1"><span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> established the CoAP Content-Formats
+Registry, which maps a combination of an Internet Media Type
+with an HTTP Content Coding, collectively called a Content-Format, to
+a concise numeric identifier for that Content-Format.
+The "Media Type" is more than a Media-Type-Name (see <span>[<a href="#RFC9193" class="cite xref">RFC9193</a>]</span> for an
+extensive discussion), i.e., it may contain parameters beyond the mere
+combination of a type-name and a subtype-name registered in
+<span>[<a href="#IANA.media-types" class="cite xref">IANA.media-types</a>]</span>, as per <span>[<a href="#RFC6838" class="cite xref">RFC6838</a>]</span>, conventionally identified by
+the two names separated by a slash.
+This construct is often called a Content Type to reduce the confusion
+with a Media-Type-Name (e.g., in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3" class="relref">Section 8.3</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>, which then
+however also opts to use the term Media Type for the same information set).<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">The second column of the Content-Format registry is the Content
+Coding, which is defined in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.4.1" class="relref">Section 8.4.1</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>.
+For historical reasons, the HTTP header field that actually carries
+the content coding is called Content-Encoding; this often leads to the
+misnaming of Content Coding as "content encoding".<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">As has been noted in <span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span>, the text in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>
+incorrectly uses these terms in the context of content types and
+content coding:<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.3-4">
+<li id="section-2.3-4.1">
+            <p id="section-2.3-4.1.1">The field that describes the Content Type is called "Media Type".
+This can lead to the misunderstanding that this column just carries
+a Media-Type-Name (such as "<code>text/plain</code>"), while it actually also
+can carry media type parameters (as in "<code>text/plain; charset=UTF-8</code>").<a href="#section-2.3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.3-4.2">
+            <p id="section-2.3-4.2.1">The field that describes the Content Coding uses the incorrect name
+"Content Encoding".<a href="#section-2.3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<span class="break"></span><dl class="dlNewline" id="section-2.3-5">
+          <dt id="section-2.3-5.1">INCORRECT, CORRECTED:</dt>
+          <dd style="margin-left: 1.5em" id="section-2.3-5.2">
+            <p id="section-2.3-5.2.1">The VERIFIED Errata Report <span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span> corrects the usage of
+"Content-Encoding" in the text and changes the name of the first
+column of the Content-Format registry to "Content Type" and the name
+of the second field to "Content Coding"; this change has been
+carried out by IANA.<a href="#section-2.3-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
 </section>
 </div>
 </section>
@@ -1443,9 +1482,9 @@ link.<a href="#section-2.2-5.2.1" class="pilcrow">¶</a></p>
       <h2 id="name-iana-considerations">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-3-1">None yet.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">(Individual clarifications may contain IANA considerations; these will
-then be referenced here.)<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-1">This document makes no new requests to IANA.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Individual clarifications may contain IANA considerations; as for
+example in <a href="#ct" class="auto internal xref">Section 2.3</a>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
@@ -1465,6 +1504,7 @@ considerations will then be on the individual clarifications.)<a href="#section-
       <h2 id="name-references">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
+<div id="sec-normative-references">
 <section id="section-5.1">
         <h3 id="name-normative-references">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
@@ -1504,29 +1544,52 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
+<div id="sec-informative-references">
 <section id="section-5.2">
         <h3 id="name-informative-references">
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="Err4954">[Err4954]</dt>
+        <dd>
+<span class="refTitle">"Errata Report 4954"</span>, <span class="seriesInfo">RFC 7252</span>, <span>&lt;<a href="https://www.rfc-editor.org/errata/eid4954">https://www.rfc-editor.org/errata/eid4954</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="Err5078">[Err5078]</dt>
         <dd>
 <span class="refTitle">"Errata Report 5078"</span>, <span class="seriesInfo">RFC 7252</span>, <span>&lt;<a href="https://www.rfc-editor.org/errata/eid5078">https://www.rfc-editor.org/errata/eid5078</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="IANA.media-types">[IANA.media-types]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Media Types"</span>, <span>&lt;<a href="http://www.iana.org/assignments/media-types">http://www.iana.org/assignments/media-types</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6838">[RFC6838]</dt>
+        <dd>
+<span class="refAuthor">Freed, N.</span>, <span class="refAuthor">Klensin, J.</span>, and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"Media Type Specifications and Registration Procedures"</span>, <span class="seriesInfo">BCP 13</span>, <span class="seriesInfo">RFC 6838</span>, <span class="seriesInfo">DOI 10.17487/RFC6838</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6838">https://www.rfc-editor.org/rfc/rfc6838</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8516">[RFC8516]</dt>
         <dd>
 <span class="refAuthor">Keranen, A.</span>, <span class="refTitle">""Too Many Requests" Response Code for the Constrained Application Protocol"</span>, <span class="seriesInfo">RFC 8516</span>, <span class="seriesInfo">DOI 10.17487/RFC8516</span>, <time datetime="2019-01" class="refDate">January 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8516">https://www.rfc-editor.org/rfc/rfc8516</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9110">[RFC9110]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9148">[RFC9148]</dt>
         <dd>
 <span class="refAuthor">van der Stok, P.</span>, <span class="refAuthor">Kampanakis, P.</span>, <span class="refAuthor">Richardson, M.</span>, and <span class="refAuthor">S. Raza</span>, <span class="refTitle">"EST-coaps: Enrollment over Secure Transport with the Secure Constrained Application Protocol"</span>, <span class="seriesInfo">RFC 9148</span>, <span class="seriesInfo">DOI 10.17487/RFC9148</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9148">https://www.rfc-editor.org/rfc/rfc9148</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9176">[RFC9176]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Amsüss, C., Ed.</span>, <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Koster, M.</span>, <span class="refAuthor">Bormann, C.</span>, and <span class="refAuthor">P. van der Stok</span>, <span class="refTitle">"Constrained RESTful Environments (CoRE) Resource Directory"</span>, <span class="seriesInfo">RFC 9176</span>, <span class="seriesInfo">DOI 10.17487/RFC9176</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9176">https://www.rfc-editor.org/rfc/rfc9176</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9193">[RFC9193]</dt>
+      <dd>
+<span class="refAuthor">Keränen, A.</span> and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Sensor Measurement Lists (SenML) Fields for Indicating Data Value Content-Format"</span>, <span class="seriesInfo">RFC 9193</span>, <span class="seriesInfo">DOI 10.17487/RFC9193</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9193">https://www.rfc-editor.org/rfc/rfc9193</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
 </section>
 <div id="acknowledgements">
 <section id="appendix-A">
