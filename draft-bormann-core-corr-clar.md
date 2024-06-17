@@ -258,8 +258,13 @@ INCORRECT, CORRECTED:
 : The VERIFIED Errata Report {{Err4954}} corrects the usage of
   "Content-Encoding" in the text and changes the name of the first
   column of the Content-Format registry to "Content Type" and the name
-  of the second field to "Content Coding"; this change has been
-  carried out by IANA.
+  of the second field to "Content Coding".
+  This change has been carried out by IANA.
+
+{{Err4954}} also has some notes on what would be valid or invalid
+Content-Format registrations.
+These are not repeated here; they are however quite useful as a
+reference when preparing additional Content-Format registrations.
 
 # IANA Considerations
 
