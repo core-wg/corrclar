@@ -34,6 +34,8 @@ normative:
   RFC8323: coap-tcp
 informative:
   RFC8516: RC429
+  RFC3986: uri
+  Err4895: 7252
   Err4954: 7252
   Err5078: 7252
 
@@ -192,6 +194,35 @@ INCOMPLETE:
 : The value is intended to be current at the time of transmission.
 
 PENDING.
+
+
+## RFC7252-6.4: Decomposing URIs into Options
+
+{{Err4895}} notes (text updated with newer link):
+
+{:quote}
+>
+The current specification for decomposing a URI into CoAP Options
+(Section 6.4) is correct; however the text may still be unclear to
+implementers who may think that the phrase "not including the
+delimiting slash characters" means simply omitting a trailing slash
+character in the URI path. This is incorrect. See the discussion
+outcome in email thread
+> <https://mailarchive.ietf.org/arch/msg/core/vqOiUreodGXqWZGeGOTREChCsKY/>.
+
+{{Err4895}} proceeds to propose adding another note at the end of
+{{Section 6.4 of RFC7252}}.
+A slightly updated version of the proposed note might be:
+
+{:vspace}
+INCOMPLETE; FORMAL ADDITION at the end of {{Section 6.4 of RFC7252}}:
+: Also note that a trailing slash character in the \<path> component
+  represents a separate, zero-character path segment (see the ABNF in
+  {{Section 3.3 of -uri}}).
+  This is encoded using a Uri-Path Option of zero length.
+  The exception at the start of step 8 means that no such
+  zero-character path segment is added for a trailing slash that
+  immediately follows the authority (host and port).
 
 ## RFC7252-7.2.1: "ct" Attribute (content-format code)
 
