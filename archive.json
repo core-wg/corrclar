@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-16T01:35:25.942201+00:00",
+  "timestamp": "2024-06-18T01:23:58.098774+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -204,10 +204,12 @@
       "author": "ektrah",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "documentation"
+      ],
       "body": "Errata ID: [5284](https://www.rfc-editor.org/errata/eid5284)\r\nType: Technical\r\nReported By: Mohamed Boucadair\r\nDate Reported: 2018-03-09\r\n\r\n[Section 5.3.1](https://tools.ietf.org/html/rfc7252#section-5.3.1) says/should say:\r\n\r\n```diff\r\n The client SHOULD generate tokens in such a way that tokens currently\r\n-in use for a given source/destination endpoint pair are unique.\r\n+in use for a given source/destination endpoint pair are unique per\r\n+request.\r\n```\r\n\r\nMultiple requests may be active for a given source/destination endpoint pair. The OLD text is thus broken.\r\n\r\nThe NEW text is aligned with the definition of the Token:\r\n\r\n```\r\nA token is intended for use as a client-local identifier for\r\ndifferentiating between concurrent requests (see Section 5.3); it\r\ncould have been called a \"request ID\".\r\n```\r\n\r\nFurther, using the same token for a given source/destination endpoint pair have some implications, for example, for applications which require the support of multiple observe queries because RFC 7641 states the following:\r\n\r\n```\r\nThe entry in the list of observers is keyed by the client endpoint\r\nand the token specified by the client in the request. If an entry\r\nwith a matching endpoint/token pair is already present in the list\r\n(which, for example, happens when the client wishes to reinforce\r\nits interest in a resource), the server MUST NOT add a new entry\r\nbut MUST replace or update the existing one.\r\n```",
       "createdAt": "2019-06-12T12:28:21Z",
-      "updatedAt": "2023-07-22T19:13:16Z",
+      "updatedAt": "2024-06-16T23:16:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -301,10 +303,12 @@
       "author": "ektrah",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "documentation"
+      ],
       "body": "Errata ID: [4895](https://www.rfc-editor.org/errata/eid4895)\r\nType: Editorial\r\nReported By: Esko Dijk\r\nDate Reported: 2016-12-23\r\n\r\n[Section 6.4](https://tools.ietf.org/html/rfc7252#section-6.4) says/should say:\r\n\r\n```diff\r\n-Note that these rules completely resolve any percent-encoding.\r\n+Note that these rules completely resolve any percent-encoding. Also\r\n+note that a trailing slash character in the <path> component represents\r\n+a separate, zero-character path segment (see [RFC3986] Section 3.3\r\n+ABNF) and therefore it is encoded using a Uri-Path Option of zero\r\n+length.\r\n```\r\n\r\nThe current specification for decomposing a URI into CoAP Options (Section 6.4) is correct; however the text may still be unclear to implementers who may think that the phrase \"not including the delimiting slash characters\" means simply omitting a trailing slash character in the URI path. This is incorrect. See the discussion outcome in email thread https://www.ietf.org/mail-archive/web/core/current/msg08223.html . Therefore, a minor clarification is proposed in the notes after the parsing steps.",
       "createdAt": "2019-06-12T13:52:09Z",
-      "updatedAt": "2023-07-22T19:14:42Z",
+      "updatedAt": "2024-06-16T23:15:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -363,10 +367,13 @@
       "author": "jimsch",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "documentation",
+        "enhancement"
+      ],
       "body": "Current text is:\r\n\r\n  The following rules are added for matching an Acknowledgement message\r\n   or Reset message to a Confirmable message, or a Reset message to a\r\n   Non-confirmable message: The DTLS session MUST be the same, and the\r\n   epoch MUST be the same.\r\n\r\nHowever this does not really make any sense in terms of what DTLS does for authentication.  The rule was initially created so that if the authentication data changed, which forces an epoch change, then the message would not be matched.  The problem is that epochs can change for other reasons such as simple re-keys which do not change any of the authentication data.\r\n\r\nWhen a re-authentication is done in TLS, then there is a large discussion about what this means.  One interpretation is that the new authentication is added to the existing one.  In which case not matching may not make sense.  The other interpretation is that the new authentication replaces the old one.\r\n\r\nUnder each of these situations it does not really make sense for the client to have to add this rule for matching.  The sequence of events would be:\r\n* Client sends request\r\n* Client-server does a new authentication set\r\n* Client receives response from server\r\n\r\nThe server should have checked that the authentication was fine when creating the response and there is no change in the client that is at the other end of the pipe.\r\n\r\nRecommend: Remove all of the language about epochs from RFC 7252.",
       "createdAt": "2019-06-12T16:55:14Z",
-      "updatedAt": "2023-07-22T19:15:34Z",
+      "updatedAt": "2024-06-16T23:13:44Z",
       "closedAt": null,
       "comments": [
         {
@@ -422,10 +429,12 @@
       "author": "cdh4u",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "documentation"
+      ],
       "body": "The RFC uses \"request URI\" terminology, but there is no definition or reference of what a request URI is.\r\n\r\nAlso, while the RFC document does describe how the request URI can be generated based on CoAP message elements, it is not very clear that the request URI is not a message element itself (in SIP, the request URI is part of the message syntax).\r\n\r\n",
       "createdAt": "2019-10-14T12:09:33Z",
-      "updatedAt": "2023-07-22T19:15:56Z",
+      "updatedAt": "2024-06-16T23:10:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -470,10 +479,12 @@
       "author": "cabo",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "documentation"
+      ],
       "body": "Not all descriptions of options make explicit whether the option can be used on requests, responses, or both.  E.g., 5.10.4 Accept doesn't say explicitly that this option is for requests.\r\n5.10.8 does imply that conditional request options are for requests, but doesn't say so outright.",
       "createdAt": "2019-10-16T11:01:18Z",
-      "updatedAt": "2023-07-22T19:17:08Z",
+      "updatedAt": "2024-06-16T23:09:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -548,10 +559,12 @@
       "author": "chrysn",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "bug"
+      ],
       "body": "The [rules in 7252 about separate responses](https://tools.ietf.org/html/rfc7252#section-5.2.2) are that once an empty ACK goes out, later duplicates are to be ACKed again, \"and any response MUST be sent as a separate response.\"\r\n\r\nDetecting this requires collating different requests into state held on the server side. While some such state needs to be around anyway while a CON response is being sent, CoAP largely tries to free the server from obligations to keep such state longer [by the message deduplication relaxation rules](https://tools.ietf.org/html/rfc7252#section-4.5).\r\n\r\nThe concrete rule on separate ACKs forces a strictly compliant server to keep that information around, whereas it should be perfectly safe just to respond with a response-carrying ACK, and the client accepts whatever comes first.\r\n\r\nA relaxed rule might be (emphasis indicating changed part):\r\n\r\n> When the server chooses to use a separate response, it sends the\r\n   Acknowledgement to the Confirmable request as an Empty message. Once\r\n   the server sends back an Empty Acknowledgement, it MUST **transmit the\r\n   separate response completely**. If a retransmitted request is\r\n   received (perhaps because the original Acknowledgement was delayed),\r\n   **an empty acknowledgement or a piggybacked response may be sent,\r\n   but neither frees the server from its obligation to see any CON response\r\n   it started sending to completion (by an ACK, an RST or a retransmission timeout).**\r\n\r\nAn explanatory remark could point out that servers that can forego request deduplication can thus just answer without doing the matching, and that for short responses piggybacked ACKs are preferable (because they allow the client to obtain the result sooner than at the next retransmission) whereas for long responses empty ACKs are preferable as they avoid sending the payload more often than necessary.\r\n\r\nThe change should be purely beneficial to the overall performance: the client has a chance of receiving the response earlier, has one fewer error path to check when it's feeling strict, and the only stalling condition (which is that the client only sees the empty ACK but the server drops the CON retransmission in favor of the piggybacked response, causing both parties to wait for the other) is explicitly ruled out by keeping the server's obligation to retransmit.\r\n\r\n(For cases where the server sends a separate NON response, which I have yet to see in the wild, it allows one more kind of recovery if the server chooses to send the full response again).",
       "createdAt": "2021-02-28T16:22:45Z",
-      "updatedAt": "2023-07-22T19:18:23Z",
+      "updatedAt": "2024-06-16T23:19:29Z",
       "closedAt": null,
       "comments": []
     },
@@ -564,10 +577,12 @@
       "author": "chrysn",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "enhancement"
+      ],
       "body": "Several documents building on CoAP currently have examples like\r\n\r\n```\r\nREQ: GET\r\nUri-Path: foo\r\nObserve: 0\r\n\r\nRES: 2.01 Content\r\n...\r\n```\r\n\r\nor\r\n```\r\nREQ: GET coap://host.example.com/path\r\nContent-Format: foo\r\nPayload:\r\n...\r\n```\r\n\r\n(not trying to be particularly accurate in the above examples, suffice to say the notation varies)\r\n\r\nIt Would Be Nice If we could have an agreed-on notation, possibly through corrclar. HTTP/2 has something like this, which is [used in practice in documents](https://datatracker.ietf.org/doc/html/rfc8484#section-4.1.1). This was suggested by different people before; I didn't take the time to look up the meetings or mailing list posts as I'm pretty sure none of them said anything more concrete than \"it would be nice if\".\r\n\r\nI don't have a concrete proposal for here -- more starting a wishlist for whoever (may or may not be me) might pick that up later into corrclar if we want it there. Nice properties would include:\r\n* Ability to express structured fields; a Block2 option should say 0/M/512byte or similar.\r\n* Ability to use shortcuts, and express details only when deemed necessary: a `Req: GET coap://[2001:db8::1]/.well-known/core?foo=bar` may be easier to use, especially in long examples, than the full\r\n  ```\r\n  Req: GET, to 2001:db8::1 port 5683, mid=0x1234, token=0x\r\n  Uri-Path: .well-known\r\n  Uri-Path: core\r\n  Uri-Query: foo=bar\r\n  ```\r\n* Ability to express (even nested?) OSCORE\r\n\r\nThe notation should not be designed for parsing, really just for illustration. (We may need one parser to verify document content, unless we have a single trusted pretty-printer and verify by having binary versions of all examples). In addition to serving as usable format for IDs, it might also double as debug output for CoAP sniffers or implementations.",
       "createdAt": "2021-08-09T12:09:24Z",
-      "updatedAt": "2023-07-22T19:18:51Z",
+      "updatedAt": "2024-06-16T23:07:08Z",
       "closedAt": null,
       "comments": []
     },
@@ -580,10 +595,12 @@
       "author": "chrysn",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "enhancement"
+      ],
       "body": "The way RFC8323 is written defines BERT (ie. using block-wise's szx=7 to mean \"indexed at 1024 byte blocks, but may have several of them in the payload\") only for reliable transports.\r\n\r\nAs this would be useful in other applications outside TCP/WS, and as it is unlikely that any other extension to block-wise would scoop up this extension point of RFC7959 for unreliable transports in a different way, I suggest that the next update to 7959 just acknowledge that BERT is universal.\r\n\r\nConcrete applications include:\r\n* Amortizing block-wise overheads in OSCORE: An OSCORE transfer can be inner- and outer-blockwised independently.\r\n  * All outer-blockwising may be too taxing for the device (which'd have to assemble the representation in RAM) or even the AEAD algorithm (AES-16-64-128 has a 64KiB limit).\r\n  * All inner-blockwising creates a per-message overhead of at least 8 byte in 1:1 and 64 in group mode.\r\n\r\n  The balancing of the inner block size is currently limited to 16..1024 byte, whereas BERT would open that space up to any multiple of 1024 bytes.\r\n* With CoAP being used outside of constrained devices (as in DOTS), it's not unreasonable any more that MTU discovery is available and finds support for jumboframes.\r\n* Internally (eg. inside a CoAP implementation) it can be convenient to let the library handle some block-wising (not bother the application with every 32 bytes of requested data) but not all of it (eg. because not all data is ready yet); BERT would allow serving larger chunks and letting the proxy that is the CoAP library do the small things.\r\n\r\nI think that this can be done by just stating things in an update. It'd probably say that for CoAP-over-{TCP,WS} the CSM is the way to agree, and that other transports may define their mechanisms (of which there currently are none) to indicate a non-default maximum.\r\n\r\n[edit: github's markdown is weird. probably, all markdown is weird.]",
       "createdAt": "2021-08-18T12:12:06Z",
-      "updatedAt": "2023-07-22T19:19:24Z",
+      "updatedAt": "2024-06-16T23:06:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -1397,5 +1414,84 @@
       ]
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 31,
+      "id": "PR_kwDOJ-N8wM5yre0n",
+      "title": "Close #8.",
+      "url": "https://github.com/core-wg/corrclar/pull/31",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "IANA has carried out the changes in the \"CoAP Content-Formats\" registry in January 2023, which was the main direction of this errata report. This small PR to the corr-clar document points out that the errata report also contains some examples that are quite useful as a +reference when preparing additional Content-Format registrations.",
+      "createdAt": "2024-06-17T11:11:10Z",
+      "updatedAt": "2024-06-17T11:11:10Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "close-8",
+      "headRefOid": "43539468a40971143f303df8a8fca1856255ab5c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 32,
+      "id": "PR_kwDOJ-N8wM5ysvjA",
+      "title": "Close #7: Uri-Path encoding of trailing slash",
+      "url": "https://github.com/core-wg/corrclar/pull/32",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Use text of Err4895 for a an additional note about trailing slashes in URI paths",
+      "createdAt": "2024-06-17T14:05:27Z",
+      "updatedAt": "2024-06-17T14:05:27Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "close-7",
+      "headRefOid": "e1610c1e4280a51fccda0f81b554ce2bf9c0ab0a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 33,
+      "id": "PR_kwDOJ-N8wM5yuDgf",
+      "title": "Close #10: \"request URI\" not defined",
+      "url": "https://github.com/core-wg/corrclar/pull/33",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-17T17:11:05Z",
+      "updatedAt": "2024-06-17T17:11:05Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "close-10",
+      "headRefOid": "a834f666392a4c8fb86dd8b725abe1421e4af163",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
