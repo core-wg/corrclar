@@ -4,10 +4,10 @@
 
 Network Working Group                                         C. Bormann
 Internet-Draft                                    Universität Bremen TZI
-Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if             17 June 2024
+Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if             19 June 2024
          approved)                                                      
 Intended status: Standards Track                                        
-Expires: 19 December 2024
+Expires: 21 December 2024
 
 
 Constrained Application Protocol (CoAP): Corrections and Clarifications
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Bormann                 Expires 19 December 2024                [Page 1]
+Bormann                 Expires 21 December 2024                [Page 1]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -68,7 +68,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 December 2024.
+   This Internet-Draft will expire on 21 December 2024.
 
 Copyright Notice
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Bormann                 Expires 19 December 2024                [Page 2]
+Bormann                 Expires 21 December 2024                [Page 2]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -165,7 +165,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 19 December 2024                [Page 3]
+Bormann                 Expires 21 December 2024                [Page 3]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -221,7 +221,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 19 December 2024                [Page 4]
+Bormann                 Expires 21 December 2024                [Page 4]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -277,7 +277,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 19 December 2024                [Page 5]
+Bormann                 Expires 21 December 2024                [Page 5]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -333,7 +333,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 19 December 2024                [Page 6]
+Bormann                 Expires 21 December 2024                [Page 6]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -389,7 +389,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 19 December 2024                [Page 7]
+Bormann                 Expires 21 December 2024                [Page 7]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -435,17 +435,17 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 5.2.  Informative References
 
-   [Err4954]  "Errata Report 4954", RFC 7252,
+   [Err4954]  RFC Errata Report 4954, RFC 7252,
               <https://www.rfc-editor.org/errata/eid4954>.
 
-   [Err5078]  "Errata Report 5078", RFC 7252,
+   [Err5078]  RFC Errata Report 5078, RFC 7252,
               <https://www.rfc-editor.org/errata/eid5078>.
 
 
 
 
 
-Bormann                 Expires 19 December 2024                [Page 8]
+Bormann                 Expires 21 December 2024                [Page 8]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -501,7 +501,7 @@ Author's Address
 
 
 
-Bormann                 Expires 19 December 2024                [Page 9]
+Bormann                 Expires 21 December 2024                [Page 9]
 
 Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
@@ -557,4 +557,4 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 19 December 2024               [Page 10]
+Bormann                 Expires 21 December 2024               [Page 10]
