@@ -244,9 +244,6 @@ that significant time elapses between a request and the arrival of a
 notification that is sent back as a response, causing a need for the
 latter to use a different box from the original request.
 
-<!-- 
--->
-
 Also, additions to CoAP such as CoAP over connection-oriented
 transports {{-coap-tcp}} and OSCORE {{-oscore}} create similar matching
 boxes that also do not fit certain likely use cases of these additions
