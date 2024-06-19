@@ -32,10 +32,16 @@ normative:
   RFC7959: block
   RFC8132: etch
   RFC8323: coap-tcp
+  RFC8613: oscore
 informative:
   RFC8516: RC429
   Err4954: 7252
   Err5078: 7252
+  I-D.ietf-core-oscore-key-update: kudos
+  CF-MATCHER:
+    target: https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java
+    title: EndpointContextMatcher.java
+    date: false
 
 --- abstract
 
@@ -219,6 +225,67 @@ At the 2022-11-23 CoRE WG interim meeting, there was agreement that
 INCOMPLETE; FORMAL ADDITION:
 : The Content-Format code attribute MUST NOT appear more than once in a
   link.
+
+## RFC7252-9.1.1/9.1.2: (match boxing)
+
+{{Sections 9.1.1 and 9.1.2 of RFC7252}} provide details about using CoAP
+over DTLS connections; in particular they restrict both message-id
+matching and request/response matching to within a single combination
+of DTLS session/DTLS epoch.
+
+At the time, this was a decision to be very conservative based on the
+wide variety of security implications a new DTLS epoch might have
+(which also were not widely understood, e.g., for a re-authentication).
+The normally short time between a request and a response made this
+rather strict boxing appear acceptable.
+
+However, with the Observe functionality {{-observe}}, it is quite likely
+that significant time elapses between a request and the arrival of a
+notification that is sent back as a response, causing a need for the
+latter to use a different box from the original request.
+
+<!-- 
+-->
+
+Also, additions to CoAP such as CoAP over connection-oriented
+transports {{-coap-tcp}} and OSCORE {{-oscore}} create similar matching
+boxes that also do not fit certain likely use cases of these additions
+(e.g., with short-lived TCP connections as discussed in {{Section 4.3
+of ?RFC9006}}).
+
+The match boxing semantics of the current protocol are clearly
+defined, but can be unsatisfactory given the current requirements.
+Therefore, enhancements may be called for:
+
+1. Protocols such as OSCORE {{-oscore}}, as enhanced by the proposed
+   KUDOS mechanism {{-kudos}}, need to define how the matching functions
+   are impacted by state transitions of the underlying transport and
+   security sessions.
+   Where extensions are already actively being developed, this work
+   should be done in the context of the extension effort.
+
+2. Optimizations such as Eclipse/Californium EndpointContextMatcher
+   {{CF-MATCHER}} might not work properly unless both sides of the
+   communication agree on the extent of the matching boxes.
+   Mechanisms to indicate capabilities and choices selected may need
+   to be defined; also, a way to define the progression of matching
+   boxes needs to be defined that is compatible with the security
+   properties of the underlying protocols.
+   This may require new efforts, to be initiated based on some
+   formative contributions.
+
+PENDING.
+
+Relevant starting points for retrieving existing discussion of this
+issue include:
+
+* <https://mailarchive.ietf.org/arch/msg/core/biDJ8n4w0kBQATzyh9xHlKnGy1o/>\\
+("DTLS and Epochs")
+* <https://mailarchive.ietf.org/arch/msg/core/TsyyKIHQ1FJtAvAo0ODNEt2Ileo/>\\
+("Connection ID")
+* <https://github.com/core-wg/corrclar/issues/9>\\
+("Clarify/revise language around epochs in section 9.1.1 #9")
+
 
 ## RFC 7252-12.3: Content-Format Registry {#ct}
 
