@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-18T01:23:58.098774+00:00",
+  "timestamp": "2024-06-20T01:22:05.593973+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1412,13 +1412,29 @@
           "updatedAt": "2023-10-10T09:35:44Z"
         }
       ]
+    },
+    {
+      "number": 35,
+      "id": "I_kwDOJ-N8wM6MyX30",
+      "title": "Tracking of orthogonality fixes",
+      "url": "https://github.com/core-wg/corrclar/issues/35",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "There are a few places where I think we were too narrow in where we defined new behavior:\r\n\r\n* BERT could be useful outside of TCPish transports: https://github.com/core-wg/corrclar/issues/17\r\n* Observe has been redefined to have an implicit value twice now (TCPish, OSCORE); a clarification could generalize that notifications carry a Observe: 0 on transports that provide implicit ordering.\r\n* Signalling messages were defined for TCPish transports. OSCORE said they can be encrypted too without losing many more words on them. Defining that 7xx is signalling (sharing the number space and the per-code option space across all transports)\r\n\r\nEven though some of those are no-ops in the protocol (there are no other ordered transports right now, and describing that some signalling messages might be usable on TCP is a different topic), stating that those fundamentally apply everywhere would help readers understand them better, and help implementers find the right abstractions. (Like, \"do I need to know the transport just to be able to interpret the code?\" \u2026 so far, with signaling only on TCPish, an update to CoAP-over-UDP could define different codes there).",
+      "createdAt": "2024-06-19T10:40:59Z",
+      "updatedAt": "2024-06-19T10:40:59Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
     {
       "number": 31,
       "id": "PR_kwDOJ-N8wM5yre0n",
-      "title": "Close #8.",
+      "title": "Close #8: content-coding",
       "url": "https://github.com/core-wg/corrclar/pull/31",
       "state": "OPEN",
       "author": "cabo",
@@ -1427,7 +1443,7 @@
       "labels": [],
       "body": "IANA has carried out the changes in the \"CoAP Content-Formats\" registry in January 2023, which was the main direction of this errata report. This small PR to the corr-clar document points out that the errata report also contains some examples that are quite useful as a +reference when preparing additional Content-Format registrations.",
       "createdAt": "2024-06-17T11:11:10Z",
-      "updatedAt": "2024-06-17T11:11:10Z",
+      "updatedAt": "2024-06-19T14:12:49Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
@@ -1438,8 +1454,30 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Just for reference, here's the direct link to the erratum: https://www.rfc-editor.org/errata/eid4954",
+          "createdAt": "2024-06-19T14:12:48Z",
+          "updatedAt": "2024-06-19T14:12:48Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ-N8wM5-3QWH",
+          "commit": {
+            "abbreviatedOid": "4353946"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "MT agrees pointing to errata is sufficient; let's not copy things over.",
+          "createdAt": "2024-06-19T14:12:21Z",
+          "updatedAt": "2024-06-19T14:12:21Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 32,
@@ -1453,7 +1491,7 @@
       "labels": [],
       "body": "Use text of Err4895 for a an additional note about trailing slashes in URI paths",
       "createdAt": "2024-06-17T14:05:27Z",
-      "updatedAt": "2024-06-17T14:05:27Z",
+      "updatedAt": "2024-06-19T14:23:09Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
@@ -1464,7 +1502,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "From interim: Let's add examples.",
+          "createdAt": "2024-06-19T14:23:08Z",
+          "updatedAt": "2024-06-19T14:23:08Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -1479,7 +1525,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-06-17T17:11:05Z",
-      "updatedAt": "2024-06-17T17:11:05Z",
+      "updatedAt": "2024-06-19T14:29:10Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
@@ -1490,7 +1536,49 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "From interim: It's only distinct in responses to multicast request, but there is a related ~\"base for URI references in the response body\" term. Possibly there'll be some more text in core-responses that this can point to.",
+          "createdAt": "2024-06-19T14:29:09Z",
+          "updatedAt": "2024-06-19T14:29:09Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOJ-N8wM5y7wr2",
+      "title": "close #9: epochs (or, more generally, match boxing)",
+      "url": "https://github.com/core-wg/corrclar/pull/34",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-19T09:14:42Z",
+      "updatedAt": "2024-06-19T15:14:59Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "close-9",
+      "headRefOid": "54450feff454cf6e22a0d1bfa7cec95fdef629af",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Next step: More input from people familiar with OSCORE, KUDOS and group OSCORE solicited.",
+          "createdAt": "2024-06-19T15:14:58Z",
+          "updatedAt": "2024-06-19T15:14:58Z"
+        }
+      ],
       "reviews": []
     }
   ]
