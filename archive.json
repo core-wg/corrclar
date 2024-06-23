@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-20T01:22:05.593973+00:00",
+  "timestamp": "2024-06-23T01:34:16.860579+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1491,7 +1491,7 @@
       "labels": [],
       "body": "Use text of Err4895 for a an additional note about trailing slashes in URI paths",
       "createdAt": "2024-06-17T14:05:27Z",
-      "updatedAt": "2024-06-19T14:23:09Z",
+      "updatedAt": "2024-06-20T14:48:58Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
@@ -1509,6 +1509,41 @@
           "body": "From interim: Let's add examples.",
           "createdAt": "2024-06-19T14:23:08Z",
           "updatedAt": "2024-06-19T14:23:08Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "So is `coap://path/////` different from `coap://path/` ?",
+          "createdAt": "2024-06-20T14:24:27Z",
+          "updatedAt": "2024-06-20T14:24:27Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "> So is `coap://path/////` different from `coap://path/` ?\r\n\r\nYes, and we have to clarify this.\r\n\r\nThe only place where we suppress the empty path component is between `coap://authority/` and `coap://authority` -- these mean the same in CoAP, and the first is the one that is reconstituted from the CoAP Options.\r\nAdditional trailing slashes do always count.",
+          "createdAt": "2024-06-20T14:27:25Z",
+          "updatedAt": "2024-06-20T14:27:25Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "OK - taking it further, `coap://host/path//////` and `coap://host/path/` are different (which is was I meant to write in the first place - been a long day).",
+          "createdAt": "2024-06-20T14:33:05Z",
+          "updatedAt": "2024-06-20T14:33:05Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "> So is `coap://path/////` different from `coap://path/` ?\n\nYes it is -- or at least, a server may make the distinction.\n\nA server may also not make the distinction between them, or apply other\nsimplifications for itself (like, be case-insensitive). I'd personally\nrecommend against doing that, because client authors who only test with\na single server might miss bugs: And clients do have to make the\ndistinction.\n",
+          "createdAt": "2024-06-20T14:41:59Z",
+          "updatedAt": "2024-06-20T14:41:59Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "I don't like it as well.  But need to understand potential consequences.",
+          "createdAt": "2024-06-20T14:48:56Z",
+          "updatedAt": "2024-06-20T14:48:56Z"
         }
       ],
       "reviews": []
