@@ -1,0 +1,560 @@
+
+
+
+
+Network Working Group                                         C. Bormann
+Internet-Draft                                    Universität Bremen TZI
+Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if             19 June 2024
+         approved)                                                      
+Intended status: Standards Track                                        
+Expires: 21 December 2024
+
+
+Constrained Application Protocol (CoAP): Corrections and Clarifications
+                  draft-bormann-core-corr-clar-latest
+
+Abstract
+
+   RFC 7252 defines the Constrained Application Protocol (CoAP), along
+   with a number of additional specifications, including RFC 7641, RFC
+   7959, RFC 8132, and RFC 8323.  RFC 6690 defines the link format that
+   is used in CoAP self-description documents.
+
+   Some parts of the specification may be unclear or even contain errors
+   that may lead to misinterpretations that may impair interoperability
+   between different implementations.  The present document provides
+   corrections, additions, and clarifications to the RFCs cited; this
+   document thus updates these RFCs.  In addition, other clarifications
+   related to the use of CoAP in other specifications, including RFC
+   7390 and RFC 8075, are also provided.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-bormann-core-corr-clar/.
+
+   Discussion of this document takes place on the core Working Group
+   mailing list (mailto:core@ietf.org), which is archived at
+   https://mailarchive.ietf.org/arch/browse/core/.  Subscribe at
+   https://www.ietf.org/mailman/listinfo/core/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/core-wg/corrclar.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+
+
+
+
+
+Bormann                 Expires 21 December 2024                [Page 1]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 21 December 2024.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+     1.1.  Process . . . . . . . . . . . . . . . . . . . . . . . . .   3
+       1.1.1.  Original text . . . . . . . . . . . . . . . . . . . .   3
+       1.1.2.  Proposed text based on IETF 117 and 2023-08-30 CoRE WG
+               interim discussion  . . . . . . . . . . . . . . . . .   3
+     1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   5
+   2.  RFC 7252  . . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     2.1.  RFC7252-5.10.5: Max-Age . . . . . . . . . . . . . . . . .   5
+     2.2.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   6
+     2.3.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .   6
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   8
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .   8
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   9
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   9
+
+
+
+
+
+
+Bormann                 Expires 21 December 2024                [Page 2]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+1.  Introduction
+
+   [RFC7252] defines the Constrained Application Protocol (CoAP), along
+   with a number of additional specifications, including [RFC7641],
+   [RFC7959], [RFC8132], and [RFC8323].  [RFC6690] defines the link
+   format that is used in CoAP self-description documents.
+
+   During implementation and interoperability testing of these RFCs, and
+   in their practical use, some ambiguities and common
+   misinterpretations have been identified, as well as a few errors.
+
+   The present document summarizes identified issues and provides
+   corrections needed for implementations of CoAP to interoperate, i.e.,
+   it constitutes an update to the RFCs referenced.  This document also
+   provides other clarifications related to common misinterpretations of
+   the specification.  References to CoAP should, therefore, also
+   include this document.
+
+   In addition, some clarifications and corrections are also provided
+   for documents that are related to CoAP, including RFC 7390 and RFC
+   8075.
+
+1.1.  Process
+
+1.1.1.  Original text
+
+   The present document is an Internet-Draft, which is not intended to
+   be published as an RFC quickly.  Instead, it will be maintained as a
+   running document of the CoRE WG, probably for a number of years,
+   until the need for new entries tails off and the document can finally
+   be published as an RFC.  (This paragraph to be rephrased when that
+   happens.)
+
+   The status of this document as a running document of the WG implies a
+   consensus process that is applied in making updates to it.  The rest
+   of this subsection provides more details about this consensus
+   process.  (This is the intended status; currently, the document is an
+   individual submission only.)
+
+   (Consensus process TBD, but it will likely be based on an editor's
+   version in a publicly accessible git repository, as well as periodic
+   calls for consensus that lead to a new published Internet-Draft.)
+
+1.1.2.  Proposed text based on IETF 117 and 2023-08-30 CoRE WG interim
+        discussion
+
+   This section describes the process that will be used for developing
+   the present document (called "-corr-clar" colloquially).
+
+
+
+Bormann                 Expires 21 December 2024                [Page 3]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+   This process might be revised as its execution progresses.
+
+   0.  (Done as of this a draft): include the present process proposal.
+       The document can then already be considered for WG adoption.
+
+   1.  Go through the following available material and revise/create
+       Github issues at ISSUES (https://github.com/core-wg/corrclar/
+       issues) as needed:
+
+       *  Existing issues at ISSUES (https://github.com/core-
+          wg/corrclar/issues)
+
+          -  More to be opened by Jon Shallow regarding Block-wise, see
+             JON-ISSUES (https://datatracker.ietf.org/doc/minutes-
+             interim-2023-core-11-202307051400/#attacks-on-the-
+             constrained-application-protocol-coap-christian-amsuss-jon-
+             shallow)
+
+       *  CoAP FAQ at the CoRE WIKI WIKI-FAQ (https://github.com/core-
+          wg/wiki/wiki/CoAP-FAQ)
+
+          -  Each point likely to become a new, short issue
+
+   2.  Categorize the Github issues at ISSUES (https://github.com/core-
+       wg/corrclar/issues) as to the topics they relate to, by tagging
+       them.
+       Completing a first round of this will be a task for a dedicated
+       team.
+
+   3.  For each issue or set of issues at ISSUES (https://github.com/
+       core-wg/corrclar/issues), confirm with the CoRE WG and gather
+       feedback from affected protocol designers/implementors if the
+       issue is best to be:
+
+       *  Included and covered in -corr-clar, as is or revised
+
+       *  Simply omitted in -corr-clar
+
+       *  Omitted in -corr-clar and left for a possible -bis document.
+          (For example, this might be the case for some specific points
+          related to RFC 7959.)
+
+   4.  Reshape the -corr-clar document in order to reflect a sequence of
+       pairs (Diagnosis, Therapy), where:
+
+       *  Diagnosis is the gist of a set of Github issues to cover, and
+
+       *  Therapy is the correction or clarification to address those.
+
+
+
+Bormann                 Expires 21 December 2024                [Page 4]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+       Even though at a high-level, the scope should be already clear by
+       looking at the table of contents.  That is, at this stage, there
+       is no need to necessarily elaborate the Therapy in detail, but it
+       is necessary to make a reader understand "what we are dealing
+       with and taking which direction".
+
+   5.  WG document work can then focus on improving the therapy parts,
+       until all points are satisfactorily addressed and documented.
+
+1.2.  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+   When a section of this document makes formal corrections, additions
+   or invalidations to text in a referenced RFC, this is clearly
+   summarized.  The text from the RFC that is being addressed is given
+   and labeled "INCOMPLETE", "INCORRECT", or "INCORRECT AND
+   INVALIDATED", followed by the correct text labeled "CORRECTED", where
+   applicable.  When text is added that does not simply correct text in
+   previous specifications, it is given with the label "FORMAL
+   ADDITION".
+
+   Where a resolution has not yet been agreed, the resolution is marked
+   PENDING.
+
+   In this document, a reference to a section in RFC nnnn is written as
+   RFC nnnn-<number>, where <number> is the section number.
+
+2.  RFC 7252
+
+2.1.  RFC7252-5.10.5: Max-Age
+
+   In the discussion of [RFC8516], a comment was made that it would be
+   needed to define the point in time relative to which Max-Age is
+   defined.  A sender might reference it to the time it actually sends
+   the message containing the option (and paragraph 3 of RFC7252-5.10.5
+   indeed requests that Max-Age be updated each time a message is
+   retransmitted).  The receiver of the message does not have reliable
+   information about the time of sending, though.  It may instead
+   reference the Max-Age to the time of reception.  This in effect
+   extends the time of Max-Age by the latency of the packet.  This
+   extension was deemed acceptable for the purposes of [RFC8516], but
+   may be suboptimal when Max-Age is about the lifetime of a response
+   object.
+
+
+
+Bormann                 Expires 21 December 2024                [Page 5]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+   INCOMPLETE:
+      The value is intended to be current at the time of transmission.
+
+   PENDING.
+
+2.2.  RFC7252-7.2.1: "ct" Attribute (content-format code)
+
+   As has been noted in [Err5078], there is no information in [RFC7252]
+   about whether the "ct" target attribute can be present multiply or
+   not.
+
+   The text does indicate that the value of the attribute MAY be "a
+   space-separated sequence of Content-Format codes, indicating that
+   multiple content-formats are available", but it does not repeat the
+   prohibition of multiple instances that the analogously structured
+   "rt" and "if" attributes in Sections 3.1 and 3.2 of [RFC6690] have.
+
+   This appears to be an oversight.  Published examples in Section 4.1
+   of [RFC9148] and Section 4.3 of [RFC9176] further illustrate that the
+   space-separated approach is generally accepted to be the one to be
+   used.  There is no gain to be had from allowing both variants, and it
+   would be likely to cause interoperability problems.
+
+   At the 2022-11-23 CoRE WG interim meeting, there was agreement that
+   [Err5078] should be marked "VERIFIED", which was done on 2023-01-18.
+
+   INCOMPLETE; FORMAL ADDITION:
+      The Content-Format code attribute MUST NOT appear more than once
+      in a link.
+
+2.3.  RFC 7252-12.3: Content-Format Registry
+
+   Section 12.3 of [RFC7252] established the CoAP Content-Formats
+   Registry, which maps a combination of an Internet Media Type with an
+   HTTP Content Coding, collectively called a Content-Format, to a
+   concise numeric identifier for that Content-Format.  The "Media Type"
+   is more than a Media-Type-Name (see [RFC9193] for an extensive
+   discussion), i.e., it may contain parameters beyond the mere
+   combination of a type-name and a subtype-name registered in
+   [IANA.media-types], as per [RFC6838], conventionally identified by
+   the two names separated by a slash.  This construct is often called a
+   Content Type to reduce the confusion with a Media-Type-Name (e.g., in
+   Section 8.3 of [RFC9110], which then however also opts to use the
+   term Media Type for the same information set).
+
+
+
+
+
+
+
+Bormann                 Expires 21 December 2024                [Page 6]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+   The second column of the Content-Format registry is the Content
+   Coding, which is defined in Section 8.4.1 of [RFC9110].  For
+   historical reasons, the HTTP header field that actually carries the
+   content coding is called Content-Encoding; this often leads to the
+   misnaming of Content Coding as "content encoding".
+
+   As has been noted in [Err4954], the text in Section 12.3 of [RFC7252]
+   incorrectly uses these terms in the context of content types and
+   content coding:
+
+   1.  The field that describes the Content Type is called "Media Type".
+       This can lead to the misunderstanding that this column just
+       carries a Media-Type-Name (such as "text/plain"), while it
+       actually also can carry media type parameters (as in "text/plain;
+       charset=UTF-8").
+
+   2.  The field that describes the Content Coding uses the incorrect
+       name "Content Encoding".
+
+   INCORRECT, CORRECTED:
+      The VERIFIED Errata Report [Err4954] corrects the usage of
+      "Content-Encoding" in the text and changes the name of the first
+      column of the Content-Format registry to "Content Type" and the
+      name of the second field to "Content Coding".  This change has
+      been carried out by IANA.
+
+   [Err4954] also has some notes on what would be valid or invalid
+   Content-Format registrations.  These are not repeated here; they are
+   however quite useful as a reference when preparing additional
+   Content-Format registrations.
+
+3.  IANA Considerations
+
+   This document makes no new requests to IANA.
+
+   Individual clarifications may contain IANA considerations; as for
+   example in Section 2.3.
+
+4.  Security Considerations
+
+   This document provides a number of corrections and clarifications to
+   existing RFCs, but it does not make any changes with regard to the
+   security aspects of the protocol.  As a consequence, the security
+   considerations of the referenced RFCs apply without additions.
+
+   (To be changed when that is no longer true; probably the security
+   considerations will then be on the individual clarifications.)
+
+
+
+
+Bormann                 Expires 21 December 2024                [Page 7]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+5.  References
+
+5.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC6690]  Shelby, Z., "Constrained RESTful Environments (CoRE) Link
+              Format", RFC 6690, DOI 10.17487/RFC6690, August 2012,
+              <https://www.rfc-editor.org/rfc/rfc6690>.
+
+   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
+              Application Protocol (CoAP)", RFC 7252,
+              DOI 10.17487/RFC7252, June 2014,
+              <https://www.rfc-editor.org/rfc/rfc7252>.
+
+   [RFC7641]  Hartke, K., "Observing Resources in the Constrained
+              Application Protocol (CoAP)", RFC 7641,
+              DOI 10.17487/RFC7641, September 2015,
+              <https://www.rfc-editor.org/rfc/rfc7641>.
+
+   [RFC7959]  Bormann, C. and Z. Shelby, Ed., "Block-Wise Transfers in
+              the Constrained Application Protocol (CoAP)", RFC 7959,
+              DOI 10.17487/RFC7959, August 2016,
+              <https://www.rfc-editor.org/rfc/rfc7959>.
+
+   [RFC8132]  van der Stok, P., Bormann, C., and A. Sehgal, "PATCH and
+              FETCH Methods for the Constrained Application Protocol
+              (CoAP)", RFC 8132, DOI 10.17487/RFC8132, April 2017,
+              <https://www.rfc-editor.org/rfc/rfc8132>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8323]  Bormann, C., Lemay, S., Tschofenig, H., Hartke, K.,
+              Silverajan, B., and B. Raymor, Ed., "CoAP (Constrained
+              Application Protocol) over TCP, TLS, and WebSockets",
+              RFC 8323, DOI 10.17487/RFC8323, February 2018,
+              <https://www.rfc-editor.org/rfc/rfc8323>.
+
+5.2.  Informative References
+
+   [Err4954]  RFC Errata Report 4954, RFC 7252,
+              <https://www.rfc-editor.org/errata/eid4954>.
+
+
+
+
+Bormann                 Expires 21 December 2024                [Page 8]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+   [Err5078]  RFC Errata Report 5078, RFC 7252,
+              <https://www.rfc-editor.org/errata/eid5078>.
+
+   [IANA.media-types]
+              IANA, "Media Types",
+              <http://www.iana.org/assignments/media-types>.
+
+   [RFC6838]  Freed, N., Klensin, J., and T. Hansen, "Media Type
+              Specifications and Registration Procedures", BCP 13,
+              RFC 6838, DOI 10.17487/RFC6838, January 2013,
+              <https://www.rfc-editor.org/rfc/rfc6838>.
+
+   [RFC8516]  Keranen, A., ""Too Many Requests" Response Code for the
+              Constrained Application Protocol", RFC 8516,
+              DOI 10.17487/RFC8516, January 2019,
+              <https://www.rfc-editor.org/rfc/rfc8516>.
+
+   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110,
+              DOI 10.17487/RFC9110, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9110>.
+
+   [RFC9148]  van der Stok, P., Kampanakis, P., Richardson, M., and S.
+              Raza, "EST-coaps: Enrollment over Secure Transport with
+              the Secure Constrained Application Protocol", RFC 9148,
+              DOI 10.17487/RFC9148, April 2022,
+              <https://www.rfc-editor.org/rfc/rfc9148>.
+
+   [RFC9176]  Amsüss, C., Ed., Shelby, Z., Koster, M., Bormann, C., and
+              P. van der Stok, "Constrained RESTful Environments (CoRE)
+              Resource Directory", RFC 9176, DOI 10.17487/RFC9176, April
+              2022, <https://www.rfc-editor.org/rfc/rfc9176>.
+
+   [RFC9193]  Keränen, A. and C. Bormann, "Sensor Measurement Lists
+              (SenML) Fields for Indicating Data Value Content-Format",
+              RFC 9193, DOI 10.17487/RFC9193, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9193>.
+
+Acknowledgements
+
+   The present document is modeled after RFC 4815 and the Internet-
+   Drafts of the ROHC WG that led to it.  Many thanks to the co-chairs
+   of the ROHC WG and WG members that made this a worthwhile and
+   successful experiment at the time.
+
+Author's Address
+
+
+
+
+
+Bormann                 Expires 21 December 2024                [Page 9]
+
+Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+
+
+   Carsten Bormann
+   Universität Bremen TZI
+   Postfach 330440
+   D-28359 Bremen
+   Germany
+   Phone: +49-421-218-63921
+   Email: cabo@tzi.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bormann                 Expires 21 December 2024               [Page 10]

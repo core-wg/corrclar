@@ -1,0 +1,1620 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-06-25T01:23:37.328527+00:00",
+  "repo": "core-wg/corrclar",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWUxODE2ODU3MzA5",
+      "title": "Fragment identifiers in CoAP URIs",
+      "url": "https://github.com/core-wg/corrclar/issues/1",
+      "state": "OPEN",
+      "author": "ektrah",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Errata ID: [4946](https://www.rfc-editor.org/errata/eid4946)\r\nType: Technical\r\nReported By: Klaus Hartke\r\nDate Reported: 2017-02-22\r\n\r\n[Section 6.1](https://tools.ietf.org/html/rfc7252#section-6.1) says/should say:\r\n\r\n```diff\r\n coap-URI = \"coap:\" \"//\" host [ \":\" port ] path-abempty [ \"?\" query ]\r\n+               [ \"#\" fragment ]\r\n```\r\n\r\nThe optional fragment component allows for indirect identification of a secondary resource, as defined in Section 3.5 of RFC 3986. The fragment identifier is separated from the rest of the URI prior to a dereference; fragment identifiers are processed client-side and are not included in CoAP requests. The original text shows the syntax of coap:// URIs _after_ separating the fragment identifier, which leaves ambiguity as to whether fragment identifiers are supported or not. The corrected text shows the syntax of CoAP URIs _before_ separating the fragment identifier, which makes clear that fragment identifiers are supported.\r\n\r\n----\r\n\r\nErrata ID: [4947](https://www.rfc-editor.org/errata/eid4947)\r\nType: Technical\r\nReported By: Klaus Hartke\r\nDate Reported: 2017-02-22\r\n\r\n[Section 6.2](https://tools.ietf.org/html/rfc7252#section-6.2) says/should say:\r\n\r\n```diff\r\n coaps-URI = \"coaps:\" \"//\" host [ \":\" port ] path-abempty\r\n-               [ \"?\" query ]\r\n+               [ \"?\" query ] [ \"#\" fragment ]\r\n```\r\n\r\nThe optional fragment component allows for indirect identification of a secondary resource, as defined in Section 3.5 of RFC 3986. The fragment identifier is separated from the rest of the URI prior to a dereference; fragment identifiers are processed client-side and are not included in CoAP requests. The original text shows the syntax of coaps:// URIs _after_ separating the fragment identifier, which leaves ambiguity as to whether fragment identifiers are supported or not. The corrected text shows the syntax of CoAP URIs _before_ separating the fragment identifier, which makes clear that fragment identifiers are supported.",
+      "createdAt": "2019-06-12T12:18:28Z",
+      "updatedAt": "2023-07-22T18:33:11Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "There has been a lot of confusion about this issue, not just for CoAP.  RFC 3986 Section 4.3 says that individual schemes do not define fragment identifier syntax.  This probably should be a clarification because of the ongoing confusion.",
+          "createdAt": "2019-06-12T15:21:44Z",
+          "updatedAt": "2019-06-12T15:21:44Z"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "MDU6SXNzdWUxODE2ODU3NzYw",
+      "title": "Cache-Key definition: request method and payload",
+      "url": "https://github.com/core-wg/corrclar/issues/2",
+      "state": "OPEN",
+      "author": "ektrah",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Errata ID: [4948](https://www.rfc-editor.org/errata/eid4948)\r\nType: Technical\r\nReported By: Klaus Hartke\r\nDate Reported: 2017-02-22\r\n\r\n[Section 5.6](https://tools.ietf.org/html/rfc7252#section-5.6) says/should say:\r\n\r\n```diff\r\n For a presented request, a CoAP endpoint MUST NOT use a stored\r\n response, unless:\r\n\r\n o  the presented request method and that used to obtain the stored\r\n    response match,\r\n\r\n o  all options match between those in the presented request and those\r\n    of the request used to obtain the stored response (which includes\r\n    the request URI), except that there is no need for a match of any\r\n    request options marked as NoCacheKey (Section 5.4) or recognized\r\n    by the Cache and fully interpreted with respect to its specified\r\n    cache behavior (such as the ETag request option described in\r\n-   Section 5.10.6; see also Section 5.4.2), and\r\n+   Section 5.10.6; see also Section 5.4.2),\r\n+\r\n+o  the payload of the presented request and the payload of the\r\n+   request used to obtain the stored response match, and\r\n\r\n o  the stored response is either fresh or successfully validated as\r\n    defined below.\r\n\r\n The set of request options that is used for matching the cache entry\r\n-is also collectively referred to as the \"Cache-Key\".\r\n+plus (if applicable) the request payload are also collectively referred\r\n+to as the \"Cache-Key\".\r\n```\r\n\r\nCoAP servers may return error responses in reply to requests that are invalid at the CoAP level (e.g., 4.02 Bad Option if the client includes an unrecognized option) or at the application level above (e.g., 4.00 Bad Request if the client includes a malformed payload according to application semantics).\r\n\r\nIf the error response does not depend on the request payload, then it is desirable that repeated requests that differ only in the payload can be satisfied with the same cached response. E.g., repeated requests for a non-existing resource should result in a cached 4.04 Not Found response as often as possible, regardless of the payload, rather than hit the server every time.\r\n\r\nIf the error response depends on the request payload, then it is not desirable that cached responses are reused for repeated requests that differ only in the payload. E.g., a client should not receive an error response for a valid request payload because another client sent an identical request but with a malformed request payload. In this case, including the request payload in the Cache-Key would give the expected result.\r\n\r\nThe original text does not include the request in the Cache-Key, which may lead to unexpected results. The corrected text changes that.\r\n\r\nSince CoAP does not provide any indication in responses to distinguish between the two cases, caches generally cannot determine whether the response depends on the request payload or not and thus must always include the request payload in the Cache-Key to give the expected result. (As an exception, a cache at an origin server may be able to determine whether a cached response depends on the request payload or not, and thus can reuse responses accordingly. This already applies to responses that do not depend on the request method.)",
+      "createdAt": "2019-06-12T12:21:25Z",
+      "updatedAt": "2023-07-22T18:34:59Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "Clarify that the request method is effectively acting as part of the Cache-Key as it has to match, even if the Cache-Key is not defined to include it.  Payload should be part of the Cache-Key (even if 4.05 or 4.04 should not depend on the payload) \u2013 this is a technical change.  This is maybe too big for an errata report; but it is exactly what clar/corr is about.",
+          "createdAt": "2019-06-12T15:28:37Z",
+          "updatedAt": "2019-06-12T15:28:37Z"
+        },
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "https://mailarchive.ietf.org/arch/msg/core/NdEGINxMDdPUEBMaWUJSP6t25es etc. pp.",
+          "createdAt": "2019-06-12T16:13:00Z",
+          "updatedAt": "2019-06-12T16:13:00Z"
+        },
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "https://github.com/core-wg/oscoap/issues/51",
+          "createdAt": "2019-06-12T16:15:29Z",
+          "updatedAt": "2019-06-12T16:15:29Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "MDU6SXNzdWUxODE2ODU4MTA3",
+      "title": "Processing Location-* options when unrecognized",
+      "url": "https://github.com/core-wg/corrclar/issues/3",
+      "state": "OPEN",
+      "author": "ektrah",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Errata ID: [4949](https://www.rfc-editor.org/errata/eid4949)\r\nType: Technical\r\nReported By: Klaus Hartke\r\nDate Reported: 2017-02-22\r\n\r\n[Section 5.10.7](https://tools.ietf.org/html/rfc7252#section-5.10.7) says/should say:\r\n\r\n```diff\r\n If any\r\n of these reserved option numbers occurs in addition to Location-Path\r\n-and/or Location-Query and are not supported, then a 4.02 (Bad Option)\r\n-error MUST be returned.\r\n+and/or Location-Query and are not supported, then the response MUST\r\n+be rejected (Sections 4.2 and 4.3).\r\n```\r\n\r\nThe Location-* options are used in responses. A client cannot return a 4.02 (Bad Option) response in reply to a response. The correct behavior is to reject the response.",
+      "createdAt": "2019-06-12T12:23:05Z",
+      "updatedAt": "2023-07-22T18:36:23Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "There cannot be a response to a response, so sending 4.02 does not work.  \r\nNote that 4.2 of 7252 says \"Rejecting an\r\n   Acknowledgement or Reset message (including the case where the\r\n   Acknowledgement carries a request or a code with a reserved class, or\r\n   the Reset message is not Empty) is effected by silently ignoring it.\"\r\nSo the approach would work, and we should accept the errata report and include the correction in the document.",
+          "createdAt": "2019-06-12T15:34:00Z",
+          "updatedAt": "2019-06-12T15:34:00Z"
+        },
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "Cf. [Section 5.4.1](https://tools.ietf.org/html/rfc7252#section-5.4.1):\r\n\r\n```\r\n   o  Unrecognized options of class \"critical\" that occur in a\r\n      Confirmable response, or piggybacked in an Acknowledgement, MUST\r\n      cause the response to be rejected (Section 4.2).\r\n\r\n   o  Unrecognized options of class \"critical\" that occur in a Non-\r\n      confirmable message MUST cause the message to be rejected\r\n      (Section 4.3).\r\n```",
+          "createdAt": "2019-06-12T19:00:55Z",
+          "updatedAt": "2019-06-12T19:00:55Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "MDU6SXNzdWUxODE2ODY3MDY5",
+      "title": "Multiple \"ct\" link attributes in a link",
+      "url": "https://github.com/core-wg/corrclar/issues/4",
+      "state": "OPEN",
+      "author": "ektrah",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Errata ID: [5078](https://www.rfc-editor.org/errata/eid5078)\r\nType: Technical\r\nReported By: Jim Schaad\r\nDate Reported: 2017-08-07\r\n\r\n[Section 7.2.1](https://tools.ietf.org/html/rfc7252#section-7.2.1) says/should say:\r\n\r\n```diff\r\n The Content-Format code\r\n attribute MAY include a space-separated sequence of Content-Format\r\n-codes, indicating that multiple content-formats are available.  The\r\n-syntax of the attribute value is summarized in the production \"ct-\r\n-value\" in Figure 12, where \"cardinal\", \"SP\", and \"DQUOTE\" are defined\r\n-as in [RFC6690].\r\n+codes, indicating that multiple content-formats are available.\r\n+The Content-Format code attribute MUST NOT appear more than once in a\r\n+link.  The syntax of the attribute value is summarized in the\r\n+production \"ct-value\" in Figure 12, where \"cardinal\", \"SP\", and\r\n+\"DQUOTE\" are defined as in [RFC6690].\r\n```\r\n\r\nInsert a sentence that says that the code MUST NOT appear more than once. This appears to be what was intended, but not stated, by the authors since it supports the space separated values to appear in a single attribute value.",
+      "createdAt": "2019-06-12T12:26:03Z",
+      "updatedAt": "2023-07-22T19:12:29Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "The server can offer more than one content type; the client can choose between them.  This is the intended semantics.  But this should be done in one attribute as a space-separated list, not in multiple attributes.  Check whether this is a correction or a clarification.",
+          "createdAt": "2019-06-12T15:18:50Z",
+          "updatedAt": "2019-06-12T15:18:50Z"
+        },
+        {
+          "author": "mcr",
+          "authorAssociation": "NONE",
+          "body": "(apparently, my mute does  not unmute)\r\nwhile it is useful to tell creators of the CT not to repeat, what advice to consumers of the CT if it occurs more than once?\r\n",
+          "createdAt": "2019-06-12T15:20:45Z",
+          "updatedAt": "2019-06-12T15:20:45Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "This should be clarified together with the [relevant RFC6690 text](https://tools.ietf.org/html/rfc6690#section-3.1) that establishes this behavior for rt= (from where ct= probably drew inspiration); there it says \"MUST NOT appear more than once in a link\", without guidance as to what recipients do when they are repeated.\r\n\r\nRFC8288 is not explicit about whether there can be significance in the order of target attributes. If there is, *and* we are reasonably confident that nobody is yet producing multiple ct= attributes per link, we could accept this erratum as a correction and add that \"and clients MUST ignore any later occurrence of the attribute\".",
+          "createdAt": "2019-06-18T16:24:40Z",
+          "updatedAt": "2019-06-18T16:24:40Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "We don't have to specify what it means to a link-format interpreter if a link-format source violates a MUST.\r\n(The C language has this great idea of \"undefined behavior\" where the implementation can do what it wants including lighting the candles on a birthday cake for you.)",
+          "createdAt": "2019-06-18T16:40:29Z",
+          "updatedAt": "2019-06-18T16:40:29Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "This clarification would be welcome, by the past we face some interpretation issue about this : \r\n - https://github.com/OpenMobileAlliance/OMA_LwM2M_for_Developers/issues/544\r\n - https://github.com/eclipse/leshan/issues/1229#issuecomment-1086111310",
+          "createdAt": "2022-11-24T16:23:54Z",
+          "updatedAt": "2022-11-24T16:23:54Z"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "MDU6SXNzdWUxODE2ODY3MjU3",
+      "title": "Tokens unique per request",
+      "url": "https://github.com/core-wg/corrclar/issues/5",
+      "state": "OPEN",
+      "author": "ektrah",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "documentation"
+      ],
+      "body": "Errata ID: [5284](https://www.rfc-editor.org/errata/eid5284)\r\nType: Technical\r\nReported By: Mohamed Boucadair\r\nDate Reported: 2018-03-09\r\n\r\n[Section 5.3.1](https://tools.ietf.org/html/rfc7252#section-5.3.1) says/should say:\r\n\r\n```diff\r\n The client SHOULD generate tokens in such a way that tokens currently\r\n-in use for a given source/destination endpoint pair are unique.\r\n+in use for a given source/destination endpoint pair are unique per\r\n+request.\r\n```\r\n\r\nMultiple requests may be active for a given source/destination endpoint pair. The OLD text is thus broken.\r\n\r\nThe NEW text is aligned with the definition of the Token:\r\n\r\n```\r\nA token is intended for use as a client-local identifier for\r\ndifferentiating between concurrent requests (see Section 5.3); it\r\ncould have been called a \"request ID\".\r\n```\r\n\r\nFurther, using the same token for a given source/destination endpoint pair have some implications, for example, for applications which require the support of multiple observe queries because RFC 7641 states the following:\r\n\r\n```\r\nThe entry in the list of observers is keyed by the client endpoint\r\nand the token specified by the client in the request. If an entry\r\nwith a matching endpoint/token pair is already present in the list\r\n(which, for example, happens when the client wishes to reinforce\r\nits interest in a resource), the server MUST NOT add a new entry\r\nbut MUST replace or update the existing one.\r\n```",
+      "createdAt": "2019-06-12T12:28:21Z",
+      "updatedAt": "2024-06-16T23:16:14Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "Maybe clarify the text, but the intended meaning is correct.\r\nAlso, point to Echo/Request-Tag document for more details.",
+          "createdAt": "2019-06-12T15:37:37Z",
+          "updatedAt": "2019-06-12T15:37:37Z"
+        },
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "https://mailarchive.ietf.org/arch/msg/core/nyUA7lAHs4RHOxc7CKqoLhqPHOM etc. pp.",
+          "createdAt": "2019-06-12T16:42:06Z",
+          "updatedAt": "2019-06-12T16:42:06Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "MDU6SXNzdWUxODE2ODY3MzQw",
+      "title": "Message ID generation",
+      "url": "https://github.com/core-wg/corrclar/issues/6",
+      "state": "OPEN",
+      "author": "ektrah",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Errata ID: [5429](https://www.rfc-editor.org/errata/eid5429)\r\nType: Technical\r\nReported By: Marian Buschsieweke\r\nDate Reported: 2018-07-18\r\n\r\n[Section 4.4](https://tools.ietf.org/html/rfc7252#section-4.4) says/should say:\r\n\r\n```diff\r\n An Acknowledgement or Reset message is related to a Confirmable\r\n message or Non-confirmable message by means of a Message ID along\r\n with additional address information of the corresponding endpoint.\r\n The Message ID is a 16-bit unsigned integer that is generated by the\r\n sender of a Confirmable or Non-confirmable message and included in\r\n-the CoAP header.  The Message ID MUST be echoed in the\r\n+the CoAP header.  Message IDs of subsequence messages send to the\r\n+same endpoint within EXCHANGE_LIFETIME MUST be strictly ascending\r\n+(wrapping around at a value of 65535).  Additionally, two\r\n+subsequently send Message IDs to the same endpoint SHOULD have a\r\n+difference of at most 16.  The Message ID MUST be echoed in the\r\n Acknowledgement or Reset message by the recipient.\r\n\r\n The same Message ID MUST NOT be reused (in communicating with the\r\n same endpoint) within the EXCHANGE_LIFETIME (Section 4.8.2).\r\n\r\n Implementation Note:  Several implementation strategies can be\r\n   employed for generating Message IDs.  In the simplest case, a CoAP\r\n   endpoint generates Message IDs by keeping a single Message ID\r\n-  variable, which is changed each time a new Confirmable or Non-\r\n+  variable, which is incremented each time a new Confirmable or Non-\r\n   confirmable message is sent, regardless of the destination address\r\n   or port.  Endpoints dealing with large numbers of transactions\r\n   could keep multiple Message ID variables, for example, per prefix\r\n   or destination address.  (Note that some receiving endpoints may\r\n   not be able to distinguish unicast and multicast packets addressed\r\n   to it, so endpoints generating Message IDs need to make sure these\r\n   do not overlap.)  It is strongly recommended that the initial\r\n   value of the variable (e.g., on startup) be randomized, in order\r\n   to make successful off-path attacks on the protocol less likely.\r\n```\r\n\r\nWithout any restrictions on how Message IDs are generated, an implementation of CoAP duplication detection must be prepared to receive a random sequence of Message IDs. One simple implementation strategy would be to store the received Message IDs along with a timestamp when they were received.\r\n\r\nIf a 16 bit time stamp would be used, 4 Bytes per tracked Message ID would be required. If additionaly a CoAP server expects requests to be received at a rate of 1 message per second, at least 247 * 4 Byte or approximately 1 KiB have to be allocated per client. A class 1 (see RFC 7228 Section 3) server could handle at most 10 clients in parallel, if anything apart duplicate detection could be implemented without using any memory at all.\r\n\r\nIf instead Message IDs have to be generated by incrementing a (global or per endpoint/network prefix/...) counter variable, duplicate detection can be implemented in a time and memory efficient way without limiting the rate of the message exchange between to nodes.",
+      "createdAt": "2019-06-12T12:31:24Z",
+      "updatedAt": "2023-07-22T19:18:24Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "There is text in the LWIG-COAP document.  To be determined how this is referenced or moved to the corr/clar document.  Start at a random point, not always at zero.  Server still needs to be prepared to get random MIDs.",
+          "createdAt": "2019-06-12T15:14:20Z",
+          "updatedAt": "2019-06-12T15:14:20Z"
+        },
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "https://mailarchive.ietf.org/arch/msg/core/FeKXd9d3Tkrwju0azwvwKiM3GyM etc. pp.",
+          "createdAt": "2019-06-12T16:43:43Z",
+          "updatedAt": "2019-06-12T16:43:43Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "The LWIG-CoAP cabo mentioned has some text [currently in 2.3.3](https://lwig-wg.github.io/coap/#relaxation-on-the-server) on MID \"relaxation on the server\". We might want to expand a bit on how \"designed with idempotent operations only and makes good use of the If-Match/If-None-Match options\" works in practice; not sure where that can go and whether normative IETF documents or tutorial-/FAQ-style texts are the right place for this. (Especially, idempotency in presence of multiple client interactions like in the last paragraph of [one mail in the linked thread](https://mailarchive.ietf.org/arch/msg/core/pMOWf8ocMTpa7Sc3NxJ6HgYM3uk) may need some illustrative examples)\r\n\r\nThe \"sequential MIDs\" are outlined in [section 3.5](https://lwig-wg.github.io/coap/#rfc.section.3.5), including a recommendation that clients produce sequential MIDs, and are largely aligned with what Marian has suggested but keep it at a recommendation level. The text is a bit incomplete IMO, but that's not for here to discuss but for <https://github.com/lwig-wg/coap/issues/4>.\r\n\r\n\"Where the text lives\"-wise, I think LWIG is still suitable due to its implementation-guidance character, but it might be a good idea to pull \"RECOMMEND that CoAP endpoint implementers employ the \u201csequential MID\u201d scheme if there are no reasons to prefer another scheme\" into Corrections, and have Clarifications point towards LWIG a la \"Devices of Class 1 often do not need to exercise message deduplication, as their applications are usually designed to have idempotent requests; see LWIG-CoAP Section 2.3.3. If deduplication is still unavoidable, they may want to optimize for sequential MIDs as per LWIG-CoAP Section 3.5\".",
+          "createdAt": "2019-06-18T15:45:59Z",
+          "updatedAt": "2023-07-22T19:18:24Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> within EXCHANGE_LIFETIME MUST be strictly ascending (wrapping around at a value of 65535)\r\n\r\nIf the **MUST** includes the `65536`, I object to comply with [8.1. Multicast CoAP -\r\nMessaging Layer](https://datatracker.ietf.org/doc/html/rfc7252#section-8.1) some implementations use reserved special ranges. So I would prefer no fixed upper border.",
+          "createdAt": "2021-06-15T18:39:04Z",
+          "updatedAt": "2021-06-15T18:39:04Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "Good point.",
+          "createdAt": "2021-06-15T18:43:55Z",
+          "updatedAt": "2021-06-15T18:43:55Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Though it raised again in the e-mail list:\r\n\r\n> Additionally, two subsequently send Message IDs to the same endpoint SHOULD have a difference of at most 16.\r\n\r\nAssuming, that some peers give up after some retries without having the message with the MID delivered, this may also be too strict. Maybe adding a \"time range\" for that will help to fix it. Anyway, even if I see the benefit, such a feature would in my opinion be more something for CoAP v2 ;-).\r\n ",
+          "createdAt": "2022-11-23T17:08:57Z",
+          "updatedAt": "2022-11-23T17:08:57Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "If we consider this optimization, I guess we need to consider core-wg/corrclar#15 as relaxing variant as well.",
+          "createdAt": "2022-11-23T17:34:18Z",
+          "updatedAt": "2023-07-22T19:18:24Z"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "MDU6SXNzdWUxODE2ODY3NjQ4",
+      "title": "Uri-Path encoding of trailing slash",
+      "url": "https://github.com/core-wg/corrclar/issues/7",
+      "state": "OPEN",
+      "author": "ektrah",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "documentation"
+      ],
+      "body": "Errata ID: [4895](https://www.rfc-editor.org/errata/eid4895)\r\nType: Editorial\r\nReported By: Esko Dijk\r\nDate Reported: 2016-12-23\r\n\r\n[Section 6.4](https://tools.ietf.org/html/rfc7252#section-6.4) says/should say:\r\n\r\n```diff\r\n-Note that these rules completely resolve any percent-encoding.\r\n+Note that these rules completely resolve any percent-encoding. Also\r\n+note that a trailing slash character in the <path> component represents\r\n+a separate, zero-character path segment (see [RFC3986] Section 3.3\r\n+ABNF) and therefore it is encoded using a Uri-Path Option of zero\r\n+length.\r\n```\r\n\r\nThe current specification for decomposing a URI into CoAP Options (Section 6.4) is correct; however the text may still be unclear to implementers who may think that the phrase \"not including the delimiting slash characters\" means simply omitting a trailing slash character in the URI path. This is incorrect. See the discussion outcome in email thread https://www.ietf.org/mail-archive/web/core/current/msg08223.html . Therefore, a minor clarification is proposed in the notes after the parsing steps.",
+      "createdAt": "2019-06-12T13:52:09Z",
+      "updatedAt": "2024-06-16T23:15:19Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "coap://foo/bar/ has an empty path segment at the end.  Maybe this needs to be spelled out explicitly once, but that is the meaning of the current text.  \u2794 Clarify?",
+          "createdAt": "2019-06-12T15:38:59Z",
+          "updatedAt": "2019-06-12T15:38:59Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "This definitely needs improved visibility \u2013 I've seen two or three implementations already that got this wrong initially. Esko's clarification text sounds fitting to me.",
+          "createdAt": "2019-06-18T15:05:49Z",
+          "updatedAt": "2019-06-18T15:05:49Z"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "MDU6SXNzdWUxODE2ODY3NzUy",
+      "title": "Content-coding",
+      "url": "https://github.com/core-wg/corrclar/issues/8",
+      "state": "OPEN",
+      "author": "ektrah",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Errata ID: [4954](https://www.rfc-editor.org/errata/eid4954)\r\nType: Editorial\r\nReported By: Klaus Hartke\r\nDate Reported: 2017-02-28\r\n\r\n[Section 12.3](https://tools.ietf.org/html/rfc7252#section-12.3) says/should say:\r\n\r\n```diff\r\n-CoAP does not include a separate way to convey content-encoding\r\n+CoAP does not include a separate way to convey content-coding\r\n information with a request or response, and for that reason the\r\n-content-encoding is also specified for each identifier (if any).  If\r\n-multiple content-encodings will be used with a media type, then a\r\n+content-coding is also specified for each identifier (if any).  If\r\n+multiple content-codings will be used with a media type, then a\r\n separate Content-Format identifier for each is to be registered.\r\n Similarly, other parameters related to an Internet media type, such\r\n as level, can be defined for a CoAP Content-Format entry.\r\n\r\n-+--------------------------+----------+----+------------------------+\r\n-| Media type               | Encoding | ID | Reference              |\r\n-+--------------------------+----------+----+------------------------+\r\n++--------------------------+----------------+----+------------------+\r\n+| Media type               | Content coding | ID | Reference        |\r\n++--------------------------+----------------+----+------------------+\r\n```\r\n\r\nA CoAP Content-Format is the combination of an Internet Media Type with an HTTP Content Coding, as correctly explained in the first paragraphs of Section 12.3. However, the next paragraph (the original text above) incorrectly uses the term \"content-encoding\". The correct term is \"content-coding\", as shown in the corrected text.\r\n\r\nExamples for _valid_ CoAP Content-Format registrations:\r\n\r\n- media type \"text/plain; charset=iso-8859-1\" with content-coding \"deflate\"\r\n\r\n- media type \"image/png\" with content-coding \"\" (no content-coding)\r\n\r\n- media type \"image/png\" with content-coding \"identity\" (same as previous, no content-coding)\r\n\r\n- media type \"application/example+xml\" with content-coding \"exi\"\r\n\r\nExamples for _invalid_ CoAP Content-Format registrations:\r\n\r\n- media type \"application/coap-group+json\" with content-coding \"UTF-8\" (UTF-8 is a character encoding, not a content-coding; should be media type \"application/coap-group+json; charset=utf-8\" with content-coding \"identity\")\r\n\r\n- media type \"audio/opus\" with content-coding \"identity\" (\"audio/opus\" has a required parameter \"rate\"; should be media type \"audio/opus; rate=48000\" with content-coding \"identity\")\r\n\r\n- media type \"application/example+xml\" with content-coding \"identity, exi\" (too many content-codings; should be media type \"application/example+xml\" with content-coding \"identity\" and, separately, media type \"application/example+xml\" with content-coding \"exi\")\r\n\r\n- media type \"application/example+exi\" with content-coding \"identity\" (\"+exi\" is not a registered structured syntax suffix at the time of writing of this erratum)\r\n\r\n- media type \"video/ogg\" with content-coding \"exi\" (EXI is a content-coding for XML information)",
+      "createdAt": "2019-06-12T13:54:39Z",
+      "updatedAt": "2023-07-22T19:15:07Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "Hold for update; use these examples in a clarification.",
+          "createdAt": "2019-06-12T15:42:47Z",
+          "updatedAt": "2019-06-12T15:42:47Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "More recently, with the terminology established in RFC 9193, we probably want to change the heading \"Media-Type\" to \"Content-Type\" as well.\r\n\r\ndraft-ietf-core-problem-details says:\r\n\r\n> In the registry as defined by {{Section 12.3 of -coap}} at the time of\r\nwriting, the column \"Content-Type\" is called \"Media type\" and the\r\ncolumn \"Content Coding\" is called \"Encoding\". [^remove]\r\n",
+          "createdAt": "2022-06-16T10:25:14Z",
+          "updatedAt": "2022-06-16T10:25:14Z"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "MDU6SXNzdWUxODE2ODY3ODY2",
+      "title": "Clarify/revise language around epochs in section 9.1.1",
+      "url": "https://github.com/core-wg/corrclar/issues/9",
+      "state": "OPEN",
+      "author": "jimsch",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "documentation",
+        "enhancement"
+      ],
+      "body": "Current text is:\r\n\r\n  The following rules are added for matching an Acknowledgement message\r\n   or Reset message to a Confirmable message, or a Reset message to a\r\n   Non-confirmable message: The DTLS session MUST be the same, and the\r\n   epoch MUST be the same.\r\n\r\nHowever this does not really make any sense in terms of what DTLS does for authentication.  The rule was initially created so that if the authentication data changed, which forces an epoch change, then the message would not be matched.  The problem is that epochs can change for other reasons such as simple re-keys which do not change any of the authentication data.\r\n\r\nWhen a re-authentication is done in TLS, then there is a large discussion about what this means.  One interpretation is that the new authentication is added to the existing one.  In which case not matching may not make sense.  The other interpretation is that the new authentication replaces the old one.\r\n\r\nUnder each of these situations it does not really make sense for the client to have to add this rule for matching.  The sequence of events would be:\r\n* Client sends request\r\n* Client-server does a new authentication set\r\n* Client receives response from server\r\n\r\nThe server should have checked that the authentication was fine when creating the response and there is no change in the client that is at the other end of the pipe.\r\n\r\nRecommend: Remove all of the language about epochs from RFC 7252.",
+      "createdAt": "2019-06-12T16:55:14Z",
+      "updatedAt": "2024-06-16T23:13:44Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "Small clarification: The rule was initially created because noone had performed a security analysis under which condition it's OK to send request and response(s) in different epochs. The change of authentication data is just one issue that shows that a careful security analysis is needed.",
+          "createdAt": "2019-06-12T17:16:03Z",
+          "updatedAt": "2019-06-12T17:16:03Z"
+        },
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "https://mailarchive.ietf.org/arch/msg/core/biDJ8n4w0kBQATzyh9xHlKnGy1o etc. pp.",
+          "createdAt": "2019-06-12T17:18:52Z",
+          "updatedAt": "2019-06-12T17:18:52Z"
+        },
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "https://mailarchive.ietf.org/arch/msg/core/TsyyKIHQ1FJtAvAo0ODNEt2Ileo etc. pp.",
+          "createdAt": "2019-06-12T17:18:56Z",
+          "updatedAt": "2019-06-12T17:18:56Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Let me try to add some practical notes:\r\n\r\nFor the most request/response pairs the time span is short, and therefore the probability that something changes according the DTLS layer is low.\r\n\r\nThe most pain comes with RFC7641, observe/notify. With that, the time span gets much larger. Assuming longer quiet periods, NAT timeouts occur too often. Though that pattern was used for LwM2M (data reporting), the most of the discussion have been in  the OMA repo (at least, I feel so :-) ). For [Eclipse/Californium](https://github.com/eclipse/californium) we introduced therefore a (hopefully) flexible and customizable [matcher-interface](https://github.com/eclipse/californium/blob/master/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java). With that, it's up to the application, what is considered to be save enough or not.\r\n\r\nFor coap-servers there is a left-risk, that the response is sent, when the IP is already \"assigned\" to a different client (e.g. after a NAT timeout of the original client). Therefore Californium uses that matcher-interface not only for incoming responses, it's also used for outgoing ones. For LwM2M, where the coap-roles are also used exchanged (initial the LwM2M server is a coap-server, after the registration exchange, the LwM2M-server acts as coap-client), that dtls-context-matching is even extended to all messages, e.g. no coap-data-request is sent to a device, if the context doesn't still match the one of the registration message of that device.",
+          "createdAt": "2021-06-15T18:31:05Z",
+          "updatedAt": "2022-11-24T21:08:53Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "> Recommend: Remove all of the language about epochs from RFC 7252.\r\n\r\n:+1: ",
+          "createdAt": "2022-11-24T16:57:18Z",
+          "updatedAt": "2022-11-24T16:57:18Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "Maybe a bit out of the topic of this issue. \r\n\r\n @boaks raises that particular attention should be taken for RFC7641 observe/notify case: \r\n\r\n> For the most request/response pairs the time span is short, and therefore the probability the something changes according the DTLS layer is low.\r\n> The most pain comes with RFC7641, observe/notify. With that, the time span gets much larger. Assuming longer quiet periods, NAT timeouts occur too often.\r\n\r\nRegarding this topic about matching request/response for observe/notify.\r\nIt could maybe have a very similar issue with coap over tcp.\r\n\r\nThe [RFC8323](https://www.rfc-editor.org/rfc/rfc8323#section-3.3) says : \r\n```\r\n Responses MUST be returned over the same connection as the originating request. \r\n```\r\nWhich is fine for \"classic\" CoAP request/response but maybe not for observe/notify.\r\n\r\n[RFC-9006\u00a74.3 - TCP Connection Lifetime](https://www.rfc-editor.org/rfc/rfc9006.html#section-4.3) says : \r\n```\r\nOne approach for infrequent data transfer is to use short-lived TCP connections.\r\nInstead of trying to maintain a TCP connection for a long time, it is possible that short-lived\r\nconnections can be opened between two endpoints, which are closed if no more data \r\nneeds to be exchanged. For use cases that can cope with the additional messages\r\nand the latency resulting from starting new connections, it is recommended to use a sequence\r\nof short-lived connections instead of maintaining a single long-lived connection.\r\n```\r\n\r\nI'm not totally sure but I feel using sequence of short-lived connections could fit the case of an observed device which send notify very infrequently but with current RFC8323 this seems not possible. \r\n\r\nThis seems to illustrate that the \"classic\" Request/Response matching  is often not very well suited to observe/notify.",
+          "createdAt": "2022-11-24T17:03:23Z",
+          "updatedAt": "2022-11-24T17:03:23Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "MDU6SXNzdWUxODE2ODY3OTcz",
+      "title": "\"request URI\" not defined",
+      "url": "https://github.com/core-wg/corrclar/issues/10",
+      "state": "OPEN",
+      "author": "cdh4u",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "documentation"
+      ],
+      "body": "The RFC uses \"request URI\" terminology, but there is no definition or reference of what a request URI is.\r\n\r\nAlso, while the RFC document does describe how the request URI can be generated based on CoAP message elements, it is not very clear that the request URI is not a message element itself (in SIP, the request URI is part of the message syntax).\r\n\r\n",
+      "createdAt": "2019-10-14T12:09:33Z",
+      "updatedAt": "2024-06-16T23:10:49Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "Thanks! We should probably include some bits from [section 2 of RFC 7230](https://tools.ietf.org/html/rfc7230#section-2) on this (where it's called \"target URI\"). It might also be a good idea to emphasize the distinction between the concept (request URI) and its representation (Uri-* options).",
+          "createdAt": "2019-10-14T15:09:31Z",
+          "updatedAt": "2019-10-14T15:09:31Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "MDU6SXNzdWUxODE2ODY4MTMy",
+      "title": "Detecting whether a non-confirmable message was received or not",
+      "url": "https://github.com/core-wg/corrclar/issues/11",
+      "state": "OPEN",
+      "author": "cdh4u",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 4.3 says:\r\n \r\n   \u201cAt the CoAP level, there is no way for the sender to detect if a Non-\r\n   confirmable message was received or not.\u201d\r\n \r\nIf the message is a request, and the sender receives the associated response, that does indicate that the message was received.\r\n \r\nSimilarly, if the message is sent empty, and triggers a Reset, the receival of that Reset indicates that the request was received.\r\n ",
+      "createdAt": "2019-10-14T12:12:26Z",
+      "updatedAt": "2023-07-22T19:16:33Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "Thanks! Indeed, some information about the reception of a Non-confirmable message can be inferred if that triggers a reply. I guess section 4.3 could be clarified in that sense.",
+          "createdAt": "2019-10-14T15:11:21Z",
+          "updatedAt": "2019-10-14T15:11:21Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "MDU6SXNzdWUxODE2ODY4Mjc3",
+      "title": "Options should say whether they apply to requests, responses, or both",
+      "url": "https://github.com/core-wg/corrclar/issues/12",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [
+        "documentation"
+      ],
+      "body": "Not all descriptions of options make explicit whether the option can be used on requests, responses, or both.  E.g., 5.10.4 Accept doesn't say explicitly that this option is for requests.\r\n5.10.8 does imply that conditional request options are for requests, but doesn't say so outright.",
+      "createdAt": "2019-10-16T11:01:18Z",
+      "updatedAt": "2024-06-16T23:09:10Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "If that information is added to tables, some option properties could be\nsplit up by it.\n\nFor example, ETag is repeatable in requests but not in responses.\n",
+          "createdAt": "2019-10-16T12:54:49Z",
+          "updatedAt": "2019-10-16T12:54:49Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Though I currently redesigned the option implementation in Eclipse/Californium, I assume, this issue has at least two parts.\r\n\r\n1. it's not only request or response, considering DELETE, I don't see ACCEPT nor CONTENT_TYPE as useful. So it may be even related to the message code. Same would be an etag for error responses.\r\n\r\n2. if the RFC is improved specifying the proper usage of option in relation if the message code, I guess it's also required to  specify, what should happen, if this \"late limitation\" is violated.\r\n\r\n ",
+          "createdAt": "2023-01-05T11:18:08Z",
+          "updatedAt": "2023-01-05T11:18:08Z"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "MDU6SXNzdWUxODE2ODY4MzU5",
+      "title": "DTLS replay protection",
+      "url": "https://github.com/core-wg/corrclar/issues/13",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Many CoAP users are unaware of DTLS not mandating replay protection.\r\n\r\nWe [may want to consider](https://datatracker.ietf.org/doc/minutes-interim-2020-core-08-202009101600/) requiring it for CoAP it at the next possible point. ([RD is about to do so](https://github.com/core-wg/resource-directory/pull/260) on its own, as it came up there).",
+      "createdAt": "2020-10-07T12:36:39Z",
+      "updatedAt": "2023-07-22T19:17:28Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> requiring it for CoAP it at the next possible point.\r\n\r\nI'm not sure, if this will be the right way. \r\nDoesn't it depend on the use-case? \r\nThere are users, who don't use the \"replay protection\"  by intention, because they use e.g. SMS and with that it's very hard. If their application doesn't suffer from replay, why should it be required?\r\nAnd just to say, if the application requires even more protection, e.g. timeshift attack (e.g. delay the \"open the door request\" by 5 Minutes, so that the authorized person give up an the attacker takes the open door), then this doesn't help.\r\n\r\nI would more emphasis on the possibility and use-cases than on making it mandatory.",
+          "createdAt": "2021-02-17T16:32:59Z",
+          "updatedAt": "2021-02-17T16:32:59Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "It does depend on the use case, and going all replay-protect may be overkill. In particular, the path of replay protection was *not* taken in RD eventually, and more explicit request freshness terminology introduced instead (in https://github.com/core-wg/resource-directory/pull/291) that makes DTLS replay protection optional again.\r\n\r\nThe very least thing that would resolve the misalignment issue of people being surprised by the replay protection being optional would be to point out explicitly in the clarifications that it *is* optional, and outline consequences and mitigation.",
+          "createdAt": "2021-02-28T15:53:18Z",
+          "updatedAt": "2021-02-28T15:53:18Z"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "MDU6SXNzdWUxODE2ODY4NDcw",
+      "title": "Separation message / request-response layer in options processing",
+      "url": "https://github.com/core-wg/corrclar/issues/14",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "The prescribed behavior for processing critical options (to wit, reject when it happens in a NON but 4.02 in CON) has [repeatedly tripped up people](https://mailarchive.ietf.org/arch/msg/core/6YElhypRFiP6p7uXeuCGTmhCpBk).\r\n\r\nAs any client already needs to be prepared to receive the 4.02 anyway (after all, the server could be behind a reverse proxy that sent CON or used reliable transport, and then wouldn't know the precise cause and respond NON 4.02), I suggest that expected behavior be changed to reject with 4.02 independently of the transport, and just to allow a server to completely reject requests that are not understood for compatibility reasons.",
+      "createdAt": "2021-02-17T08:54:22Z",
+      "updatedAt": "2023-07-22T19:17:50Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 15,
+      "id": "MDU6SXNzdWUxODE2ODY4NjAz",
+      "title": "Separate response re-ACK rules vs. deduplication relaxation",
+      "url": "https://github.com/core-wg/corrclar/issues/15",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [
+        "bug"
+      ],
+      "body": "The [rules in 7252 about separate responses](https://tools.ietf.org/html/rfc7252#section-5.2.2) are that once an empty ACK goes out, later duplicates are to be ACKed again, \"and any response MUST be sent as a separate response.\"\r\n\r\nDetecting this requires collating different requests into state held on the server side. While some such state needs to be around anyway while a CON response is being sent, CoAP largely tries to free the server from obligations to keep such state longer [by the message deduplication relaxation rules](https://tools.ietf.org/html/rfc7252#section-4.5).\r\n\r\nThe concrete rule on separate ACKs forces a strictly compliant server to keep that information around, whereas it should be perfectly safe just to respond with a response-carrying ACK, and the client accepts whatever comes first.\r\n\r\nA relaxed rule might be (emphasis indicating changed part):\r\n\r\n> When the server chooses to use a separate response, it sends the\r\n   Acknowledgement to the Confirmable request as an Empty message. Once\r\n   the server sends back an Empty Acknowledgement, it MUST **transmit the\r\n   separate response completely**. If a retransmitted request is\r\n   received (perhaps because the original Acknowledgement was delayed),\r\n   **an empty acknowledgement or a piggybacked response may be sent,\r\n   but neither frees the server from its obligation to see any CON response\r\n   it started sending to completion (by an ACK, an RST or a retransmission timeout).**\r\n\r\nAn explanatory remark could point out that servers that can forego request deduplication can thus just answer without doing the matching, and that for short responses piggybacked ACKs are preferable (because they allow the client to obtain the result sooner than at the next retransmission) whereas for long responses empty ACKs are preferable as they avoid sending the payload more often than necessary.\r\n\r\nThe change should be purely beneficial to the overall performance: the client has a chance of receiving the response earlier, has one fewer error path to check when it's feeling strict, and the only stalling condition (which is that the client only sees the empty ACK but the server drops the CON retransmission in favor of the piggybacked response, causing both parties to wait for the other) is explicitly ruled out by keeping the server's obligation to retransmit.\r\n\r\n(For cases where the server sends a separate NON response, which I have yet to see in the wild, it allows one more kind of recovery if the server chooses to send the full response again).",
+      "createdAt": "2021-02-28T16:22:45Z",
+      "updatedAt": "2024-06-16T23:19:29Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 16,
+      "id": "MDU6SXNzdWUxODE2ODY4NzA2",
+      "title": "Diagnostic notation for CoAP requests",
+      "url": "https://github.com/core-wg/corrclar/issues/16",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "Several documents building on CoAP currently have examples like\r\n\r\n```\r\nREQ: GET\r\nUri-Path: foo\r\nObserve: 0\r\n\r\nRES: 2.01 Content\r\n...\r\n```\r\n\r\nor\r\n```\r\nREQ: GET coap://host.example.com/path\r\nContent-Format: foo\r\nPayload:\r\n...\r\n```\r\n\r\n(not trying to be particularly accurate in the above examples, suffice to say the notation varies)\r\n\r\nIt Would Be Nice If we could have an agreed-on notation, possibly through corrclar. HTTP/2 has something like this, which is [used in practice in documents](https://datatracker.ietf.org/doc/html/rfc8484#section-4.1.1). This was suggested by different people before; I didn't take the time to look up the meetings or mailing list posts as I'm pretty sure none of them said anything more concrete than \"it would be nice if\".\r\n\r\nI don't have a concrete proposal for here -- more starting a wishlist for whoever (may or may not be me) might pick that up later into corrclar if we want it there. Nice properties would include:\r\n* Ability to express structured fields; a Block2 option should say 0/M/512byte or similar.\r\n* Ability to use shortcuts, and express details only when deemed necessary: a `Req: GET coap://[2001:db8::1]/.well-known/core?foo=bar` may be easier to use, especially in long examples, than the full\r\n  ```\r\n  Req: GET, to 2001:db8::1 port 5683, mid=0x1234, token=0x\r\n  Uri-Path: .well-known\r\n  Uri-Path: core\r\n  Uri-Query: foo=bar\r\n  ```\r\n* Ability to express (even nested?) OSCORE\r\n\r\nThe notation should not be designed for parsing, really just for illustration. (We may need one parser to verify document content, unless we have a single trusted pretty-printer and verify by having binary versions of all examples). In addition to serving as usable format for IDs, it might also double as debug output for CoAP sniffers or implementations.",
+      "createdAt": "2021-08-09T12:09:24Z",
+      "updatedAt": "2024-06-16T23:07:08Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 17,
+      "id": "MDU6SXNzdWUxODE2ODY4ODI4",
+      "title": "BERT for non-TCP/WS applications",
+      "url": "https://github.com/core-wg/corrclar/issues/17",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "The way RFC8323 is written defines BERT (ie. using block-wise's szx=7 to mean \"indexed at 1024 byte blocks, but may have several of them in the payload\") only for reliable transports.\r\n\r\nAs this would be useful in other applications outside TCP/WS, and as it is unlikely that any other extension to block-wise would scoop up this extension point of RFC7959 for unreliable transports in a different way, I suggest that the next update to 7959 just acknowledge that BERT is universal.\r\n\r\nConcrete applications include:\r\n* Amortizing block-wise overheads in OSCORE: An OSCORE transfer can be inner- and outer-blockwised independently.\r\n  * All outer-blockwising may be too taxing for the device (which'd have to assemble the representation in RAM) or even the AEAD algorithm (AES-16-64-128 has a 64KiB limit).\r\n  * All inner-blockwising creates a per-message overhead of at least 8 byte in 1:1 and 64 in group mode.\r\n\r\n  The balancing of the inner block size is currently limited to 16..1024 byte, whereas BERT would open that space up to any multiple of 1024 bytes.\r\n* With CoAP being used outside of constrained devices (as in DOTS), it's not unreasonable any more that MTU discovery is available and finds support for jumboframes.\r\n* Internally (eg. inside a CoAP implementation) it can be convenient to let the library handle some block-wising (not bother the application with every 32 bytes of requested data) but not all of it (eg. because not all data is ready yet); BERT would allow serving larger chunks and letting the proxy that is the CoAP library do the small things.\r\n\r\nI think that this can be done by just stating things in an update. It'd probably say that for CoAP-over-{TCP,WS} the CSM is the way to agree, and that other transports may define their mechanisms (of which there currently are none) to indicate a non-default maximum.\r\n\r\n[edit: github's markdown is weird. probably, all markdown is weird.]",
+      "createdAt": "2021-08-18T12:12:06Z",
+      "updatedAt": "2024-06-16T23:06:17Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Using BERT for cloud internal communication (jumboframes) sounds great.\r\n\r\nIf there is really interest in standardize using CoAP cloud internal, one of the drawbacks, I was faced, is the limitation by the MID deduplication definition. FMPOV, it doesn't make too much sense, to keep the MIDs (and related message) for up to 240s (or 120s), if mainly a point2point communication is used with many, many messages. In Californium we implemented and alternative approach, using a [maximum number of deduplication messages per peer ](https://github.com/eclipse/californium/blob/master/californium-core/src/main/java/org/eclipse/californium/core/network/deduplication/SweepPerPeerDeduplicator.java).\r\nSo far, the experience with that is very promising.\r\n",
+          "createdAt": "2021-10-20T07:18:38Z",
+          "updatedAt": "2021-10-20T07:18:38Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "When peers are datacenter-internal, I reckon that a lot of parameters would be used differently (DEFAULT_LEISURE to 0, ACK_TIMEOUT to something about 100ms, maybe also MAX_RETRANSMIT to 2), and then EXCHANGE_LIFETIME goes down by a lot. (Probably FASOR does that much better, with adaequate concern for TSV topics). Also, it probably helps a lot if cheap idempotent processings are declared to the CoAP stack so that the stack can forego deduplication.\r\n\r\nWhat would typical jumboframe sizes be in such cloud-internal contexts?",
+          "createdAt": "2021-10-20T08:52:02Z",
+          "updatedAt": "2021-10-20T08:52:02Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> What would typical jumboframe sizes be in such cloud-internal contexts?\r\n\r\n[Californium - Issue](https://github.com/eclipse/californium/issues/1260#issuecomment-605309391)\r\n\r\njumbo MTU 9001. So 8192 may be used for BERT.\r\n",
+          "createdAt": "2021-10-20T09:26:05Z",
+          "updatedAt": "2021-10-20T09:26:05Z"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "id": "I_kwDOJ-N8wM5sSzgo",
+      "title": "Blockwise (block1) FETCH in combination with observe ",
+      "url": "https://github.com/core-wg/corrclar/issues/18",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I'm currently struggling with a detail using FETCH.\r\n\r\nAssuming, the FETCH requires more blocks of payload and so uses a BLOCK1 transfer to the server.\r\nWith that, the server will receive multiple requests, with several tokens, which are not related.\r\nThe observe then requires a token in order to establish the observe-notify relation, notifies will (re-)use that token (at least for their first response block, if the response is blockwise as well).\r\n\r\nQuestion:\r\nWhich token is intended to be used here for the observe-relation?\r\n- the token of the first blockwise request?\r\n- the token of the last blockwise request (with the first response with payload)?\r\n- any token else?\r\n",
+      "createdAt": "2021-10-19T07:06:48Z",
+      "updatedAt": "2023-07-22T19:19:45Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "In [draft-ietf-core-new-block-14 Section 4.3](https://datatracker.ietf.org/doc/html/draft-ietf-core-new-block-14#section-4.3) there is some clarity here, namely\r\n````\r\n      If the FETCH request includes the Observe Option, then the server\r\n      MUST use the same token as used for the 2.05 (Content) response\r\n      for returning any Observe triggered responses so that the client\r\n      can match them up.\r\n````\r\nThe response that potentially includes some data is the 2.05 response, and when the unsolicited observe response is triggerred, it is not triggering to send back a new 2.31 response, but is triggereing to send a new 2.05 response.  So, to me is has to be the token that was used that got the initial 2.05 response back (Yes, there is more token tracking / token mapping to do)\r\n\r\nThe follow on question to this is:-\r\n\r\nWhat does the FETCH request to get the next BLOCK2 comprise of - does it require the entire original FETCH body?\r\nRFC7959 [2.7](https://datatracker.ietf.org/doc/html/rfc7959#section-2.7) hints at\r\n````\r\n      To continue this Block2 transfer, the client\r\n   continues to send requests similar to the requests in the Block1\r\n   phase, but leaves out the Block1 Options and includes a Block2\r\n   request option with non-zero NUM.\r\n````\r\nand  [draft-ietf-core-new-block-14 Section 10.3.3](https://datatracker.ietf.org/doc/html/draft-ietf-core-new-block-14#section-10.3.3) has\r\n````\r\n                     Note that, following Section 2.7 of [RFC7959], the\r\n   FETCH request does not include the Q-Block1 or any payload.\r\n````\r\n\r\nThen the next questions are:-\r\n\r\nWhat is the FETCH request used to cancel an Observe request - does it have to contain all the BLOCK1 payloads?\r\n(I believe the answer includes the entire body potentially spanning multiple payloads as the body can indicate selection parameters)\r\n\r\nWhich Token should it be using to initiate the cancelling of the Observe request?\r\n(I think it is the 2.05 response token)",
+          "createdAt": "2021-10-20T13:11:52Z",
+          "updatedAt": "2021-10-20T13:11:52Z"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "id": "I_kwDOJ-N8wM5sSzjR",
+      "title": "RFC7959 - PUT/POST - DTLS - rules to apply for follow-up requests.",
+      "url": "https://github.com/core-wg/corrclar/issues/19",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "For single message pairs, [RFC7252 9.1.1](https://datatracker.ietf.org/doc/html/rfc7252#section-9.1.1), or single request/response pairs, [RFC7252 9.1.2](https://datatracker.ietf.org/doc/html/rfc7252#section-9.1.2) describes, that the DTLS context must be considered.\r\n\r\nWhat is about followup request for a blockwise PUT/POST? If I didn't over read it, there is nothing defined in RFC7959 to obey. Are there any considerations, to apply the same rules for the followup request that for responses?",
+      "createdAt": "2021-12-15T13:11:47Z",
+      "updatedAt": "2023-07-22T19:20:35Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "I think that this is covered in the Abstract, namely\r\n\r\n>    Instead of relying on IP fragmentation, this specification extends\r\n>    basic CoAP with a pair of \"Block\" options for transferring multiple\r\n>    blocks of information from a resource representation in multiple\r\n>    request-response pairs.\r\n\r\nI appreciate that `multiple `is used instead of `single`, but the same RFC7252 principles still apply to each resquest/response",
+          "createdAt": "2021-12-15T13:27:07Z",
+          "updatedAt": "2021-12-15T13:27:07Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "For me, that describes the relation of `req. 1` with `resp. 1` and `req. 2` with `resp. 2`. \r\nHere, 9.1.1 and 9.1.2 applies. \r\n\r\nBut I'm missing something for `req. 1` with `req. 2`, similar to 9.1.2.  \r\n",
+          "createdAt": "2021-12-15T13:47:10Z",
+          "updatedAt": "2021-12-15T13:47:10Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "The `req.1/n` and` req.2/n` do not need to be in same DTLS session and epoch, but `resp.1/n` DTLS needs to match `req.1/n` and (the possibly different) `resp.2/n` DTLS needs to match `req.2/n`.  This may happen if there has to be a DTLS renegotiate of some sort.",
+          "createdAt": "2021-12-15T13:57:04Z",
+          "updatedAt": "2021-12-15T13:57:04Z"
+        },
+        {
+          "author": "ektrah",
+          "authorAssociation": "NONE",
+          "body": "The general consideration for DTLS contexts is that different contexts can have different security properties (e.g., cipher suite used, client authenticated or not). If multiple CoAP messages are linked together in some way (e.g., a response to a request), all those messages should be in the same context (or a security analysis needs to be performed to determine potential vulnerabilities resulting from different security properties or the lack of the implicit binding between messages provided by a DTLS context in general).\r\n\r\nIn the case of blockwise transfers, I could, for example, easily imagine problems if a client makes 5 blockwise PUT requests *without* client authentication and then the final blockwise PUT request *with* client authentication, and the server proceeds to handle the PUT requests as an atomic unit under the (wrong) assumption that all requests are client authenticated.",
+          "createdAt": "2021-12-15T14:00:36Z",
+          "updatedAt": "2021-12-15T16:57:43Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Yes, that was my consideration.\r\nTherefore I think, some statement similar as RFC7252 9.1.2 makes also sense for RFC7959 PUT/POST.\r\n\r\n\r\n",
+          "createdAt": "2021-12-15T14:48:15Z",
+          "updatedAt": "2021-12-15T14:48:15Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "I don't get which behavior you decide to finally implement. ",
+          "createdAt": "2021-12-16T08:53:32Z",
+          "updatedAt": "2021-12-16T09:15:18Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> I don't get which behavior, you decide to finally implement.\r\n\r\nNot sure, what your expectations are. \r\nMy intention to \"ping\" the leshan project was to check, if adding a check for blockwise (block1) followup requests works for lwm2m, or not.",
+          "createdAt": "2021-12-16T09:13:59Z",
+          "updatedAt": "2021-12-16T09:13:59Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "> Not sure, what your expectations are.\r\n\r\nI have no expectations, I try to understand first. \r\n\r\nAnd I don't get what kind of check :\r\n - same epoch, same session (that I understand as same connection + no renegotiation)\r\n - or something else\r\n - or something flexible ? ",
+          "createdAt": "2021-12-16T09:47:09Z",
+          "updatedAt": "2021-12-16T09:47:16Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> And I don't get what kind of check :\r\n\r\nI guess, this question in general is still open.\r\nFor Californium it's about adding a [call to the endpoint context matcher](https://github.com/eclipse/californium/pull/1857/files#diff-b30c73abcb9446dfa9759af1d1a697e0d36feb588411209f29a28b0d2343b5b4R1358).",
+          "createdAt": "2021-12-16T09:58:56Z",
+          "updatedAt": "2021-12-16T09:58:56Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "As the rfc7959 says : \r\n```\r\nClients SHOULD strive to send all blocks of a request without undue delay.\r\n```\r\nSo  this probably limits case where using another DTLS connection could be useful (like dynamic IP environment). so most of the time same connection should be enough. (Unlike observe use case)\r\n\r\nUsing the endpoint context matcher is more flexible (as user can implements their own rules), so I think it makes sense to use it to do that check.\r\n\r\n> if adding a check for blockwise (block1) followup requests works for lwm2m, or not\r\n\r\nAFIAK, It should no cause any troubles. ",
+          "createdAt": "2021-12-16T10:19:12Z",
+          "updatedAt": "2021-12-16T10:19:12Z"
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "id": "I_kwDOJ-N8wM5sSzlM",
+      "title": "Observation: Revisit MUST on Observe in successful notifications",
+      "url": "https://github.com/core-wg/corrclar/issues/20",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Current RFC7641 says that \"A 2.xx notification MUST include an Observe Option with a sequence number\".\r\n\r\nIf it ever gets an overhaul, I'd consider dropping this in favor of the more general statement that any non-Observe response is ordered after any numbered observe response. That is compatible with the current semantics on unsuccessful responses, but allows for volatile-but-stabilizing resources to send notifications like \"Observe: N, Max-Age: 20\" several times, until eventually sending \"Max-Age: 65535\" indicating that this resource has converged. (Think observing the location indicated by a POST request for a long-running process).\r\n\r\nIn terms of compatibility with existing implementations, I think it'll be fine: A strict client would treat it as an error, just as it'd treat the 5.03 that is currently the best the server can do to say that it doesn't want to keep this observation around any more.",
+      "createdAt": "2022-02-21T08:39:27Z",
+      "updatedAt": "2023-07-22T19:21:07Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "Nice!\r\n\r\nWhere should this go into the document?\r\nShould we have a section \"Opportunities for small fixes and improvements\" or some such?",
+          "createdAt": "2022-02-21T09:05:38Z",
+          "updatedAt": "2022-02-21T09:05:38Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "I think the structure of RFC section and component subsection (here: \"RFC 7641\" / \"4.2: Notifications\") fits here as well.\r\n\r\nText could be:\r\n\r\n> RFC 7641 requires that every successful notification \"MUST\" have an observe option.\r\n>\r\n> For response reordering (which generally relies on the sequence number), the response without an Observe option is ordered after all notifications that have an Observe option. This is consistent with the handling of error responses, which already do not carry an Observe option and are also final. It is RECOMMENDED that this notification is sent as a confirmable message on transports that make such a distinction.\r\n>\r\n> This is primarily useful for for resources that are volatile for some time and then converge to a final state (e.g., the state of long-running processes triggered by a POST request). When the resource reaches that state, there is no use in keeping an observation around, but also no reason to send a notification of an error state. For these notifications it is useful to send a long Max-Age. Clients generally may fall back to polling when observation fails; the long Max-Age ensures that they take their time before polling again.",
+          "createdAt": "2022-02-21T09:34:09Z",
+          "updatedAt": "2022-02-21T09:34:09Z"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOJ-N8wM5sSzmp",
+      "title": "RFC7959 - Block1 Option in Error Response 4.08 (Request Entity Incomplete)",
+      "url": "https://github.com/core-wg/corrclar/issues/21",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Though I'm currently over the Californium implementation:\r\n\r\nIs it considered to use the Block1 option in an error response with 4.08 for a put/post block1 request?\r\n\r\nI read RFC7959, 2.5, 2.9.2, and 3.2 and miss that. Hope I didn't over-read it.\r\n",
+      "createdAt": "2022-03-10T10:20:55Z",
+      "updatedAt": "2023-07-22T19:21:31Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "I would not expect Block1 to be in an error response, but there is not a MUST NOT that I am aware of.  Its general usage in a response is to indicate that another block SZX should be used.\r\n\r\nAs token matching takes place for any response, then it is possible to determine which specific request including Block1 generated the error response.  It certainly is not defined that a Block1 in an 4.08 error response indicates this is the missing block, or this is the last block received etc. so likely to break different implementations if supported.\r\n\r\nAs a side note, draft-ietf-core-new-block (to-be-9177) extends the 4.08 response to include the missing set of Q-Block1 packets in the diagnostic payload if you are looking for something like that - see [to-be-9177 Section 5](https://datatracker.ietf.org/doc/html/draft-ietf-core-new-block#section-5).",
+          "createdAt": "2022-03-10T10:48:12Z",
+          "updatedAt": "2022-03-10T10:48:12Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "I agree with mrdeep1's assessment.\r\n\r\nNote that there can't practically be a Block2 in an error response: reassembling a Block2 reliably needs an ETag, and that can't be present in an error response as per [7252 section 5.10.6.1](https://datatracker.ietf.org/doc/html/rfc7252#section-5.10.6.1).\r\n\r\nThat \"missing set\" format is something I consider rather useful also for classical block operation.",
+          "createdAt": "2022-03-10T12:25:24Z",
+          "updatedAt": "2022-03-10T12:25:24Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> That \"missing set\" format is something I consider rather useful also for classical block operation.\r\n \r\nFor block1, the first missing block should do it.\r\n   \r\nI would recommend, to rather split the resources than to use block1 too frequently. In my experience, a lot of the superior robustness of CoAP is based on a single, rather small message. And with that, I'm not sure, if such an improvement pays off.",
+          "createdAt": "2022-03-10T13:44:35Z",
+          "updatedAt": "2022-03-10T13:44:35Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "I agree that if all can fit into one message, that is a better way to go, but not always easy to do.  This was one of the reasons for coming up with to-be-rfc9177 to provide a robust way of transferring multiple payloads for a body where CoAP has to work in lossy environments when networks are under attack - in particular uni-directional network loss.  An issue that the [DOTS](https://datatracker.ietf.org/wg/dots/about/) work had to solve.",
+          "createdAt": "2022-03-10T15:16:13Z",
+          "updatedAt": "2022-03-10T15:21:21Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "If there is \"more\" data than fits into a single message , the main question from FMPOV is:\r\n\r\nCould that data be split into smaller parts, each useful on it's own?\r\n\r\nThat was also the question that time ago, when the discussion about that transfer in DOTS started.\r\nBlockwise is not generally bad. If it's possible to split the data into smaller useful messages, then the application may benefit from processing that smaller messages before all the other messages arrives. And that makes an application fast and robust. If it's not possible, to split the data, or takes to much effort, then using blockwise is an option to overcome that. For me, not the first choice. Only for GET on static resources (e.g. FOTA) blockwise is a good choice, if https is not available. Only, if a larger time to complete the download, maybe with breaks/interrupts, is possible.",
+          "createdAt": "2022-03-10T15:27:16Z",
+          "updatedAt": "2022-03-10T15:27:16Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "> Could that data be split into smaller parts, each useful on it's own?\r\n> That was also the question that time ago, when the discussion about that transfer in DOTS started.\r\n\r\nYes, the main DOTS CoAP exchanges are all designed to fit into a single packet. Since then, the need for telemetry information to be  exchanged under attack scenarios became apparent which was not so easy to fit into a single packet - see [DOTS Telemetry](https://datatracker.ietf.org/doc/draft-ietf-dots-telemetry/)",
+          "createdAt": "2022-03-10T15:38:50Z",
+          "updatedAt": "2022-03-10T15:38:50Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "The discussion gets a little off topic, but interesting. \r\nYour \"see\" is about 119 pages. Is it possible to narrow the scope to the description of the message, which could not be split into useful smaller messages?",
+          "createdAt": "2022-03-10T15:58:54Z",
+          "updatedAt": "2022-03-10T15:59:14Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "draft-ietf-dots-telemetry [Section 9.1](https://datatracker.ietf.org/doc/html/draft-ietf-dots-telemetry-24#section-9.1) and [Section 9.2](https://datatracker.ietf.org/doc/html/draft-ietf-dots-telemetry-24#section-9.2) indicate the potental fullness of the telemetry information that can be transferred.  In practical terms, this is usually less than 10 payloads per body and a sparce set of information can fit in a single payload.",
+          "createdAt": "2022-03-11T10:48:11Z",
+          "updatedAt": "2022-03-11T10:48:11Z"
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOJ-N8wM5sSzn1",
+      "title": "Encoding of kid_context in OSCORE option conflicts in RFC8613",
+      "url": "https://github.com/core-wg/corrclar/issues/22",
+      "state": "OPEN",
+      "author": "mrdeep1",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Is the kid_context in the OSCORE option encoded as a bstr, or just simply data with a length?\r\n\r\nhttps://datatracker.ietf.org/doc/html/rfc8613#appendix-C.6\r\n\r\n\u2026\r\nCommon Context:\r\n\u2026\r\no  ID Context: 0x37cbf3210017a2d3 (8 bytes)\r\n\u2026\r\nThe following COSE and cryptographic parameters are derived:\r\n\u2026\r\no  kid context: 0x37cbf3210017a2d3 (8 bytes)\r\n\u2026\r\nFrom the previous parameter, the following is derived:\r\no  OSCORE option value: 0x19140837cbf3210017a2d3 (11 bytes)\r\n\r\nwhich breaks down to 19 14 08 37cbf3210017a2d3\r\n(\u201ch k partial_iv_len 1\u201d pIV 0x14 kid_context_len 8 kid_context 0x37cbf3210017a2d3)\r\n\r\nyet, if kid_context was encoded as a bstr, it would be 19 14 09 4837cbf3210017a2d3\r\n\r\n---------------------------------------------------------------------------\r\n\r\nhttps://datatracker.ietf.org/doc/html/rfc8613#section-6.3 is ambiguous in \r\n   3.  Request with ciphertext = 0xaea0155667924dff8a24e4cb35b9, kid =\r\n       empty string, Partial IV = 0x05, and kid context = 0x44616c656b\r\n\r\nWhere it does imply that kid_context is a bstr.\r\n\r\n---------------------------------------------------------------------------\r\n\r\nhttps://datatracker.ietf.org/doc/html/rfc8613#appendix-B.2 has\r\n\r\n   1.  (Optional) If the client does not have a valid security context\r\n       with the server, e.g., because of reboot or because this is the\r\n       first time it contacts the server, then it generates a random\r\n       string R1 and uses this as ID Context together with the input\r\n       parameters shared with the server to derive a first security\r\n       context.  The client sends an OSCORE request to the server\r\n       protected with the first security context, containing R1 wrapped\r\n       in a CBOR bstr as 'kid context'.  The request may target a\r\n       special resource used for updating security contexts.\r\n\r\nWhere R1 (kid_context) definitely has to be wrapped as a bstr \u2013 conflicting with test Appendix C.6.\r\n\r\n-----------------------------------------------------------------------\r\nHowever, kid_context is definately encoded as a bstr when setting up the info for deriving Sender Key, Recipient Key and Common IV.\r\n\r\nIs it just RFC 8613 Appendix C.6 that is broken?\r\n",
+      "createdAt": "2022-04-13T16:11:58Z",
+      "updatedAt": "2023-07-22T19:21:51Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "rikard-sics",
+          "authorAssociation": "NONE",
+          "body": "My understanding is that on the wire the kid_context is always just a sequence of bytes (**not** CBOR encoded), except for in Appendix B.2 where it is in fact a CBOR byte string.\r\n\r\nIt is true that 0x44616c656b decodes as a valid CBOR byte string, but I don't think the intent is for it to be a CBOR byte string. The plain ASCII value is \"Dalek\", while as a CBOR byte string it becomes h'616C656B' which is \"alek\".\r\n\r\nEDIT: Add tag @gselander",
+          "createdAt": "2022-04-13T21:27:15Z",
+          "updatedAt": "2022-04-13T21:29:06Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "I really do not like the concept of ID Context being encoded in the OSCORE option as a sequence of bytes or CBOR encoded depending on whether Appendix B.2 is in use or not.\r\n\r\nHow does the B.2 capable server determine that a client is trying to invoke B.2 or not with a kid context of 0x44616c656b?\r\n\r\nSeparately, https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-14#section-5.1.1 has\r\n````\r\n   *  Request with ciphertext = 0xaea0155667924dff8a24e4cb35b9, kid =\r\n      0x25, Partial IV = 5 and kid context = 0x44616c.\r\n````\r\nso here the kid context is definately not CBOR wrapped, helping confirm https://datatracker.ietf.org/doc/html/rfc8613#section-6.3 kid context of 0x44616c656b is not intended to be a CBOR wrap.\r\n",
+          "createdAt": "2022-04-13T21:40:17Z",
+          "updatedAt": "2022-04-13T21:40:17Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "Have I misunderstood\r\n\r\n> https://datatracker.ietf.org/doc/html/rfc8613#appendix-B.2 has\r\n> \r\n> (Optional) If the client does not have a valid security context\r\n> with the server, e.g., because of reboot or because this is the\r\n> first time it contacts the server, then it generates a random\r\n> string R1 and uses this as ID Context together with the input\r\n> parameters shared with the server to derive a first security\r\n> context. The client sends an OSCORE request to the server\r\n> protected with the first security context, containing R1 wrapped\r\n> in a CBOR bstr as 'kid context'. The request may target a\r\n> special resource used for updating security contexts.\r\n> \r\n\r\nIn that it states the request is `protected `with the first security context, containing R1 wrapped in a CBOR str.  However, the OSCORE option is `unprotected`, so there is a disconnect here.  Or is it trying to say the `aad `that is used for deriving the Sender Key has R1 (as the ID Context) wrapped in a CBOR str?",
+          "createdAt": "2022-04-13T21:50:25Z",
+          "updatedAt": "2022-04-13T21:50:25Z"
+        },
+        {
+          "author": "rikard-sics",
+          "authorAssociation": "NONE",
+          "body": "> How does the B.2 capable server determine that a client is trying to invoke B.2 or not with a kid context of 0x44616c656b?\r\n\r\nThe approximate steps I follow in the OSCORE Java code in Californium:\r\n\r\n1. Check if the KID and KID Context in the incoming request matches a context on the server.\r\n    - If so unprotect the request as normal with that context, no Appendix B.2 involved.\r\n    - (The KID Context may also be not included in the request, if so find a matching context based on KID. No Appendix B.2 for sure since the KID Context is empty.)\r\n2. If no context matched in 1. look for a context with matching KID\r\n    - If none is found abort the message processing.\r\n3. If a context is found in 2. check if the KID Context of the request is a valid CBOR byte string\r\n    - If it is not, abort the processing.\r\n4. Generate a new OSCORE security context with parameters from the context in 2. but with the KID Context in the request unwrapped from its CBOR byte string.\r\n5. Attempt to unprotect the request with this new context\r\n    - If this works continue the Appendix B.2 procedure by preparing and sending Response 1.\r\n    - If the unprotection fails abort the message processing.",
+          "createdAt": "2022-04-14T09:14:14Z",
+          "updatedAt": "2022-04-14T09:14:14Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "> 1. Check if the KID and KID Context in the incoming request matches a context on the server.\r\n>   o If so unprotect the request as normal with that context, no Appendix B.2 involved.\r\n\r\nSo, with a KID Context of  0x44616c656b, we can match a ID Context of 0x44616c656b at this point\r\n\r\n> 3. If a context is found in 2. check if the KID Context of the request is a valid CBOR byte string\r\n>  o If it is not, abort the processing.\r\n> 4. Generate a new OSCORE security context with parameters from the context in 2. but with the KID Context in the request unwrapped from its CBOR byte string.\r\n\r\nNow we can match on a ID context of 0x616c656b to continue decrypting.\r\n\r\nIn other words, there is the potental to match on 2 different ID Contexts for a single request.  Not convinced that is a good idea.",
+          "createdAt": "2022-04-14T09:27:09Z",
+          "updatedAt": "2022-04-14T09:27:09Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "For the client, it has to decide/be told whether it is trying B.2 or not - which affects how the KID Context is formatted in the OSCORE option if R1 etc. have to be wrapped as a CBOR Byte string.\r\n\r\nGiven that the OSCORE option is supposed to be compressed, adding in the CBOR wrapping overhead of one or more bytes to me does not follow the spirit of the compression.",
+          "createdAt": "2022-04-14T09:32:36Z",
+          "updatedAt": "2022-04-14T09:32:36Z"
+        },
+        {
+          "author": "rikard-sics",
+          "authorAssociation": "NONE",
+          "body": "> So, with a KID Context of 0x44616c656b, we can match a ID Context of 0x44616c656b at this point\r\n\r\n> Now we can match on a ID context of 0x616c656b to continue decrypting.\r\n> \r\n> In other words, there is the potental to match on 2 different ID Contexts for a single request. Not convinced that is a good idea.\r\n\r\nPractically in my code that can never happen as if a context with matching KID and KID Context is found initially it never progresses beyond point 1 or even considers Appendix B.2.\r\n\r\nAlso there is no second matching after the CBOR unwrapping of the KID Context, just generation of a brand new OSCORE security context with that ID Context.",
+          "createdAt": "2022-04-14T09:49:51Z",
+          "updatedAt": "2022-04-14T09:49:51Z"
+        },
+        {
+          "author": "rikard-sics",
+          "authorAssociation": "NONE",
+          "body": "I just wanted to mention here that we are currently working on a draft to define a procedure that is intended to obsolete the current OSCORE Appendix B.2. The draft related to it can be found here:\r\n[Key Update for OSCORE (KUDOS)](https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-01)\r\n\r\nComments and feedback on the design of this new procedure is very welcome.",
+          "createdAt": "2022-05-05T12:15:12Z",
+          "updatedAt": "2022-05-05T12:18:19Z"
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "id": "I_kwDOJ-N8wM5sSzqs",
+      "title": "Blockwise: Going up",
+      "url": "https://github.com/core-wg/corrclar/issues/23",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "As I understand 7959, the block size can not go up, only down, even on Block2.\r\n\r\nI think it would be convenient to allow the block size to go up -- some implementations already tolerate that, and in situations when the reason for sending little data changed (for example, because a small Block2 was sent for amplification mitigation), going up makes a lot of sense.\r\n\r\nOf course, the size can only be incremented by 1 for every 0 at the end of the binary representation of the block number.\r\n\r\n(CC'ing @mcr because he mentioned this in the current interim; here it also came up in OSCORE blockwise transfer where a situation that influences the choice of the inner block size changes).",
+      "createdAt": "2022-04-27T15:34:06Z",
+      "updatedAt": "2023-07-22T19:22:37Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "> Of course, the size can only be incremented by 1 for every 0 at the end of the binary representation of the block number.\r\n\r\nIf you go from 64 to 1024, you might as well restart the whole thing, and that also solves the going-up problem :-)",
+          "createdAt": "2022-04-27T16:03:37Z",
+          "updatedAt": "2022-04-27T16:03:37Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Yes, in that range it makes no sense. But if things just don't fit by a little in an early request (as is the case with the EDHOC+OSCORE inner blockwise @rikard-sics showed today), it'd only be about going up one step.\r\n\r\nThing is: it's something that probably every server that supports going smaller (which all should) already supports unless it has an explicit check, so why rule out these cases?",
+          "createdAt": "2022-04-27T16:08:55Z",
+          "updatedAt": "2022-04-27T16:08:55Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "> why rule out these cases?\r\n\r\nThe objective was to enable either side to push down the size.  If the other side then starts going up again, this may not terminate.  So going up should be tied to a specific change in the channel, which we didn't have as an example in 2013.\r\n",
+          "createdAt": "2022-04-27T16:11:23Z",
+          "updatedAt": "2022-04-27T16:11:23Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "I don't understand, why a server choose first a (too) small value and then will relax that to a larger value.\r\nWhy, if the larger value is also OK, does the server not already go for the larger value with the first exchange? If OSCORE makes the difference, then this is know at the first exchange as well and the server can already choose a larger value.\r\nSometimes I setup also different blocksizes for plain (coap) and dtls (coaps) and that works without fiddling.\r\n",
+          "createdAt": "2022-04-27T16:37:49Z",
+          "updatedAt": "2022-04-27T16:43:57Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "> The objective was to enable either side to push down the size. If the other side then starts going up again, this may not terminate. So going up should be tied to a specific change in the channel, which we didn't have as an example in 2013.\r\n\r\nThis wouldn't change either side's ability to limit the size.\r\n\r\nIn Block2, the server could still send the smaller one (as it does with the first request). In Block1, the server might (at the even blocks) its readiness to receive larger messages by stating the larger size in control use. It still stays at the smaller of what the peers want to use, but either can offer the other to receive something larger (without forcing the other to accept that).\r\n\r\n> why the a server choose first a\r\n\r\nThis is not about the general block size choice (where DTLS and UDP might use different values), this is about when there is a particular reason to pick a different size for a single message, for example\r\n\r\n* in a Block1 or Block2 option if there is a large NoCacheKey option present (which would not be part of the block key).\r\n* In a Block1 or Block2 option if there is something large in the envelope (don't know about DTLS, but could be an extended token in UDP, or an outer option in OSCORE with EDHOC)\r\n* In Block2, the server may only have leisure to send 128 byte in the first response due to amplification mitigation.\r\n\r\n",
+          "createdAt": "2022-04-27T17:16:53Z",
+          "updatedAt": "2022-04-27T17:16:53Z"
+        },
+        {
+          "author": "mcr",
+          "authorAssociation": "NONE",
+          "body": "If a 1024 byte block maximum has been advertised, is a sender allowed to send 512 byte blocks instead?\r\n",
+          "createdAt": "2022-04-27T17:42:56Z",
+          "updatedAt": "2022-04-27T17:42:56Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "I still have a gap in understanding.\r\n\r\n\"large NoCacheKey option\" for CoAP itself, options are not considered to be the payload, the blocksize applies to,or? If it's only about OSCORE, where such an option may turn into encrypted payload, then it a feature for OSCORE only.\r\n\r\n\"large in the envelop\". I have to consider, I'm not sure, what you envelope is considered. I guess again, it's more for OSCORE, when a option is converted into encrypted payload.\r\n\r\n\"leisure to send 128 byte in the first response due to amplification mitigation\" my understanding of such attacks is, that it is required to limit this for all blocks. Except some other advanced mechanism offers other protection.\r\n\r\n",
+          "createdAt": "2022-04-27T17:44:34Z",
+          "updatedAt": "2022-04-27T17:49:07Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> If a 1024 byte block maximum has been advertised, is a sender allowed to send 512 byte blocks instead?\r\n\r\nThat depends on what \"advertised\" means. Proposed by the client or agreed by the server. And for block2, if a \"stateless blockwise\" implementation is used, the client may always propose a new blocksize, and the server may always reduce that blocksize returned, even if a larger one was agreed before. \r\n\r\nThere was discussion on the e-mail list about that (Carsten, Jon, Simon and me). If it's important for you, I will try to provide a link.   \r\n\r\nEdit:\r\n[discussion on the mailing-list](https://mailarchive.ietf.org/arch/msg/core/fYy61XmXaaDvu2sk_6hg4aP83Yw/)",
+          "createdAt": "2022-04-27T17:48:13Z",
+          "updatedAt": "2022-04-27T17:53:25Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": ">\"large NoCacheKey option\"\n\nThe option is not part of the block, but it's diminishing the size left in the MTU (or unfragmented size) for the block.\n\n>\"large in the envelop\"\n\nI'd losely define the envelope as everything between the MTU and the sum of options and payload -- could be the token, could be large IP options if that's a thing; OSCORE is not special here, it just also has places that are \"envelope\" here.\n\n>\"leisure to send 128 byte in the first response due to amplification mitigation\"\n\nThe limits can go away as the mechanisms are run; Echo can run during block2 0 and 1.\n",
+          "createdAt": "2022-04-27T17:53:34Z",
+          "updatedAt": "2022-04-27T17:53:34Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "About the first two:\r\n\r\nThe basic idea seems to be, that if other parts of the message eats up too much of the MTU and therefore the left payload requires a small block size, then that block size could be enlarged later, when less other parts are used. Is that the assumption?\r\n",
+          "createdAt": "2022-04-27T17:59:07Z",
+          "updatedAt": "2022-04-27T17:59:07Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "I'm still not sure, if an adaption is generally required.\r\n\r\nSomehow it looks more, that some new extensions may require this, but generally, it's hard to see, if that is really the case.\r\n\r\nLet me try therefore to sum-up the already cited e-mail exchange about block-size changes:\r\n\r\n- the \"common case\" seems to be, that two peers negotiate the blocksize at the begin  and use the smaller size then for the complete blockwise transfer.\r\n- the \"advanced case\" seems to be, that the client may also use a different blocksize on the following up requests, either in block1, or proposing for block2. Doing so, especially for block1, it may be very important to have no gaps and the `block-offset := block-num * block-size` must be considered. For block2 the client only propose a new blocksize, it depends on the server to accept that or the respond with a smaller block-size than proposed.\r\n\r\nAt least, that's my understanding of the e-mail exchange in the list.\r\n\r\nWith that, if only the first request really requires a small block-size, the client may just send the second request using the same small one, and in the third request the client may use a larger one (doubled). If that works and is agreed by the server depends on the constraints there.\r\nAFAIK, that is compliant to RFC7959 and mainly requires that the implementation are aware of that. Implementations sticking e.g. to the block-num to match the block in request -response, will fail. It requires to use the `block-offset := block-num * block-size`.  \r\n \r\n",
+          "createdAt": "2022-04-29T07:14:55Z",
+          "updatedAt": "2022-04-29T07:14:55Z"
+        },
+        {
+          "author": "mcr",
+          "authorAssociation": "NONE",
+          "body": "> I still have a gap in understanding.\r\n\r\nChanges in routing could result in changes to optimal MTU.\r\nIf many blocks do not get through, trying a smaller size is a good idea. \r\nIf it works, then increase the size (binary search perhaps) until a new optimum is found.\r\n",
+          "createdAt": "2022-05-31T19:21:13Z",
+          "updatedAt": "2022-05-31T19:21:13Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "As I tried to explain:\r\n\r\nThe client is able to try a larger or smaller blocksize. Only the server is not allowed to send a larger blocksize as requested by the client. Changing the server's blocksize selection  will come with some security concerns.\r\n\r\nSo:\r\nIs the intention, that the server sends larger responses then requested by the client? \r\n",
+          "createdAt": "2022-05-31T20:19:12Z",
+          "updatedAt": "2022-05-31T20:19:12Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "No worries about the server sending something larger -- that's not the intention of this.\r\n\r\nBut the RFC says that once the client has received something small, it can't request something larger again (even if it'd obviously need to be prepared for the server to send something equally small again).\r\n\r\nThe precise text or 7959 is:\r\n\r\n> For Block2, if the request suggested a larger value of SZX, the next request MUST move SZX  down to the size given in the response.\r\n\r\nTaken *very* literally this only makes a statement about the single next request (so if you request 1k and the server sends 128 byte, you must request 128 byte, but on the next you might already ask for 256 byte because in the second block we requested and got 128 byte, and thus the \"if\" doesn't match), so maybe we're already good -- but I'd rather not rely on taking a line *that* literally when the intention seems to be \"once it goes down, stay low\".",
+          "createdAt": "2022-06-01T09:11:04Z",
+          "updatedAt": "2022-06-01T09:11:20Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "I think, this was the discussion on the e-mail list.\r\n\r\nThe main statement for me there was:\r\n[Carsten](https://mailarchive.ietf.org/arch/msg/core/uPRzw3KmKQOByHZmQwkfmoBv9_k/)\r\n\r\n>  A Stateless server may simply not know what it did before.\r\n\r\nWith that, even if that discussion was about going down, without state, there is no `up` nor `down`. At least, that's my conclusion. \r\nMaybe we're all on the same understanding. And it's more about \"precise\" the statement in RFC7959, which seems to be in contradiction of a intended \"Stateless server \".\r\n",
+          "createdAt": "2022-06-01T09:19:37Z",
+          "updatedAt": "2022-06-01T09:19:37Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Stateless servers are something that is allowed (and made easy), not forced. With all-stateless servers (or, really any servers that are implemented with simplicity in mind), things will just work. My concern is that someone takes the current wording to build a very strict (\"We disallow anything that deviates from the narrowest interpretation of the spec, for it could be an attempt to hack our highly secure server!\") server side implementation, and starts rejecting requests once a client suggests they could go \"up\" (which any server I'd implement wouldn't even ever notice).",
+          "createdAt": "2022-06-01T10:23:40Z",
+          "updatedAt": "2022-06-01T10:23:40Z"
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "id": "I_kwDOJ-N8wM5sSztG",
+      "title": "RFC8613: Handling re-transmission requests",
+      "url": "https://github.com/core-wg/corrclar/issues/24",
+      "state": "OPEN",
+      "author": "mrdeep1",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "If a CON request (or its ACK response) is lost, the CON request will get re-transmitted.  If there are NON requests following the initial CON request, the sequence number of the re-transmission may then fall outside of the replay window as in\r\n````\r\nA -x B: CON with sequence number n\r\nA -> B: NON with sequence number n + 1\r\nA -> B: NON with sequence number n + 2\r\n...\r\nA -> B: CON with sequence number n\r\n````\r\nA way forward here could be to increment the sequence number for each transmission (including re-transmission) so that everything stays within the replay window.\r\n\r\nThen however, if the ACK response to a CON request is received by the client after the CON request has been re-transmitted, then when decoding the ACK, the `external_aad` will contain the updated Partial IV of  the re-transmitted packet, not the original packet and then have some sort of decryption failure.\r\n````\r\nA -> B: CON with sequence number n\r\nA -- B: ACK initiated \r\nA -> B: CON re-transmit with sequence number n + 1\r\nA <- B: ACK received for sequence n\r\n````\r\n\r\nWhat is the correct way to handle a mix of CON and NON requests for OSCORE in a lossy environment?\r\n\r\n\r\n\r\n",
+      "createdAt": "2022-06-15T21:23:32Z",
+      "updatedAt": "2023-07-22T19:23:05Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "> increment the sequence number for each transmission (including re-transmission)\r\n\r\nThat would be dangerous, as now the server couldn't do cryptographically checked deduplication any more: If it receives both the original request and a retransmit, and processes them both even though they're intended to be processed once. (Plus it negates a small performance advantage over DTLS that OSCORE has).\r\n\r\n> may then fall outside of the replay window\r\n\r\nThe default replay window is 32. The rate at which a client may send without seeing feedback from the server defaults to PROBING_RATE = 1 byte / second, and EXCHANGE_LIFETIME (maximum between start and when we expect a retransmit to come in) is 247 seconds. You can't send 32 OSCORE requests in 247 bytes.\r\n\r\n(I don't think that PROBING_RATE is super tight, so one might send 3 or 4 or maybe even 10 (eg. Q-Block even though they use different parameters) NONs in a burst, but as the average PROBING_RATE is still limiting, that'd cause quite some silence later).\r\n\r\nThat's not a completely waterproof argument -- the NONs might get responses whereas all the CON retransmits fail, but that still requires an amount of unluckiness that's bordering a malicious agent on the network that deliberately slows down CONs -- and in that case, getting a \"unprotect failed\" sounds like the right behavior.\r\n\r\n---\r\n\r\nOne option is always to increase the replay window. Beware that the size of the replay window (at least its worst case behavior, or best case behavior depending on point of view) needs to be agreed between the parties, so if you plan to alter the window on any but preconfigured OSCORE contexts, you might need to register parameters for choosing the replay window added to OSCORE_Input_Material of ace-oscore-profile (or however the contexts are configured).",
+          "createdAt": "2022-06-16T07:10:07Z",
+          "updatedAt": "2022-06-16T07:10:07Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "It was someone else that raised this as an issue, and I am not convinced that increasing the sequence number is the way to go.\r\n\r\n> If it receives both the original request and a retransmit, and processes them both even though they're intended\r\n> to be processed once\r\n\r\nSame will happen if the returning ACK goes missing.  The unwapped message would be an identical duplicate, so there should be no issues there. \r\n\r\n> That's not a completely waterproof argument ...\r\n\r\nIf someone updated NSTART to be > 1, then it is very easy to send a further 32 CON requests before the failing one gets re-transmitted.\r\n\r\nMaybe that we have to make all OSCORE requests CON and only allow NSTART to be 1.\r\n",
+          "createdAt": "2022-06-16T08:45:31Z",
+          "updatedAt": "2022-06-16T08:45:31Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "> and I am not convinced that increasing the sequence number is the way\n> to go.\n\nI don't understand; do you mean \"increasing the replay window\"?\n\n> Same will happen if the returning ACK goes missing.  The unwapped\n> message would be an identical duplicate, so there should be no issues\n> there. \n\nNot exactly: If an ACK goes missing, the retransmit (in the non-OSCORE\ncase) has the same MID, and message deduplication steps in to prevent\nduplicate action.\n\nMessage deduplication in OSCORE can not rely on MIDs (as they are not\nend-to-end, and deliberately not protected against a malicious or broken\nproxy), and deduplicates on sequence numbers instead.\n\n\n> If someone updated NSTART to be > 1, then it is very easy to send a\n> further 32 CON requests before the failing one gets re-transmitted.\n\nIf someone updated one parameter, they likely need to update others (as\nthe original parameters are, to some extent, tuned to each other).\nTuning the replay window along with it sounds pretty straightforward to\nme.\n\nThe mechanism that allows NSTART > 1 (we still don't have one, and that\nmakes me sad) might also make new statements on the interleaving of\nretrnsmissions. I wouldn't be surprised if it allowed additional\nretransmissions of CONs that were long overdue on \"tickets\" of later\nsuccessful requests, and then the sender (especially one that is aware\nof sequence numbers and replay window size) would preferably retransmit\npending requests rather than sending yet another new one, also ensuring\ngood use of buffers and good backpressure.\n\n> Maybe that we have to make all OSCORE requests CON and only allow\n> NSTART to be 1.\n\nI think that'd be excessive on two independent accounts:\n\n1. Tuning parameters needs to be done with care; you can't expect to\n   change one and keep all the system's properties. (For comparison,\n   there have been two attempts (CoCoA and FASOR) so far to tune the\n   retransmission parameters that are IMO easier than NSTART to change,\n   and these have been dragging out for longer than I'd like -- and both\n   had considerable research done before \"just setting that parameter\n   differently\").\n   \n   The analogy of flanging a power drill to a bike and then complaining\n   that the brakes are too weak comes to mind, if you'll pardon a\n   riddiculous comparison.\n\n2. That failure mode is not specific to OSCORE. With plain CoAP and\n   interleaved requests you can wind up with one just \"timing out\" even\n   though others around it go through. With OSCORE, this just happens\n   differently (in that a decryption error comes back) and a bit earlier\n   (not after EXCHANGE_LIFETIME but if and when one of the 'hard'\n   requests' retransmission does go through and there have been 32\n   others inbetween).\n\n   (Going all CON helps against the OSCORE-window error, but not against\n   the bad-luck-with-retransmissions error. Even a TCP connection can be\n   terminated by bad luck under thee conditions, and then the\n   application ends up there.)\n\n   In both cases, the application can not tell whether or not the\n   request was processed, and has to fall back to deciding whether and\n   when another attempt can be made at application-level (for\n   non-idempotent request, possibly after inspecting the current state\n   of affairs).\n",
+          "createdAt": "2022-06-16T09:18:06Z",
+          "updatedAt": "2022-06-16T09:18:06Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": ">  and I am not convinced that increasing the sequence number is the way\r\n>  to go.\r\n\r\n> I don't understand; do you mean \"increasing the replay window\"?\r\n\r\nI meant increasing the sequence number on a re-transmit - I am likewise not convinced that this is right.  The replay window size is the thing to adjust.\r\n\r\nThanks for confirming with all the other information - I know which way to proceed short term.",
+          "createdAt": "2022-06-16T11:28:00Z",
+          "updatedAt": "2022-06-16T11:28:00Z"
+        },
+        {
+          "author": "kkrentz",
+          "authorAssociation": "NONE",
+          "body": "Unfortunately, the issue mentioned by mrdeep is not the only one that arises when not incrementing the sequence number of a retransmitted CON. Another consequence will be that if an ACK gets lost, retransmitted CONs get ignored. So, clients may retransmit pointlessly. I also wonder if this behavior can be turned into a denial-of-sleep attack as dropping a single ACK will cause a high energy consumption. Nevertheless, I now see the problem with the unprotected MIDs.",
+          "createdAt": "2022-06-17T07:45:30Z",
+          "updatedAt": "2022-06-17T07:45:30Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "If the ACK is lost, the retransmitted CON hits the replay protection (b/c POST is not idempotent), and the response stored in the replay protection gets sent again.\n\n(It may be possible to safely implement things w/o storing that if the response, but that's just some ideas in https://datatracker.ietf.org/doc/draft-amsuess-lwig-oscore/ )\n",
+          "createdAt": "2022-06-17T09:11:26Z",
+          "updatedAt": "2022-06-17T09:11:26Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "Storing the set of responses for the replay window size in case they are needed for the unlikely re-transmit case (and all the necessary garbage collection) seems to be an overkill.\r\n\r\nHow about making use of the separate response?\r\nRequest CON ->\r\n<- Empty ACK (gets lost)\r\n<- Response CON\r\nEmpty ACK ->\r\nRequest CON retry 1 ->\r\n<- Response 4.01 (Replay detected)\r\n\r\nThe retry will not take place if the Response CON is received as there will be a token match.  If the Response CON fails, then that will get retried.\r\n\r\nThe OSCORE encrypt logic can take the response from the server application and inject the empty ACK along with selecting a new MID for the actual response.\r\n\r\nObviously any unsolicited response does not send an initial empty ACK , as well as any application doing separate responses (i.e. a proxy).",
+          "createdAt": "2022-06-22T08:41:07Z",
+          "updatedAt": "2022-06-22T09:36:41Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Storing the set of responses is a general requirement of CoAP for non-idempotent requests. Sending a non-piggybacked response is generally a thing that a CoAP implementation that handles non-idempotent requests can do to keep the storage time low. OSCORE is just a special case of that, and the encrypt logic does not need to be involved. It's a choice of the CoAP stack below OSCORE to make.\r\n\r\nThe only input that an OSCORE implementation could give is to inform the CoAP stack that it *does* regard the request as an idempotent one, freeing the CoAP stack from all obligations to deduplicate or store responses. But to become idempotent it needs a [replay optimization](https://www.ietf.org/archive/id/draft-amsuess-lwig-oscore-00.html#name-optimization) that'd need more review.",
+          "createdAt": "2022-06-22T10:35:13Z",
+          "updatedAt": "2022-06-22T10:35:13Z"
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "id": "I_kwDOJ-N8wM5sSzuM",
+      "title": "RFC7959 - blockwise for error responses?",
+      "url": "https://github.com/core-wg/corrclar/issues/25",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I currently hit a \"very special case\".\r\n\r\nA coap2http proxy receives an http error (404) and a page with about 2k.\r\n\r\nIf the 404 is translated into 4.04, \"my stack\" (Eclipse/Californum) refuses to do that as blockwise transfer.\r\n\r\nSo, are error responses considered to be transferred with blockwise with block2?\r\nI didn't found something in RFC7959, but maybe I overseen it.",
+      "createdAt": "2022-09-06T12:51:05Z",
+      "updatedAt": "2023-07-22T19:23:25Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "I found an [answer](https://github.com/core-wg/corrclar/issues/21#issuecomment-1064000512) in issue core-wg/corrclar#21.\r\n\r\nThe resulting question will be, if it's not possible, to have a blockwise error-response, what is then considered to be the payload in that proxy use-case?",
+          "createdAt": "2022-09-06T13:05:03Z",
+          "updatedAt": "2023-07-22T19:21:31Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "On Tue, Sep 06, 2022 at 06:05:13AM -0700, Achim Kraus wrote:\n> The resulting question will be, if it's not possible, to have a blockwise error-response, what is then considered to be the payload in that proxy use-case?\n\nI agree that blockwise on error responses is just not possible.\n\nThe best suggestion I can give is to turn the HTTP 4xx response into\nproblem-details document (RFC-to-be 9290), and return that on a\nsuccessful 2.05 Content code. I'm not sure though how that'd be best\ndistringuished from a genuine HTTP 200 OK document of the same data (for\na general-purpose proxy), and whether it needs to be distinguished from\nthat in the first place.\n",
+          "createdAt": "2022-09-06T13:08:43Z",
+          "updatedAt": "2022-09-06T13:08:43Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "The data in a HTTP 404 response in my experience is used to give some clues (with marginal benefit, but looks pretty) as to why the server had to generate a 404 error, but is really down to the page is not available.  Thus, dropping the data provided in the HTTP response is no great loss from my point of view.\r\n\r\nHowever, if the CoAP is going to be converted back to html in a downstream proxy it would be nice to have some basic html in the 4.04 CoAP response body that is used to state the obvious.  So, perhaps on converting from html to CoAP instead of dropping all the html that is too large, a simple piece of basic html is used instead otherwise the downstream proxy will need some smarts to build a 404 response page - which is unlikely.",
+          "createdAt": "2022-09-06T16:42:05Z",
+          "updatedAt": "2022-09-06T16:42:05Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Thanks both for your feedback.\r\nI don't think, it pays off to support http-coap-http.\r\nI guess, I try to check, if it's html, and then try to grab the `<body>`, otherwise just truncate it.",
+          "createdAt": "2022-09-06T17:20:36Z",
+          "updatedAt": "2022-09-07T15:56:03Z"
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "I_kwDOJ-N8wM5sSz9L",
+      "title": "Errata report 5078 (repeated ct=\"...\") -- PR already applied",
+      "url": "https://github.com/core-wg/corrclar/issues/26",
+      "state": "CLOSED",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Pull request[ #26 ](https://github.com/core-wg/corrclar-old/pull/26) from corrclar-old already is applied here.\r\n\r\nErrata report 5078 (repeated ct=\"...\")",
+      "createdAt": "2023-07-22T19:27:29Z",
+      "updatedAt": "2023-07-22T19:27:42Z",
+      "closedAt": "2023-07-22T19:27:42Z",
+      "comments": []
+    },
+    {
+      "number": 27,
+      "id": "I_kwDOJ-N8wM5sSz_f",
+      "title": "Send request body when requesting Block2 messages",
+      "url": "https://github.com/core-wg/corrclar/issues/27",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, when a request with a payload that is not block1wise'd has a response that is block2wise'd, the request payload is not repeated. This is efficient in terms of traffic, but means that the common stateless optimization for GET (where the response is calculated internally on each request, but only the slice requested in block2 is sent) is impossible for FETCH.\r\n\r\nIf we do any alterations around block-wise, I suggest we reconsider that choice.\r\n\r\n(Also, this is what is making it necessary to fix 9175 for small-request-payload-and-then-block2 cases, but I for one am OK with using Request-Tag there, as in OSCORE the empty request tag can be recycled indefinitely; DTLS users may not be so lucky).",
+      "createdAt": "2023-07-05T19:47:33Z",
+      "updatedAt": "2023-09-01T14:36:53Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "CC'ing @mrdeep1 whose review pointed me to this. (In the context of today's meeting, this item is not one of your conclusion items, but just my personal take on how the big issue should have been handled in the first place).",
+          "createdAt": "2023-07-05T19:49:07Z",
+          "updatedAt": "2023-07-05T19:49:07Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "To add to this, I have just stumbled over [RFC8132 2.3.2 The ETag option](https://datatracker.ietf.org/doc/html/rfc8132#section-2.3.2)\r\n````\r\n              The FETCH payload is input to\r\n   that selection process and therefore needs to be part of the cache\r\n   key.\r\n````\r\nwhich means to me that the payload has to be a part of a FETCH (even if split over many blocks), even when asking for the next Block2 response, so I now have a conflict over my conclusions at today's meeting.",
+          "createdAt": "2023-07-05T20:19:11Z",
+          "updatedAt": "2023-07-05T20:19:11Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "The issues seems to have reached [Eclipse/Californium](https://github.com/eclipse-californium/californium/issues/2168).\r\n\r\nIs there already an conclusion, if `FETCH` SHOULD/MUST send the payload in every request? Especially #28 would raise questions about that,\r\n\r\nMaybe adding a special Response Code in an (updated) RFC similar to [2.31 Continue](https://www.rfc-editor.org/rfc/rfc7959.html#section-2.9.1) helps to indicate, what a client is expected to send.\r\n\r\n\r\n",
+          "createdAt": "2023-08-29T06:04:56Z",
+          "updatedAt": "2023-08-29T06:04:56Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "Just to be sure, payload would be needed in all block2 requests only to support stateless implementation, right ?  (or there is something more ?)\r\n\r\nStateless implementation is not possible if FETCH is using block1 and block2 ? because you need to store the FETCH payload somewhere (which is a state), right ? \r\n\r\nIf that true, I ask myself if this is a good idea to repeat the payload for each block just for this use case. :thinking: ",
+          "createdAt": "2023-08-29T09:02:56Z",
+          "updatedAt": "2023-08-29T09:02:56Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "I don't see a conclusion yet, but maybe we can come to one. Eventually, the WG will need to decide whether we can just change the behavior (by a new document or by just stating that we're now interpreting things this way) or whether Block2 means no-payload-in-later-requests and a new option has to be introduced if we want to change anything. The WG will likely come to implementers about how their impls behave, and here we are.\r\n\r\nIf we can agree that (even if nothing else) our implementations do *tolerate* the repeated payload in the request, that'd be a good step toward eventually placing a SHOULD or MUST on the request payloads.\r\n\r\nI don't think a new response code would be called for (as to some extent they are the last resort), but a response option would be a way out if we need it.\r\n\r\nOne design of that option that I could get behind is following a proposal of @mrdeep1 around the Request-Tag topic that triggered this discussion in the first place; this is assuming that we *can* just start sending request payloads on Block2 requests. If we introduced a response option a la \"Your-Request-Tag\" (whether or not that would be in the same space as Request-Tag is a detail for later), then the server could indicate (in its first response that had Block2:0/1/x) that it *does* keep state. Not only would the client then be free to not send the request body in later request, but it may even elide other options (say, Uri-Path) depending on the semantics of that \"Your-Request-Tag\" option.\r\n\r\n> payload would be needed in all block2 requests only to support stateless implementation, right ?\r\n\r\nMainly, yes. Having the payload also helps with a possible attack scenario, but that's more about how to cleanly specify how that's handled; the main purpose of repeating the request payload in Block2 requests is to allow stateless FETCH.\r\n\r\nAs you say, yes, state is required once there is Block1. But for Block2 it really depends on the implementation, and for most FETCH cases (where the response is generated by some kind of stable algorithm), statelessness would be possible quite easily, provided we do repeat the payload.",
+          "createdAt": "2023-08-29T09:29:13Z",
+          "updatedAt": "2023-08-29T09:29:13Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "@chrysn \r\n\r\nThanks for your answer and update.\r\n\r\n> I don't think a new response code would be called for (as to some extent they are the last resort), but a response option would be a way out if we need it.\r\n\r\nI choose the response code, because it is already used in blockwise for a similar function in block1. My assumption is, that this would make it easier to implement it, because the means should be already in place.\r\n\r\nIf backwards compatibility must be considered, I agree, that a new response code can't help and we the need an Option. \r\n\r\n> If we can agree that (even if nothing else) our implementations do tolerate the repeated payload in the request, that'd be a good step toward eventually placing a SHOULD or MUST on the request payloads.\r\n\r\nWe would also need to decide, what should happen, if the payload is changing. I guess, this will be a new transfer.\r\n\r\nThat's also one pitfall for an implementation without payload in follow up requests, because that doesn't allow the resume such an transfer in the middle when the server may have timedout the transfer and removed the state. \r\n\r\n",
+          "createdAt": "2023-08-29T09:46:30Z",
+          "updatedAt": "2023-08-29T09:47:09Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "> that'd be a good step toward eventually placing a SHOULD or MUST on the request payloads.\r\n\r\nIf this is a MUST, it will not work with block1.\r\nThat's sounds a bit strange to specify that block2 MUST repeat payload (except if block 1 is also used)\r\n\r\nIf this is a SHOULD then clients which want to increase interoperability will need to send payload by default.\r\nWe get same issue as above :point_up: and this also increase traffic just to support specific stateless implementation.\r\n\r\nNote that maybe I'm biased because it's hard to me to imagine how purely stateless implementation could work. (I mean what happens if state change between 2 blocks request), so I maybe overlook the stateless implementation use case. \r\n\r\n",
+          "createdAt": "2023-08-29T10:32:13Z",
+          "updatedAt": "2023-08-29T10:32:13Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> what happens if state change between 2 blocks request\r\n\r\nThat's also a question for GET and using a ETAG is the answer. If the state changes, a well constructed ETAG is changing. And a compliant client will withdrawn the transfer, maybe starting over a new transfer.",
+          "createdAt": "2023-08-29T13:32:16Z",
+          "updatedAt": "2023-08-29T13:32:16Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "Should Request-Tag be used here to differentiate which response data chunk needs to get sent back instead of repeating data payload?",
+          "createdAt": "2023-08-29T14:48:26Z",
+          "updatedAt": "2023-08-29T14:48:26Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "> Should Request-Tag be used here to differentiate which response data chunk needs to get sent back instead of repeating data payload?\r\n\r\nThat would be used to say : \"I don't want you to repeat the payload\" and so the default behavior will be \"always send the payload\" ?\r\n\r\nIt could work but I feel that default behavior should rather be to not send the payload.",
+          "createdAt": "2023-08-30T16:31:26Z",
+          "updatedAt": "2023-08-30T16:31:26Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "> That would be used to say : \"I don't want you to repeat the payload\" and so the default behavior will be \"always send the payload\" ?\r\n\r\nRequest-Tag is only allowed to be in a request, not a response.  So it cannot be used as a \"hint\" by the server.  I think I was more thinking of stateful servers here where Request-Tag would be sufficient as an alternative to the full FETCH payload.",
+          "createdAt": "2023-08-30T16:58:40Z",
+          "updatedAt": "2023-08-30T16:58:40Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "As much as I'd like to leave the discussion of the response-option-that-guides-later-requests to a separate thread, we'll need a bit of that to carve out the option space. Likewise, I'd have hoped to leave [@mrdeep1's attack](https://github.com/core-wg/attacks-on-coap/issues/3) out, but that too is part of the outcome and thus needs to be considered.\r\n\r\n As I see it, options around a situation with a short request payload and a long response payload are\r\n\r\n1. Do nothing.\r\n    * Stateless FETCH stays impossible.\r\n    * We'll need to think hard about how to defeat the attack. Possible outcomes are \"the server must be extra careful with its ETags\" and \"the client must send Request-Tag quite often\".\r\n2. Add an option in which the server requests repetition of the payload.\r\n    * This allows stateless FETCH (when supported by the client, but that's the case for all solutions).\r\n    * It doesn't help with the attack; items of 1 still apply.\r\n2. Alter 7959 in short-request-long-response mode to send the payload by default\r\n    This requires a \"breaking\" update of 7959. I put breaking in quotes because AIU implementations do different things anyway.\r\n    (Or a variant that @cabo suggested in today's interim, possibly just the rules for block-wise FETCH, although I'd rather use a code independent model, also due to the attack; that'd only break 8132).\r\n    * Stateless FETCH becomes possible; stateful FETCH has now more overhead.\r\n    * The attack is practically defeated (as long as the client applies the rules of 9175 on when to set a Request-Tag, and the server the rules for when to use an ETag).\r\n    Possible mitigations for the increased overhead of FETCH:\r\n    1. The client can minimize the overhead by decreasing the block1 size to split the request payload in two parts, effectively creating a long-request-long-response situation. This adds a single round-trip, and works for requests > 16 bytes (but for the smaller ones, the repetition is not too bad). But it's weird to implement.\r\n    2. The server can tell the client that it *is* stateful, similar to how in a long-request situation it says 2.31 Continue. That option would be elective, stating that the client is free to just send the request payload all over again (as well as all options). If the client supports the option, it sends later requests only with Block2, the reflected option value, and the payload. This even saves data compared to the original scenario, because other request options can be elided as well (precise rules TBD; I think we better pick a different option to Request-Tag as otherwise we get mixups as to who is responsible for the namespace).\r\n    The breakage would be visible to clients that do not know the updated behavior (they don't need to know the new option). If the server sends a 4.08 Request Entity Incomplete for any later block request without a request payload, it's even kind of within spec (the server just has a *very* short timeout...). Servers that do have state may support the old behavior *if* they can be sure to not be affected by the attack. Servers that are stateless didn't work previously (or were just implemented assuming the new behavior), so they don't become broken by this change.\r\n\r\nI think that 3.ii is a good way to go.\r\n\r\nIf that's a direction we can converge on, the next question would be to ask implementers what their servers are doing -- would servers out there *tolerate* clients sending additional payloads? (For that is the case where actual breakage can occur -- in the other direction, there's the option \"*if* they can be sure to not be affected\" above).\r\n\r\nFor aiocoap (a stateful server), I can report that it ignores any request payload sent in later Block2 requests. This is compatible behavior. (It will break if clients start randomly accessing FETCH responses, but that is the essence of the attack, so I argue it's already broken).",
+          "createdAt": "2023-08-30T18:39:28Z",
+          "updatedAt": "2023-08-30T18:39:28Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Californium has two modes:\r\n\r\n- transparent mode: the blockwise transfer is handled by the coap-stack. This uses a stateful implementation. Payload in follow up request are not sent by the client and ignored by the server. That's the option, which is mainly used.\r\n- random mode: the blockwise requests are forwarded to the application layer. There it depends on the application specific implementation. There it is also possible, that the application ignores the block option and simply returns the full response, in that case the stack handles to cut the block. AFAIK, the random-mode is only rarely used.\r\n\r\nSometimes a client may resume such a blockwise transfer in the middle. Californium handles that as \"random mode\". If the client provides the payload, then the server is able to resume. If it doesn't add the payload on resume, the outcome is for now undefined. \r\n\r\nIf the payload gets added for the follow up requests, then it may help to be clear, if a FETCH (block2 0) will be valid even without payload. If FETCH without payload is not valid, a server may be able to detect the mode and may the either perform the transfer or fail. \r\n\r\nIf a FETCH without payload is invalid, that would also enable Californium to be strict on resuming a FETCH, because an empty payload will then be clearly and error. \r\n\r\nIn my sum up:\r\n- there are many protocols for different complex applications.\r\n- the domain of coap is in my opinion the more simple ones. So leave the complex stuff to other protocols.\r\n- I don't see a too big benefit in trying to support a \"stateless\" FETCH. Sure there are very tiny peers, but there are also a lot devices, which ore not that limited. If it gets complex, I see more the bigger devices and there the state is not a that big issue. \r\n- resuming a transfer is for me more attractive to be considered than a \"stateless\" transfer. \r\n",
+          "createdAt": "2023-08-31T08:24:25Z",
+          "updatedAt": "2023-08-31T08:24:25Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "From libcoap's perspective, the server does not care whether the data is there or not for FETCH Block2 NUM != 0, handling multiple Block1 for large payload if needed as it is operating in stateful mode, assuming the coap stack is enabled to request/ send the individual blocks rather than the application.\r\n",
+          "createdAt": "2023-09-01T10:23:19Z",
+          "updatedAt": "2023-09-01T10:26:14Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "> I think that 3.ii is a good way to go.\r\n\r\nI'm inclined to agree.  Only comment is that the new option should indicate stateless support (or stateful = yes/no) to be consistent with previous behavior (for FETCH in particular).\r\n\r\nHow far does the server have to go in being stateless?\r\n\r\n- State not required for Block2 transfers\r\n- State not required for Block1 transfers (Something needs to assemble data payload or stream it into the app)\r\n- State not required for NonSec UDP requests (remote IP/port tracked during processing of request)\r\n- State not required for DTLS\r\n- State not required for TCP based connections (PDU may need to be reassembled from multiple packets)\r\n\r\n",
+          "createdAt": "2023-09-01T13:07:07Z",
+          "updatedAt": "2023-09-01T13:07:07Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> How far does the server have to go in being stateless?\r\n\r\nThat's a good question. \"state\" is usually not \"every state\". e.g. the DTLS state may be lost and reestablished using an fresh handshake. That doesn't really affect the blockwise transfer, but requires to authorize the follow up requests again. For a single request response pair my interpretation of RFC 7252 is more strict and requires to use a new request response pair (means request - handshake - response isn't intended to work).\r\n\r\nWith that, I consider \"State not required for Block2 transfers\" and \"State not required for Block1 transfers\". But as I wrote, for more complex use-cases as a FETCH, I don't see this too important.\r\n    ",
+          "createdAt": "2023-09-01T14:36:53Z",
+          "updatedAt": "2023-09-01T14:36:53Z"
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "I_kwDOJ-N8wM5sS0BR",
+      "title": "Request using Block1 triggers Block2 response",
+      "url": "https://github.com/core-wg/corrclar/issues/28",
+      "state": "OPEN",
+      "author": "mrdeep1",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "What should be done for the request for the next Block2 data of the server payload after the request payload has been transferred and has had the NUM=0 Block2 response?\r\n\r\n- Not include the Block1'd data in the request for the next block?\r\n- Include the Block1'd data in the request for the next block?\r\n\r\nCase for NOT including the data [RFC7959 2.7 Combining Block1 and Block2](https://www.rfc-editor.org/rfc/rfc7959.html#section-2.7)\r\n````\r\n   In PUT and particularly in POST exchanges, both the request body and\r\n   the response body may be large enough to require the use of block-\r\n   wise transfers.  First, the Block1 transfer of the request body\r\n   proceeds as usual.  In the exchange of the last slice of this block-\r\n   wise transfer, the response carries the first slice of the Block2\r\n   transfer (NUM is zero).  To continue this Block2 transfer, the client\r\n   continues to send requests similar to the requests in the Block1\r\n   phase, but leaves out the Block1 Options and includes a Block2\r\n   request option with non-zero NUM.\r\n````\r\nas Block1 option is not allowed and hence no data payload in the subsequent request for the next block.  Certainly true for PUT and POST.\r\n\r\n[RFC 9177 10.3.3 Handling Recovery](https://datatracker.ietf.org/doc/html/rfc9177#section-10.3.3) states\r\n````\r\n   Note that, following (https://www.rfc-editor.org/rfc/rfc7959#section-2.7, the FETCH request does\r\n   not include the Q-Block1 or any payload.\r\n````\r\n\r\nCase FOR including the data [RFC 8132 2.3.2 The ETag Option](https://datatracker.ietf.org/doc/html/rfc8132#section-2.3.2)\r\n````\r\n                                          The FETCH payload is input to\r\n   that selection process and therefore needs to be part of the cache\r\n   key.\r\n````\r\nso at least one cache-key which includes the payload needs to be maintained by the server.\r\n\r\nFurthermore, it is reasonably clear for a FETCH doing an Observe request using Block1 has to send the entire FETCH payload when de-registering the Observe Request [RFC 7641 3.6 Cancellation](https://datatracker.ietf.org/doc/html/rfc7641#section-3.6)\r\n````\r\n                 a client MAY explicitly deregister by issuing a GET\r\n   request that has the Token field set to the token of the observation\r\n   to be cancelled and includes an Observe Option with the value set to\r\n   1 (deregister).  All other options MUST be identical to those in the\r\n   registration request except for the set of ETag Options.  When the\r\n   server receives such a request, it will remove any matching entry\r\n   from the list of observers and process the GET request as usual.\r\n````\r\nas updated by [RFC 8132 2.4 Working with Observe](https://datatracker.ietf.org/doc/html/rfc8132#section-2.4)\r\n````\r\n   The Observe option [RFC7641] can be used with a FETCH request as it\r\n   can be used with a GET request.\r\n````\r\n\r\nWhat is the right answer here with the FETCH payload (which can span multiple Block1s) for requesting a subsequent block?\r\nIs that then consistent with POST and PUT as per RFC 7959?\r\n\r\n",
+      "createdAt": "2023-07-06T13:22:19Z",
+      "updatedAt": "2023-08-30T10:12:05Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "Some more inputs : \r\n\r\n[RFC8132\u00a72.5.  Working with Block](https://www.rfc-editor.org/rfc/rfc8132.html#section-2.5) says : \r\n> The Block1 option [[RFC7959](https://www.rfc-editor.org/rfc/rfc7959)] can be used with a FETCH request as it\r\n   would be used with a POST request; the Block2 option can then be used\r\n   as it would with GET or POST.\r\n\r\nAt least to me, it's hard to imagine that repeating all block1 sequence for each block2 request could be a good \"default\" behavior. \r\n\r\nMaybe it eventually makes sense for some FETCH stateless implementation (at cost of more traffic) ?  In that case it should maybe better that this kind of server ask for repeating payload explicitly.\r\n\r\nJust to better understand the situation, Is there other use case where repeating all block1 sequence would be needed ?",
+          "createdAt": "2023-08-30T10:12:05Z",
+          "updatedAt": "2023-08-30T10:12:05Z"
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "I_kwDOJ-N8wM5vTW6o",
+      "title": "Compliant use of tokens in blockwise transfer (RFC7959)",
+      "url": "https://github.com/core-wg/corrclar/issues/29",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In the scope of LwM2M, a question about the usage of the token in relation with a blockwise transfer occurred.\r\n\r\nIs it valid to use the client's token to relation a server side state to the request? In particular, to make it mandatory, that follow up requests of an blockwise transfer MUST use the same token?\r\n\r\nFor more background information, please read the comment in \r\n\r\n[Eclipse/Californium](https://github.com/eclipse-californium/californium/pull/2088)\r\n\r\nand\r\n\r\n[Eclipse/Leshan](https://github.com/eclipse-leshan/leshan/issues/1499)\r\n\r\n   ",
+      "createdAt": "2023-08-25T16:26:02Z",
+      "updatedAt": "2023-09-08T12:17:54Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "I think it's rather clear that this is not how requests are supposed to be matched; IIRC there was wide agreement on that in the [last interim](https://datatracker.ietf.org/doc/minutes-interim-2023-core-12-202308301400/).\r\n\r\nWhile clients are free to reuse the tokens, the server can not rely on it. Given we are seeing evidence that people start relying on this just because it works with the one or two peers they are testing it, I'd recommend that clients start mixing up their block numbers just to keep their servers from relying on the pattern. (It's sad we have to resort to this, but apparently either people don't read the specs or the specs are not written well enough).\r\n\r\nIf there is any property of its interactions a server can only obtain when exchanging with peers that do use those constant-over-the-body tokens, please point me to it, but I'm very confident that the tools we have allow doing it properly. (That is not to say that 7959+9175 are perfect, far from it -- just that everything that can be done relying on constant tokens can also be done without).",
+          "createdAt": "2023-09-06T19:22:16Z",
+          "updatedAt": "2023-09-06T19:22:16Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": ">  either people don't read the specs or the specs are not written well enough\r\n\r\nIn some cases the people want to improve the specs. I remember converting RFC7641 into time series. For blockwise it was to support concurrent transfers of changed resources. \r\nWhat is overseen frequently is the downside of such approaches. In that case it seems to be more the \"concurrent transfers\" what should be achieved. From my point, very crazy and dangerous. In the end a \"break\" will break 5 90% transfers instead of breaking one at 50% but have the other 4 done.",
+          "createdAt": "2023-09-06T19:43:03Z",
+          "updatedAt": "2023-09-06T19:56:43Z"
+        },
+        {
+          "author": "SeppoTakalo",
+          "authorAssociation": "NONE",
+          "body": "Let me try to put up an example that might help to you to see what problems I'm seeing.\r\n\r\nIn LwM2M, a device holds multiple \"objects\" and those can have \"resources\" and all those are accessed using their CoAP URI path.\r\nFor example [Device object](https://www.openmobilealliance.org/release/LightweightM2M/V1_1_1-20190617-A/HTML-Version/OMA-TS-LightweightM2M_Core-V1_1_1-20190617-A.html#13-4-0-E4-LwM2M-Object-Device)\r\n\r\nIn LwM2M, you can send a query for a single or multiple resources. So for example, if you send query to path `3/0` you will get a payload that contains a content of all those resources mentioned in the link above. This is important detail, payload is generated, it is not static.\r\n\r\nNow as you can see, one of the resource is \"Current Time\". So as you can expect, this changes as often as what is the accuracy of the system clock. Once a second, or once a millisecond.\r\nSo whatever payload we generate, will be different one second later. So only way to ensure the integrity of the paylod is that we keep a state of blockwise transfers.\r\n\r\nSo the problems, as I see it:\r\n\r\n1. If I get query of `GET 3/0` and the response is so big that it needs blockwise. I split the payload and send response with BLOCK2, N=0.\r\nwhat CoAP options do I use to tell the client that on the next query, ask for block from this specific payload generated on timestamp t=X. I could append Etag option, but client cannot use that as a paremeter to next query. If query contains Etag, I can only answer \"2.03 Valid response\". I cannot append Request-Tag either, as it can only appear in request, not response.\r\n\r\n2. If I get again a similiar query of `GET 3/0` and no Request-Tag or BLOCK2 tags, do I generate a new payload or send a first block of the previous payload?\r\n\r\n3. If I get query of block N=0 and no Request-Tag, do I generate a new payload, or do I find an old one that has same URI?\r\n\r\n4. If I get query of `GET 3/0, BLOCK2, N=1`, do I use a URI path to find a payload that was generated for block N=0 and send a N=1 block of that? Or what do I use to find the exact same query?\r\n\r\n5. If I get query of block N=10 and I have already send N=11, is that an error or should I just respond normally? Out-of-order block numbers were already proposed here.\r\n\r\n6. If out-of-order block transfer is fine, then I cannot use last block as any kind of meaningful indicator that transmission is over. When am I allowed to free the memory that I have reserved to a given payload?\r\n\r\n--\r\nIn all of the cases above, I would have used Tokens to distinct an query that initiates generation of a new payload, or send block from already generated payload. Request-Tag seem obvious choice, but as the first example shows, it has the problem that if it is a server that initiates the block transfer, then it cannot append that option. If there is no knowledge on client side that response might be a block-wise, then how do you know when to append the Request-Tag?\r\n\r\n",
+          "createdAt": "2023-09-07T12:51:37Z",
+          "updatedAt": "2023-09-08T12:17:54Z"
+        },
+        {
+          "author": "SeppoTakalo",
+          "authorAssociation": "NONE",
+          "body": "Regarding the security, I'm thinking that as long as the same pair of URI-path & block number does not get reused within the same token, I don't consider it as reusing of token.\r\nSo I can be seen as a long ongoing request that contains multiple packets.\r\n\r\nBut if you store one response packet, it will not match any further transfers as the token has already been used.",
+          "createdAt": "2023-09-07T13:07:01Z",
+          "updatedAt": "2023-09-07T13:07:01Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "> So only way to ensure the integrity of the paylod is that we keep a state of blockwise transfers.\r\n\r\nSo far, that's a pretty common thing.\r\n\r\n<details><summary>Quote from 7959</summary>To avoid [changing ETags] happening all the time for a fast-changing\r\n   resource, a server MAY try to keep a cache around for a specific\r\n   client for a short amount of time.  The expectation here is that the\r\n   lifetime for such a cache can be kept short, on the order of a few\r\n   expected round-trip times, counting from the previous block\r\n   transferred.\"</details>\r\n\r\n>  what CoAP options do I use to tell the client that on the next query, ask for block from this specific payload generated on timestamp t=X.\r\n\r\nNone at all. If a later request for a later block comes in before your stored version expires, you send the stored version.\r\n\r\n> If I get again a similiar query of GET 3/0 and no Request-Tag or BLOCK2 tags, do I generate a new payload or send a first block of the previous payload?\r\n\r\nIf you get any request with Block2:0/-/x (or without a Block2), you can do either, and either should work. The difference will just be that if a client requests the same thing all over, not regenerating gives the client a stale view, so you'd need to be careful in picking that \"short amount of time\". Or, what I'd recommend, just regenerate.\r\n\r\nOn being \"similar\" (vs. \"identical\"), 7959 didn't have a good term, so I introduced \"matchable\" in [RFC79175](https://datatracker.ietf.org/doc/html/rfc9175). You can only serve from the stored version if the request is \"matchable\" to the original one (which you can reasonably check by storing a hash of the client's address and the relevant option values). If the request is not matchable, you must not use that stored version. What you do precisely depends on how you store them -- you may have just a single \"active transfer\", or you may have a bunch of them, in which case keying them by that hash is a good option.\r\n\r\n> If I get query of block N=0 and no Request-Tag, do I generate a new payload, or do I find an old one that has same URI?\r\n>\r\n> If I get query of GET 3/0, BLOCK2, N=1, do I use a URI path to find a payload that was generated for block N=0 and send a N=1 block of that? Or what do I use to find the exact same query?\r\n\r\nNote that Request-Tag is not in any way special to the server. The rules for being \"matchable\" (\"same endpoint pair, have the same code, and have the same set of options, with the exception that elective NoCacheKey options and options involved in block-wise transfer (Block1, Block2, and Request-Tag) need not be the same\") make them an exception because it simplified phrasing the document for the client -- but on the server side, you just build a hash of the endpoint, code, and options unless NoCacheKey or Block1/Block2, and that's what needs to match. Also, the URI is not special there -- Uri-Path, Uri-Query and Accept are all options that need to match.\r\n\r\n> If I get query of block N=10 and I have already send N=11, is that an error or should I just respond normally? Out-of-order block numbers were already proposed here.\r\n\r\nIt is not an error, it is just recommended that the client fetches them in order. As long as the rest is good, you can just send the block they requested.\r\n\r\n> If out-of-order block transfer is fine, then I cannot use last block as any kind of meaningful indicator that transmission is over. When am I allowed to free the memory that I have reserved to a given payload?\r\n\r\nJust because out-of-order is fine doesn't mean you have to go out of your way to accommodate it. But having sent the last block is also not a reliable indicator to free things, because you usually don't get an acknowledgement for the block. How smart you have to be depends on your constraints and requirements. Having one global \"last transaction\" block and a single timeout (that gets refreshed every time a request matches it) and overwriting it if anything else comes in requiring block-wise is fine. Having a small number of slots in an LRU cache is also fine and a bit better. If you have different authorization levels, some slots in the LRU may be reserved for admins. If your timeout is large, it may make sense to not go full LRU, but also consider whether you have transmitted the last block in an entry, and evict that even before it expires. But these are all optimizations that just modify when and to whom the error cases occur, and the error cases boil down to one situation:\r\n\r\nThe state which the client expected to continue with was overwritten. The client detects that using the ETag, and starts over.\r\n\r\n> security / token\r\n\r\nThe issue I'm taking with making this a token thing is not about security, it's about layering. The token is on the request/response layer, but block-wise happens in the application visible options, on top of that.",
+          "createdAt": "2023-09-07T18:43:25Z",
+          "updatedAt": "2023-09-07T18:43:25Z"
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "I_kwDOJ-N8wM5zTak7",
+      "title": "RFC 9175 - Request Tag - List or Set? ",
+      "url": "https://github.com/core-wg/corrclar/issues/30",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Should a server distinguish requests with multiple `Request Tag` processing them as list (obey order) or set (no order)?\r\n\r\n[RFC9175 3.3](https://www.rfc-editor.org/rfc/rfc9175.html#section-3.3) uses `list`, but I want to ensure, that the interpretation is right.",
+      "createdAt": "2023-10-10T06:15:54Z",
+      "updatedAt": "2023-10-10T09:35:44Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "The server treats each Request Tag as opaque. \r\n\r\nRFC7252 does refer to \"The set of request options that is used for matching the cache entry\r\n   is also collectively referred to as the \"Cache-Key\".\r\n\r\nHowever, certainly the Uri-Host option has to be calculated in order for the cache-key, so I would be doing the same for any options that are repeated.  But, at the end of the day, it is up to the server as to how it builds the cache-key, what matters is that it always does it the same way.",
+          "createdAt": "2023-10-10T09:16:01Z",
+          "updatedAt": "2023-10-10T09:16:01Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> what matters is that it always does it the same way.\r\n\r\nsure. I also do not assume, that it will be too frequently more than one.\r\nBut on the other side, if it's clear, that it is considered in order or not, then I guess interoperability will be easier. ",
+          "createdAt": "2023-10-10T09:35:44Z",
+          "updatedAt": "2023-10-10T09:35:44Z"
+        }
+      ]
+    },
+    {
+      "number": 35,
+      "id": "I_kwDOJ-N8wM6MyX30",
+      "title": "Tracking of orthogonality fixes",
+      "url": "https://github.com/core-wg/corrclar/issues/35",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "There are a few places where I think we were too narrow in where we defined new behavior:\r\n\r\n* BERT could be useful outside of TCPish transports: https://github.com/core-wg/corrclar/issues/17\r\n* Observe has been redefined to have an implicit value twice now (TCPish, OSCORE); a clarification could generalize that notifications carry a Observe: 0 on transports that provide implicit ordering.\r\n* Signalling messages were defined for TCPish transports. OSCORE said they can be encrypted too without losing many more words on them. Defining that 7xx is signalling (sharing the number space and the per-code option space across all transports)\r\n\r\nEven though some of those are no-ops in the protocol (there are no other ordered transports right now, and describing that some signalling messages might be usable on TCP is a different topic), stating that those fundamentally apply everywhere would help readers understand them better, and help implementers find the right abstractions. (Like, \"do I need to know the transport just to be able to interpret the code?\" \u2026 so far, with signaling only on TCPish, an update to CoAP-over-UDP could define different codes there).",
+      "createdAt": "2024-06-19T10:40:59Z",
+      "updatedAt": "2024-06-19T10:40:59Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 31,
+      "id": "PR_kwDOJ-N8wM5yre0n",
+      "title": "Close #8: content-coding",
+      "url": "https://github.com/core-wg/corrclar/pull/31",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "IANA has carried out the changes in the \"CoAP Content-Formats\" registry in January 2023, which was the main direction of this errata report. This small PR to the corr-clar document points out that the errata report also contains some examples that are quite useful as a +reference when preparing additional Content-Format registrations.",
+      "createdAt": "2024-06-17T11:11:10Z",
+      "updatedAt": "2024-06-19T14:12:49Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "close-8",
+      "headRefOid": "43539468a40971143f303df8a8fca1856255ab5c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Just for reference, here's the direct link to the erratum: https://www.rfc-editor.org/errata/eid4954",
+          "createdAt": "2024-06-19T14:12:48Z",
+          "updatedAt": "2024-06-19T14:12:48Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ-N8wM5-3QWH",
+          "commit": {
+            "abbreviatedOid": "4353946"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "MT agrees pointing to errata is sufficient; let's not copy things over.",
+          "createdAt": "2024-06-19T14:12:21Z",
+          "updatedAt": "2024-06-19T14:12:21Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "PR_kwDOJ-N8wM5ysvjA",
+      "title": "Close #7: Uri-Path encoding of trailing slash",
+      "url": "https://github.com/core-wg/corrclar/pull/32",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Use text of Err4895 for a an additional note about trailing slashes in URI paths",
+      "createdAt": "2024-06-17T14:05:27Z",
+      "updatedAt": "2024-06-20T14:48:58Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "close-7",
+      "headRefOid": "e1610c1e4280a51fccda0f81b554ce2bf9c0ab0a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "From interim: Let's add examples.",
+          "createdAt": "2024-06-19T14:23:08Z",
+          "updatedAt": "2024-06-19T14:23:08Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "So is `coap://path/////` different from `coap://path/` ?",
+          "createdAt": "2024-06-20T14:24:27Z",
+          "updatedAt": "2024-06-20T14:24:27Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "> So is `coap://path/////` different from `coap://path/` ?\r\n\r\nYes, and we have to clarify this.\r\n\r\nThe only place where we suppress the empty path component is between `coap://authority/` and `coap://authority` -- these mean the same in CoAP, and the first is the one that is reconstituted from the CoAP Options.\r\nAdditional trailing slashes do always count.",
+          "createdAt": "2024-06-20T14:27:25Z",
+          "updatedAt": "2024-06-20T14:27:25Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "OK - taking it further, `coap://host/path//////` and `coap://host/path/` are different (which is was I meant to write in the first place - been a long day).",
+          "createdAt": "2024-06-20T14:33:05Z",
+          "updatedAt": "2024-06-20T14:33:05Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "> So is `coap://path/////` different from `coap://path/` ?\n\nYes it is -- or at least, a server may make the distinction.\n\nA server may also not make the distinction between them, or apply other\nsimplifications for itself (like, be case-insensitive). I'd personally\nrecommend against doing that, because client authors who only test with\na single server might miss bugs: And clients do have to make the\ndistinction.\n",
+          "createdAt": "2024-06-20T14:41:59Z",
+          "updatedAt": "2024-06-20T14:41:59Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "I don't like it as well.  But need to understand potential consequences.",
+          "createdAt": "2024-06-20T14:48:56Z",
+          "updatedAt": "2024-06-20T14:48:56Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 33,
+      "id": "PR_kwDOJ-N8wM5yuDgf",
+      "title": "Close #10: \"request URI\" not defined",
+      "url": "https://github.com/core-wg/corrclar/pull/33",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-17T17:11:05Z",
+      "updatedAt": "2024-06-19T14:29:10Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "close-10",
+      "headRefOid": "a834f666392a4c8fb86dd8b725abe1421e4af163",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "From interim: It's only distinct in responses to multicast request, but there is a related ~\"base for URI references in the response body\" term. Possibly there'll be some more text in core-responses that this can point to.",
+          "createdAt": "2024-06-19T14:29:09Z",
+          "updatedAt": "2024-06-19T14:29:09Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOJ-N8wM5y7wr2",
+      "title": "close #9: epochs (or, more generally, match boxing)",
+      "url": "https://github.com/core-wg/corrclar/pull/34",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-19T09:14:42Z",
+      "updatedAt": "2024-06-19T15:14:59Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "close-9",
+      "headRefOid": "54450feff454cf6e22a0d1bfa7cec95fdef629af",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Next step: More input from people familiar with OSCORE, KUDOS and group OSCORE solicited.",
+          "createdAt": "2024-06-19T15:14:58Z",
+          "updatedAt": "2024-06-19T15:14:58Z"
+        }
+      ],
+      "reviews": []
+    }
+  ]
+}
