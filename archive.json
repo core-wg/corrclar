@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-27T01:23:54.347199+00:00",
+  "timestamp": "2024-06-30T01:36:27.377912+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1560,7 +1560,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-06-17T17:11:05Z",
-      "updatedAt": "2024-06-19T14:29:10Z",
+      "updatedAt": "2024-06-27T09:41:08Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
@@ -1578,6 +1578,13 @@
           "body": "From interim: It's only distinct in responses to multicast request, but there is a related ~\"base for URI references in the response body\" term. Possibly there'll be some more text in core-responses that this can point to.",
           "createdAt": "2024-06-19T14:29:09Z",
           "updatedAt": "2024-06-19T14:29:09Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "groupcomm-bis would also be easier with that defined: Currently, it has to bend around the involved URIs saying\r\n\r\n> A client sending a GET or FETCH group request MAY use a response received from a server, to satisfy a subsequent sent request intended to that server on the related unicast request URI. In particular, the unicast request URI is obtained by replacing the authority component of the request URI with the transport-layer source address of the cached response message.",
+          "createdAt": "2024-06-27T09:41:07Z",
+          "updatedAt": "2024-06-27T09:41:07Z"
         }
       ],
       "reviews": []
