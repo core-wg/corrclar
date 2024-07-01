@@ -4,10 +4,10 @@
 
 Network Working Group                                         C. Bormann
 Internet-Draft                                    Universität Bremen TZI
-Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if             19 June 2024
+Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if              1 July 2024
          approved)                                                      
 Intended status: Standards Track                                        
-Expires: 21 December 2024
+Expires: 2 January 2025
 
 
 Constrained Application Protocol (CoAP): Corrections and Clarifications
@@ -53,9 +53,9 @@ Status of This Memo
 
 
 
-Bormann                 Expires 21 December 2024                [Page 1]
+Bormann                  Expires 2 January 2025                 [Page 1]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
    Internet-Drafts are working documents of the Internet Engineering
@@ -68,7 +68,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 December 2024.
+   This Internet-Draft will expire on 2 January 2025.
 
 Copyright Notice
 
@@ -98,8 +98,8 @@ Table of Contents
      2.3.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .   6
    3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
-   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   7
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   8
      5.2.  Informative References  . . . . . . . . . . . . . . . . .   8
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   9
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   9
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Bormann                 Expires 21 December 2024                [Page 2]
+Bormann                  Expires 2 January 2025                 [Page 2]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 21 December 2024                [Page 3]
+Bormann                  Expires 2 January 2025                 [Page 3]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
    This process might be revised as its execution progresses.
@@ -221,9 +221,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 21 December 2024                [Page 4]
+Bormann                  Expires 2 January 2025                 [Page 4]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
        Even though at a high-level, the scope should be already clear by
@@ -277,9 +277,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 21 December 2024                [Page 5]
+Bormann                  Expires 2 January 2025                 [Page 5]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
    INCOMPLETE:
@@ -333,9 +333,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 21 December 2024                [Page 6]
+Bormann                  Expires 2 January 2025                 [Page 6]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
    The second column of the Content-Format registry is the Content
@@ -361,8 +361,13 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
       The VERIFIED Errata Report [Err4954] corrects the usage of
       "Content-Encoding" in the text and changes the name of the first
       column of the Content-Format registry to "Content Type" and the
-      name of the second field to "Content Coding"; this change has been
-      carried out by IANA.
+      name of the second field to "Content Coding".  This change has
+      been carried out by IANA.
+
+   [Err4954] also has some notes on what would be valid or invalid
+   Content-Format registrations.  These are not repeated here; they are
+   however quite useful as a reference when preparing additional
+   Content-Format registrations.
 
 3.  IANA Considerations
 
@@ -381,18 +386,17 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
    (To be changed when that is no longer true; probably the security
    considerations will then be on the individual clarifications.)
 
+
+
+
+Bormann                  Expires 2 January 2025                 [Page 7]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
 5.  References
 
 5.1.  Normative References
-
-
-
-
-
-Bormann                 Expires 21 December 2024                [Page 7]
-
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
-
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -438,17 +442,16 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
    [Err4954]  RFC Errata Report 4954, RFC 7252,
               <https://www.rfc-editor.org/errata/eid4954>.
 
+
+
+
+Bormann                  Expires 2 January 2025                 [Page 8]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
    [Err5078]  RFC Errata Report 5078, RFC 7252,
               <https://www.rfc-editor.org/errata/eid5078>.
-
-
-
-
-
-Bormann                 Expires 21 December 2024                [Page 8]
-
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
-
 
    [IANA.media-types]
               IANA, "Media Types",
@@ -498,12 +501,9 @@ Author's Address
 
 
 
-
-
-
-Bormann                 Expires 21 December 2024                [Page 9]
+Bormann                  Expires 2 January 2025                 [Page 9]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
    Carsten Bormann
@@ -557,4 +557,4 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 21 December 2024               [Page 10]
+Bormann                  Expires 2 January 2025                [Page 10]
