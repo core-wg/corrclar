@@ -4,10 +4,10 @@
 
 Network Working Group                                         C. Bormann
 Internet-Draft                                    Universität Bremen TZI
-Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if             19 June 2024
+Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if              1 July 2024
          approved)                                                      
 Intended status: Standards Track                                        
-Expires: 21 December 2024
+Expires: 2 January 2025
 
 
 Constrained Application Protocol (CoAP): Corrections and Clarifications
@@ -53,9 +53,9 @@ Status of This Memo
 
 
 
-Bormann                 Expires 21 December 2024                [Page 1]
+Bormann                  Expires 2 January 2025                 [Page 1]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
    Internet-Drafts are working documents of the Internet Engineering
@@ -68,7 +68,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 December 2024.
+   This Internet-Draft will expire on 2 January 2025.
 
 Copyright Notice
 
@@ -95,23 +95,23 @@ Table of Contents
    2.  RFC 7252  . . . . . . . . . . . . . . . . . . . . . . . . . .   5
      2.1.  RFC7252-1.2: Terminology (Request-URI)  . . . . . . . . .   5
      2.2.  RFC7252-5.10.5: Max-Age . . . . . . . . . . . . . . . . .   6
-     2.3.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   6
+     2.3.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   7
      2.4.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .   7
-   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
    5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
      5.1.  Normative References  . . . . . . . . . . . . . . . . . .   8
      5.2.  Informative References  . . . . . . . . . . . . . . . . .   9
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  10
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  10
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  11
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  11
 
 
 
 
 
-Bormann                 Expires 21 December 2024                [Page 2]
+Bormann                  Expires 2 January 2025                 [Page 2]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 21 December 2024                [Page 3]
+Bormann                  Expires 2 January 2025                 [Page 3]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
    This process might be revised as its execution progresses.
@@ -221,9 +221,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 21 December 2024                [Page 4]
+Bormann                  Expires 2 January 2025                 [Page 4]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
        Even though at a high-level, the scope should be already clear by
@@ -277,9 +277,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
 
 
-Bormann                 Expires 21 December 2024                [Page 5]
+Bormann                  Expires 2 January 2025                 [Page 5]
 
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
          the Target Resource) of [RFC9110]; previously called "effective
@@ -287,6 +287,32 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
          [RFC7230].
 
    PENDING.
+
+   Note that a similar, but distinct concept is the "base URI", relative
+   to which relative URIs are resolved.  This is more complex in CoAP
+   than in HTTP because CoAP can multicast requests Section 8 of
+   [RFC7252], expecting unicast responses; these need to be interpreted
+   relative to the unicast source address from which the responses come.
+
+   Section 8.2 of [RFC7252] has:
+
+   |  For the purposes of interpreting the Location-* options and any
+   |  links embedded in the representation, the request URI (i.e., the
+   |  base URI relative to which the response is interpreted) is formed
+   |  by replacing the multicast address in the Host component of the
+   |  original request URI by the literal IP address of the endpoint
+   |  actually responding.
+
+   Similarly, Section 8.2.1 of [RFC7252] (Caching) says:
+
+   |  A response received in reply to a GET request to a multicast group
+   |  MAY be used to satisfy a subsequent request on the related unicast
+   |  request URI.  The unicast request URI is obtained by replacing the
+   |  authority part of the request URI with the transport-layer source
+   |  address of the response message.
+
+   Further discussion of a more generalized response concept can be
+   found in [I-D.bormann-core-responses].
 
 2.2.  RFC7252-5.10.5: Max-Age
 
@@ -304,6 +330,14 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
    object.
 
    INCOMPLETE:
+
+
+
+Bormann                  Expires 2 January 2025                 [Page 6]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
       The value is intended to be current at the time of transmission.
 
    PENDING.
@@ -330,14 +364,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
    [Err5078] should be marked "VERIFIED", which was done on 2023-01-18.
 
    INCOMPLETE; FORMAL ADDITION:
-
-
-
-Bormann                 Expires 21 December 2024                [Page 6]
-
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
-
-
       The Content-Format code attribute MUST NOT appear more than once
       in a link.
 
@@ -355,6 +381,18 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
    Content Type to reduce the confusion with a Media-Type-Name (e.g., in
    Section 8.3 of [RFC9110], which then however also opts to use the
    term Media Type for the same information set).
+
+
+
+
+
+
+
+
+Bormann                  Expires 2 January 2025                 [Page 7]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
 
    The second column of the Content-Format registry is the Content
    Coding, which is defined in Section 8.4.1 of [RFC9110].  For
@@ -386,14 +424,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
    This document makes no new requests to IANA.
 
-
-
-
-Bormann                 Expires 21 December 2024                [Page 7]
-
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
-
-
    Individual clarifications may contain IANA considerations; as for
    example in Section 2.4.
 
@@ -410,6 +440,15 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 5.  References
 
 5.1.  Normative References
+
+
+
+
+
+Bormann                  Expires 2 January 2025                 [Page 8]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -440,16 +479,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
               (CoAP)", RFC 8132, DOI 10.17487/RFC8132, April 2017,
               <https://www.rfc-editor.org/rfc/rfc8132>.
 
-
-
-
-
-
-Bormann                 Expires 21 December 2024                [Page 8]
-
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
-
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -467,6 +496,22 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
 
    [Err5078]  RFC Errata Report 5078, RFC 7252,
               <https://www.rfc-editor.org/errata/eid5078>.
+
+
+
+
+
+Bormann                  Expires 2 January 2025                 [Page 9]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
+   [I-D.bormann-core-responses]
+              Bormann, C. and C. Amsüss, "CoAP: Non-traditional response
+              forms", Work in Progress, Internet-Draft, draft-bormann-
+              core-responses-02, 3 March 2024,
+              <https://datatracker.ietf.org/doc/html/draft-bormann-core-
+              responses-02>.
 
    [IANA.media-types]
               IANA, "Media Types",
@@ -498,14 +543,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
               DOI 10.17487/RFC9148, April 2022,
               <https://www.rfc-editor.org/rfc/rfc9148>.
 
-
-
-
-Bormann                 Expires 21 December 2024                [Page 9]
-
-Internet-Draft   Corrections and Clarifications to CoAP        June 2024
-
-
    [RFC9176]  Amsüss, C., Ed., Shelby, Z., Koster, M., Bormann, C., and
               P. van der Stok, "Constrained RESTful Environments (CoRE)
               Resource Directory", RFC 9176, DOI 10.17487/RFC9176, April
@@ -515,6 +552,15 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2024
               (SenML) Fields for Indicating Data Value Content-Format",
               RFC 9193, DOI 10.17487/RFC9193, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9193>.
+
+
+
+
+
+Bormann                  Expires 2 January 2025                [Page 10]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
 
 Acknowledgements
 
@@ -557,4 +603,14 @@ Author's Address
 
 
 
-Bormann                 Expires 21 December 2024               [Page 10]
+
+
+
+
+
+
+
+
+
+
+Bormann                  Expires 2 January 2025                [Page 11]
