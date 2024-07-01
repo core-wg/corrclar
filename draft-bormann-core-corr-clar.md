@@ -34,6 +34,7 @@ normative:
   RFC8323: coap-tcp
 informative:
   RFC8516: RC429
+  I-D.bormann-core-responses: responses
   Err4954: 7252
   Err5078: 7252
 
@@ -195,6 +196,33 @@ INCOMPLETE; FORMAL ADDITION (Section 1.2):
 
 PENDING.
 
+Note that a similar, but distinct concept is the "base URI", relative
+to which relative URIs are resolved.
+This is more complex in CoAP than in HTTP because CoAP can multicast
+requests {{Section 8 of -coap}}, expecting unicast responses; these need
+to be interpreted relative to the unicast source address from which
+the responses come.
+
+{{Section 8.2 of -coap}} has:
+
+{:quote}
+>  For the purposes of interpreting the Location-* options and any links
+   embedded in the representation, the request URI (i.e., the base URI
+   relative to which the response is interpreted) is formed by replacing
+   the multicast address in the Host component of the original request
+   URI by the literal IP address of the endpoint actually responding.
+
+Similarly, {{Section 8.2.1 of -coap}} (Caching) says:
+
+{:quote}
+>  A response received in reply to a GET request to a multicast group
+   MAY be used to satisfy a subsequent request on the related unicast
+   request URI.  The unicast request URI is obtained by replacing the
+   authority part of the request URI with the transport-layer source
+   address of the response message.
+
+Further discussion of a more generalized response concept can be found in
+{{-responses}}.
 
 
 ## RFC7252-5.10.5: Max-Age
