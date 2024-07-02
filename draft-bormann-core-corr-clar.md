@@ -41,6 +41,8 @@ informative:
   Err4954: 7252
   Err5078: 7252
   I-D.ietf-core-oscore-key-update: kudos
+  I-D.ietf-core-groupcomm-bis: groupcomm-bis
+  I-D.ietf-core-oscore-groupcomm: group-oscore
   CF-MATCHER:
     target: https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java
     title: EndpointContextMatcher.java
@@ -365,37 +367,41 @@ boxes that also do not fit certain likely use cases of these additions
 (e.g., with short-lived TCP connections as discussed in {{Section 4.3
 of ?RFC9006}}).
 
-The match boxing semantics of the current protocol are clearly
-defined, but can be unsatisfactory given the current requirements.
-Therefore, enhancements may be called for:
+The match boxing semantics of the current protocol are clearly defined, but can be unsatisfactory given the current requirements.
 
-1. Protocols such as OSCORE {{-oscore}}, as enhanced by the proposed
-   KUDOS mechanism {{-kudos}}, need to define how the matching functions
-   are impacted by state transitions of the underlying transport and
-   security sessions.
-   Where extensions are already actively being developed, this work
-   should be done in the context of the extension effort.
+This calls for careful design choices and enhancements when developing extensions for CoAP or protocols and methods applicable to CoAP, such as in the following cases:
 
-   {:type="a"}
-   1. Protocol mechanisms that have been defined for stitching
-      together connections or phases of an underlying connection, such
-      as Connection Identifiers for DTLS 1.2 {{RFC9146}}, may enable
-      keeping the session/epoch unchanged and even to change the
-      transport address (ip-address/port), once appropriately modified
-      match boxing rules are specified for the stitching mechanism.
-      (These rules either need to be defined to be implicitly active
-      for any use of the mechanism or they may require negotiation,
-      see below.)
+* As originally defined in {{-oscore}}, the security protocol Object Security for Constrained RESTful Environments (OSCORE) does not impact the CoAP matching functions based on Message ID or Token.
 
-2. Optimizations such as Eclipse/Californium EndpointContextMatcher
-   {{CF-MATCHER}} might not work properly unless both sides of the
-   communication agree on the extent of the matching boxes.
-   Mechanisms to indicate capabilities and choices selected may need
-   to be defined; also, a way to define the progression of matching
-   boxes needs to be defined that is compatible with the security
-   properties of the underlying protocols.
-   This may require new efforts, to be initiated based on some
-   formative contributions.
+  At the same time, {{Section B.2 of -oscore}} provides an example of key update procedure, which the two OSCORE peers can run for establishing a new shared OSCORE Security Context that replaces their old one.
+
+  Furthermore, {{-oscore}} tacitly assumes that the two peers terminate any ongoing CoAP Observation {{-observe}} that they still have ongoing, upon installing a new OSCORE Security Context, irrespective of the method used to perform a key update.
+
+  On these premises, a belated response protected with the old OSCORE Security Context will fail decryption, due to that Security Context not available anymore on the receiving client.
+
+* The recent key update protocol KUDOS {{-kudos}} specifies how two OSCORE peers can establish a new shared OSCORE Security Context that replaces their old one, with a number of advantages compared to the method defined in {{Section B.2 of -oscore}}.
+
+  Like OSCORE, KUDOS does not impact the CoAP matching functions based on Message ID or Token either.
+
+  However, KUDOS allows the two OSCORE peers to agree on preserving their ongoing CoAP Observations across the performed key update. If and only if both peers agree to do that during an execution of KUDOS, will their Observations remain active after installing the new OSCORE Security Context, which the two peers will use from then on to protect their exchanged Observe notifications.
+
+  Furthermore, irrespective of the method used to perform a key update, {{Section 3 of -kudos}} updates OSCORE and {{-oscore}} in order to prevent security issues that can arise from misbinding a request and a response, when those are protected with two different OSCORE Security Contexts.
+
+  Such an update requires a server to include its own Sender Sequence Number as Partial IV of an outgoing response, when protecting it with a Security Context different from the one used to protect the corresponding request. An exception safely applies to the response messages that are sent when running the key update procedure defined in {{Section B.2 of -oscore}}.
+
+* The security protocol Group Object Security for Constrained RESTful Environments (Group OSCORE) defined in {{-group-oscore}} builds on OSCORE and protects group communication for CoAP {{-groupcomm-bis}}.
+
+  Like OSCORE, Group OSCORE does not impact the CoAP matching functions based on Message ID or Token either.
+
+  The management of the group keying material is entrusted to a Group Manager (see {{Section 3 of -group-oscore}}). In particular, the Group Manager provides the latest group keying material to a new group member upon its group joining. Also, the Group Manager can distribute new group keying material to the members of an OSCORE group, by performing a group rekeying. In either case, when receiving updated group keying material from the Group Manager, a group member uses it to install a new, commonly shared Group OSCORE Security Context, which replaces the old one (if any is stored).
+
+  Also, Group OSCORE makes it possible for group members to safely preserve their ongoing long exchanges (e.g., CoAP Observations), also across the establishment of new Group OSCORE Security Contexts. This is achieved by virtue of how the Group Manager assigns and maintains the identifiers of OSCORE groups (see {{Section 3.2.1.1 of -group-oscore}}).
+
+  Furthermore, analogous to the update that {{-kudos}} makes on OSCORE with respect to protecting responses, Group OSCORE prevents security issues that can arise from misbinding a request and a response, when those are protected with two different Group OSCORE Security Contexts.
+
+  In the same way specified in {{Section 3 of -kudos}} for OSCORE, Group OSCORE requires a server to include its own Sender Sequence Number as Partial IV of an outgoing response, when protecting it with a Security Context different from the one used to protect the corresponding request (see {{Sections 8.3 and 9.5 of -group-oscore}}).
+
+Furthermore, enhancements may be called for optimizations such as Eclipse/Californium EndpointContextMatcher {{CF-MATCHER}} might not work properly unless both sides of the communication agree on the extent of the matching boxes. Mechanisms to indicate capabilities and choices selected may need to be defined; also, a way to define the progression of matching boxes needs to be defined that is compatible with the security properties of the underlying protocols. This may require new efforts, to be initiated based on some formative contributions.
 
 PENDING.
 
