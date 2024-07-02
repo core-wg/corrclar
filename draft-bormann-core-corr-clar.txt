@@ -93,19 +93,19 @@ Table of Contents
                interim discussion  . . . . . . . . . . . . . . . . .   3
      1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   5
    2.  RFC 7252  . . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     2.1.  RFC7252-5.10.5: Max-Age . . . . . . . . . . . . . . . . .   5
-     2.2.  RFC7252-6.4: Decomposing URIs into Options  . . . . . . .   6
-     2.3.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   7
-     2.4.  RFC7252-9.1.1/9.1.2: (match boxing) . . . . . . . . . . .   7
-     2.5.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .   9
-   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
-   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     5.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
-     5.2.  Informative References  . . . . . . . . . . . . . . . . .  11
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  13
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  13
-
+     2.1.  RFC7252-1.2: Terminology (Request-URI)  . . . . . . . . .   5
+     2.2.  RFC7252-5.10.5: Max-Age . . . . . . . . . . . . . . . . .   6
+     2.3.  RFC7252-6.4: Decomposing URIs into Options  . . . . . . .   7
+     2.4.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   8
+     2.5.  RFC7252-9.1.1/9.1.2: (match boxing) . . . . . . . . . . .   8
+     2.6.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .  10
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .  12
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  14
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
 
 
 
@@ -260,7 +260,61 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 2.  RFC 7252
 
-2.1.  RFC7252-5.10.5: Max-Age
+2.1.  RFC7252-1.2: Terminology (Request-URI)
+
+   [RFC7252] uses the term "request URI" repeatedly, but only provides a
+   vague definition in Section 5.7.2 of [RFC7252].  Text should be added
+   to the definitions in Section 1.2 (Terminology) of [RFC7252].
+
+   INCOMPLETE; FORMAL ADDITION (Section 1.2):
+      Request URI:  The URI that identifies a resource on a server
+         intended to be addressed by a request; constructed from the
+         context of the request combined with Options present in the
+         request using the process defined in Section 6.5 (Composing
+         URIs from Options) of [RFC7252], see Section 5.7.2
+         (Forward-Proxies) of [RFC7252] for further details.  Related to
+         the HTTP concept of "target URI"; see Section 7.1 (Determining
+
+
+
+Bormann                  Expires 3 January 2025                 [Page 5]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
+         the Target Resource) of [RFC9110]; previously called "effective
+         request URI" in Section 5.5 (Effective Request URI) of
+         [RFC7230].
+
+   PENDING.
+
+   Note that a similar, but distinct concept is the "base URI", relative
+   to which relative URIs are resolved.  This is more complex in CoAP
+   than in HTTP because CoAP can multicast requests Section 8 of
+   [RFC7252], expecting unicast responses; these need to be interpreted
+   relative to the unicast source address from which the responses come.
+
+   Section 8.2 of [RFC7252] has:
+
+   |  For the purposes of interpreting the Location-* options and any
+   |  links embedded in the representation, the request URI (i.e., the
+   |  base URI relative to which the response is interpreted) is formed
+   |  by replacing the multicast address in the Host component of the
+   |  original request URI by the literal IP address of the endpoint
+   |  actually responding.
+
+   Similarly, Section 8.2.1 of [RFC7252] (Caching) says:
+
+   |  A response received in reply to a GET request to a multicast group
+   |  MAY be used to satisfy a subsequent request on the related unicast
+   |  request URI.  The unicast request URI is obtained by replacing the
+   |  authority part of the request URI with the transport-layer source
+   |  address of the response message.
+
+   Further discussion of a more generalized response concept can be
+   found in [I-D.bormann-core-responses].
+
+2.2.  RFC7252-5.10.5: Max-Age
 
    In the discussion of [RFC8516], a comment was made that it would be
    needed to define the point in time relative to which Max-Age is
@@ -275,19 +329,20 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    may be suboptimal when Max-Age is about the lifetime of a response
    object.
 
+   INCOMPLETE:
 
 
-Bormann                  Expires 3 January 2025                 [Page 5]
+
+Bormann                  Expires 3 January 2025                 [Page 6]
 
 Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
-   INCOMPLETE:
       The value is intended to be current at the time of transmission.
 
    PENDING.
 
-2.2.  RFC7252-6.4: Decomposing URIs into Options
+2.3.  RFC7252-6.4: Decomposing URIs into Options
 
    [Err4895] notes (text updated with newer link):
 
@@ -333,7 +388,8 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 6]
+
+Bormann                  Expires 3 January 2025                 [Page 7]
 
 Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
@@ -350,7 +406,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
    PENDING: Enough examples now?
 
-2.3.  RFC7252-7.2.1: "ct" Attribute (content-format code)
+2.4.  RFC7252-7.2.1: "ct" Attribute (content-format code)
 
    As has been noted in [Err5078], there is no information in [RFC7252]
    about whether the "ct" target attribute can be present multiply or
@@ -375,7 +431,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
       The Content-Format code attribute MUST NOT appear more than once
       in a link.
 
-2.4.  RFC7252-9.1.1/9.1.2: (match boxing)
+2.5.  RFC7252-9.1.1/9.1.2: (match boxing)
 
    Sections 9.1.1 and 9.1.2 of [RFC7252] provide details about using
    CoAP over DTLS connections; in particular they restrict both message-
@@ -389,7 +445,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 7]
+Bormann                  Expires 3 January 2025                 [Page 8]
 
 Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
@@ -445,7 +501,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 8]
+Bormann                  Expires 3 January 2025                 [Page 9]
 
 Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
@@ -469,7 +525,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
       core-wg/corrclar/issues/9)
       ("Clarify/revise language around epochs in section 9.1.1 #9")
 
-2.5.  RFC 7252-12.3: Content-Format Registry
+2.6.  RFC 7252-12.3: Content-Format Registry
 
    Section 12.3 of [RFC7252] established the CoAP Content-Formats
    Registry, which maps a combination of an Internet Media Type with an
@@ -501,7 +557,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 9]
+Bormann                  Expires 3 January 2025                [Page 10]
 
 Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
@@ -532,7 +588,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    This document makes no new requests to IANA.
 
    Individual clarifications may contain IANA considerations; as for
-   example in Section 2.5.
+   example in Section 2.6.
 
 4.  Security Considerations
 
@@ -557,7 +613,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                [Page 10]
+Bormann                  Expires 3 January 2025                [Page 11]
 
 Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
@@ -613,7 +669,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                [Page 11]
+Bormann                  Expires 3 January 2025                [Page 12]
 
 Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
@@ -626,6 +682,13 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
    [Err5078]  RFC Errata Report 5078, RFC 7252,
               <https://www.rfc-editor.org/errata/eid5078>.
+
+   [I-D.bormann-core-responses]
+              Bormann, C. and C. Amsüss, "CoAP: Non-traditional response
+              forms", Work in Progress, Internet-Draft, draft-bormann-
+              core-responses-02, 3 March 2024,
+              <https://datatracker.ietf.org/doc/html/draft-bormann-core-
+              responses-02>.
 
    [I-D.ietf-core-oscore-key-update]
               Höglund, R. and M. Tiloca, "Key Update for OSCORE
@@ -648,10 +711,24 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6838>.
 
+   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
+              Protocol (HTTP/1.1): Message Syntax and Routing",
+              RFC 7230, DOI 10.17487/RFC7230, June 2014,
+              <https://www.rfc-editor.org/rfc/rfc7230>.
+
    [RFC8516]  Keranen, A., ""Too Many Requests" Response Code for the
               Constrained Application Protocol", RFC 8516,
               DOI 10.17487/RFC8516, January 2019,
               <https://www.rfc-editor.org/rfc/rfc8516>.
+
+
+
+
+
+Bormann                  Expires 3 January 2025                [Page 13]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
 
    [RFC9006]  Gomez, C., Crowcroft, J., and M. Scharf, "TCP Usage
               Guidance in the Internet of Things (IoT)", RFC 9006,
@@ -662,17 +739,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               Ed., "HTTP Semantics", STD 97, RFC 9110,
               DOI 10.17487/RFC9110, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9110>.
-
-
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 12]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    [RFC9146]  Rescorla, E., Ed., Tschofenig, H., Ed., Fossati, T., and
               A. Kraus, "Connection Identifier for DTLS 1.2", RFC 9146,
@@ -715,14 +781,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 13]
+Bormann                  Expires 3 January 2025                [Page 14]
