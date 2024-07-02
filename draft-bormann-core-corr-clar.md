@@ -224,6 +224,34 @@ INCOMPLETE; FORMAL ADDITION at the end of {{Section 6.4 of RFC7252}}:
   zero-character path segment is added for a trailing slash that
   immediately follows the authority (host and port).
 
+  {:aside}
+  > This means that for a CoAP server, no difference is visible
+  between a request that was generated from the URI
+  `coap://authority/` and one that was generated from the URI
+  `coap://authority` -- in both cases, there is no Uri-Path Option in
+  the request.
+  >
+  > Note that this does not mean that a client cannot create a request
+  with a single empty Uri-Path Option (which cannot be generated from
+  a URI according to the algorithm given here), or that a server is
+  compelled to treat a request with such a single empty Uri-Path
+  Option the same way as one without any Uri-Path Option — the
+  exception at the start of step 8 is only about generating CoAP
+  Options from a URI.
+  >
+  > Note also that there is a difference between requests generated
+  from `coap://authority/`, `coap://authority//`, and
+  `coap://authority///`, respectively:
+  The first has no Uri-Path Options (due to the special exception),
+  the second, two (empty ones), the third, three (empty ones).
+  >
+  > Similarly, for `coap://authority/foo` a single Uri-Path Option
+  with the value `foo` is generated, while for `coap://authority/foo/`
+  that Uri-Path Option is followed by an empty one.
+
+PENDING: Enough examples now?
+
+
 ## RFC7252-7.2.1: "ct" Attribute (content-format code)
 
 As has been noted in {{Err5078}}, there is no information in {{RFC7252}}
