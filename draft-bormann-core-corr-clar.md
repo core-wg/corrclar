@@ -379,7 +379,7 @@ Therefore, enhancements may be called for:
    {:type="a"}
    1. Protocol mechanisms that have been defined for stitching
       together connections or phases of an underlying connection, such
-      as Connection Identifiers for DTLS 1.2 {{RFC9176}}, may enable
+      as Connection Identifiers for DTLS 1.2 {{RFC9146}}, may enable
       keeping the session/epoch unchanged and even to change the
       transport address (ip-address/port), once appropriately modified
       match boxing rules are specified for the stitching mechanism.
