@@ -94,17 +94,17 @@ Table of Contents
      1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   5
    2.  RFC 7252  . . . . . . . . . . . . . . . . . . . . . . . . . .   5
      2.1.  RFC7252-5.10.5: Max-Age . . . . . . . . . . . . . . . . .   5
-     2.2.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   6
-     2.3.  RFC7252-9.1.1/9.1.2: (match boxing) . . . . . . . . . . .   6
-     2.4.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .   8
-   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
-     5.2.  Informative References  . . . . . . . . . . . . . . . . .  10
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  12
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  12
-
+     2.2.  RFC7252-6.4: Decomposing URIs into Options  . . . . . . .   6
+     2.3.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   7
+     2.4.  RFC7252-9.1.1/9.1.2: (match boxing) . . . . . . . . . . .   7
+     2.5.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .   9
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .  11
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  13
 
 
 
@@ -287,7 +287,70 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
    PENDING.
 
-2.2.  RFC7252-7.2.1: "ct" Attribute (content-format code)
+2.2.  RFC7252-6.4: Decomposing URIs into Options
+
+   [Err4895] notes (text updated with newer link):
+
+   |  The current specification for decomposing a URI into CoAP Options
+   |  (Section 6.4) is correct; however the text may still be unclear to
+   |  implementers who may think that the phrase "not including the
+   |  delimiting slash characters" means simply omitting a trailing
+   |  slash character in the URI path.  This is incorrect.  See the
+   |  discussion outcome in email thread
+   |  https://mailarchive.ietf.org/arch/msg/core/
+   |  vqOiUreodGXqWZGeGOTREChCsKY/
+   |  (https://mailarchive.ietf.org/arch/msg/core/
+   |  vqOiUreodGXqWZGeGOTREChCsKY/).
+
+   [Err4895] proceeds to propose adding another note at the end of
+   Section 6.4 of [RFC7252].  A slightly updated version of the proposed
+   note might be:
+
+   INCOMPLETE; FORMAL ADDITION at the end of Section 6.4 of
+   [RFC7252]:
+      Also note that a trailing slash character in the <path> component
+      represents a separate, zero-character path segment (see the ABNF
+      in Section 3.3 of [RFC3986]).  This is encoded using a Uri-Path
+      Option of zero length.  The exception at the start of step 8 means
+      that no such zero-character path segment is added for a trailing
+      slash that immediately follows the authority (host and port).
+
+         |  This means that for a CoAP server, no difference is visible
+         |  between a request that was generated from the URI
+         |  coap://authority/ and one that was generated from the URI
+         |  coap://authority -- in both cases, there is no Uri-Path
+         |  Option in the request.
+         |  
+         |  Note that this does not mean that a client cannot create a
+         |  request with a single empty Uri-Path Option (which cannot be
+         |  generated from a URI according to the algorithm given here),
+         |  or that a server is compelled to treat a request with such a
+         |  single empty Uri-Path Option the same way as one without any
+         |  Uri-Path Option — the exception at the start of step 8 is
+         |  only about generating CoAP Options from a URI.
+         |  
+
+
+
+
+Bormann                  Expires 3 January 2025                 [Page 6]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
+         |  Note also that there is a difference between requests
+         |  generated from coap://authority/, coap://authority//, and
+         |  coap://authority///, respectively: The first has no Uri-Path
+         |  Options (due to the special exception), the second, two
+         |  (empty ones), the third, three (empty ones).
+         |  
+         |  Similarly, for coap://authority/foo a single Uri-Path Option
+         |  with the value foo is generated, while for coap://authority/
+         |  foo/ that Uri-Path Option is followed by an empty one.
+
+   PENDING: Enough examples now?
+
+2.3.  RFC7252-7.2.1: "ct" Attribute (content-format code)
 
    As has been noted in [Err5078], there is no information in [RFC7252]
    about whether the "ct" target attribute can be present multiply or
@@ -312,12 +375,24 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
       The Content-Format code attribute MUST NOT appear more than once
       in a link.
 
-2.3.  RFC7252-9.1.1/9.1.2: (match boxing)
+2.4.  RFC7252-9.1.1/9.1.2: (match boxing)
 
    Sections 9.1.1 and 9.1.2 of [RFC7252] provide details about using
    CoAP over DTLS connections; in particular they restrict both message-
    id matching and request/response matching to within a single
    combination of DTLS session/DTLS epoch.
+
+
+
+
+
+
+
+
+Bormann                  Expires 3 January 2025                 [Page 7]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
 
    At the time, this was a decision to be very conservative based on the
    wide variety of security implications a new DTLS epoch might have
@@ -329,14 +404,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    that significant time elapses between a request and the arrival of a
    notification that is sent back as a response, causing a need for the
    latter to use a different box from the original request.
-
-
-
-
-Bormann                  Expires 3 January 2025                 [Page 6]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    Also, additions to CoAP such as CoAP over connection-oriented
    transports [RFC8323] and OSCORE [RFC8613] create similar matching
@@ -376,6 +443,13 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
    PENDING.
 
+
+
+Bormann                  Expires 3 January 2025                 [Page 8]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
    Relevant starting points for retrieving existing discussion of this
    issue include:
 
@@ -384,15 +458,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
       (https://mailarchive.ietf.org/arch/msg/core/
       biDJ8n4w0kBQATzyh9xHlKnGy1o/)
       ("DTLS and Epochs")
-
-
-
-
-
-Bormann                  Expires 3 January 2025                 [Page 7]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    *  https://mailarchive.ietf.org/arch/msg/core/
       TsyyKIHQ1FJtAvAo0ODNEt2Ileo/
@@ -404,7 +469,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
       core-wg/corrclar/issues/9)
       ("Clarify/revise language around epochs in section 9.1.1 #9")
 
-2.4.  RFC 7252-12.3: Content-Format Registry
+2.5.  RFC 7252-12.3: Content-Format Registry
 
    Section 12.3 of [RFC7252] established the CoAP Content-Formats
    Registry, which maps a combination of an Internet Media Type with an
@@ -429,6 +494,18 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    incorrectly uses these terms in the context of content types and
    content coding:
 
+
+
+
+
+
+
+
+Bormann                  Expires 3 January 2025                 [Page 9]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
    1.  The field that describes the Content Type is called "Media Type".
        This can lead to the misunderstanding that this column just
        carries a Media-Type-Name (such as "text/plain"), while it
@@ -439,17 +516,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
        name "Content Encoding".
 
    INCORRECT, CORRECTED:
-
-
-
-
-
-
-Bormann                  Expires 3 January 2025                 [Page 8]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
-
       The VERIFIED Errata Report [Err4954] corrects the usage of
       "Content-Encoding" in the text and changes the name of the first
       column of the Content-Format registry to "Content Type" and the
@@ -466,7 +532,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    This document makes no new requests to IANA.
 
    Individual clarifications may contain IANA considerations; as for
-   example in Section 2.4.
+   example in Section 2.5.
 
 4.  Security Considerations
 
@@ -487,6 +553,15 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+
+
+
+
+Bormann                  Expires 3 January 2025                [Page 10]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
    [RFC6690]  Shelby, Z., "Constrained RESTful Environments (CoRE) Link
               Format", RFC 6690, DOI 10.17487/RFC6690, August 2012,
               <https://www.rfc-editor.org/rfc/rfc6690>.
@@ -495,16 +570,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               Application Protocol (CoAP)", RFC 7252,
               DOI 10.17487/RFC7252, June 2014,
               <https://www.rfc-editor.org/rfc/rfc7252>.
-
-
-
-
-
-
-Bormann                  Expires 3 January 2025                 [Page 9]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    [RFC7641]  Hartke, K., "Observing Resources in the Constrained
               Application Protocol (CoAP)", RFC 7641,
@@ -544,23 +609,23 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               connector/src/main/java/org/eclipse/californium/elements/
               EndpointContextMatcher.java>.
 
+
+
+
+
+Bormann                  Expires 3 January 2025                [Page 11]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
+   [Err4895]  RFC Errata Report 4895, RFC 7252,
+              <https://www.rfc-editor.org/errata/eid4895>.
+
    [Err4954]  RFC Errata Report 4954, RFC 7252,
               <https://www.rfc-editor.org/errata/eid4954>.
 
    [Err5078]  RFC Errata Report 5078, RFC 7252,
               <https://www.rfc-editor.org/errata/eid5078>.
-
-
-
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 10]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    [I-D.ietf-core-oscore-key-update]
               Höglund, R. and M. Tiloca, "Key Update for OSCORE
@@ -572,6 +637,11 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    [IANA.media-types]
               IANA, "Media Types",
               <http://www.iana.org/assignments/media-types>.
+
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/rfc/rfc3986>.
 
    [RFC6838]  Freed, N., Klensin, J., and T. Hansen, "Media Type
               Specifications and Registration Procedures", BCP 13,
@@ -593,6 +663,17 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               DOI 10.17487/RFC9110, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9110>.
 
+
+
+
+
+
+
+Bormann                  Expires 3 January 2025                [Page 12]
+
+Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+
+
    [RFC9146]  Rescorla, E., Ed., Tschofenig, H., Ed., Fossati, T., and
               A. Kraus, "Connection Identifier for DTLS 1.2", RFC 9146,
               DOI 10.17487/RFC9146, March 2022,
@@ -608,15 +689,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               P. van der Stok, "Constrained RESTful Environments (CoRE)
               Resource Directory", RFC 9176, DOI 10.17487/RFC9176, April
               2022, <https://www.rfc-editor.org/rfc/rfc9176>.
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 11]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    [RFC9193]  Keränen, A. and C. Bormann, "Sensor Measurement Lists
               (SenML) Fields for Indicating Data Value Content-Format",
@@ -653,20 +725,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 12]
+Bormann                  Expires 3 January 2025                [Page 13]
