@@ -35,6 +35,8 @@ normative:
   RFC8613: oscore
 informative:
   RFC8516: RC429
+  RFC3986: uri
+  Err4895: 7252
   Err4954: 7252
   Err5078: 7252
   I-D.ietf-core-oscore-key-update: kudos
@@ -196,11 +198,68 @@ This extension was deemed acceptable for the purposes of {{-RC429}},
 but may be suboptimal when Max-Age is about the lifetime of a response
 object.
 
-{: vspace='0'}
+{:vspace}
 INCOMPLETE:
 : The value is intended to be current at the time of transmission.
 
 PENDING.
+
+
+## RFC7252-6.4: Decomposing URIs into Options
+
+{{Err4895}} notes (text updated with newer link):
+
+{:quote}
+>
+The current specification for decomposing a URI into CoAP Options
+(Section 6.4) is correct; however the text may still be unclear to
+implementers who may think that the phrase "not including the
+delimiting slash characters" means simply omitting a trailing slash
+character in the URI path. This is incorrect. See the discussion
+outcome in email thread
+> <https://mailarchive.ietf.org/arch/msg/core/vqOiUreodGXqWZGeGOTREChCsKY/>.
+
+{{Err4895}} proceeds to propose adding another note at the end of
+{{Section 6.4 of RFC7252}}.
+A slightly updated version of the proposed note might be:
+
+{:vspace}
+INCOMPLETE; FORMAL ADDITION at the end of {{Section 6.4 of RFC7252}}:
+: Also note that a trailing slash character in the \<path> component
+  represents a separate, zero-character path segment (see the ABNF in
+  {{Section 3.3 of -uri}}).
+  This is encoded using a Uri-Path Option of zero length.
+  The exception at the start of step 8 means that no such
+  zero-character path segment is added for a trailing slash that
+  immediately follows the authority (host and port).
+
+  {:aside}
+  > This means that for a CoAP server, no difference is visible
+  between a request that was generated from the URI
+  `coap://authority/` and one that was generated from the URI
+  `coap://authority` -- in both cases, there is no Uri-Path Option in
+  the request.
+  >
+  > Note that this does not mean that a client cannot create a request
+  with a single empty Uri-Path Option (which cannot be generated from
+  a URI according to the algorithm given here), or that a server is
+  compelled to treat a request with such a single empty Uri-Path
+  Option the same way as one without any Uri-Path Option — the
+  exception at the start of step 8 is only about generating CoAP
+  Options from a URI.
+  >
+  > Note also that there is a difference between requests generated
+  from `coap://authority/`, `coap://authority//`, and
+  `coap://authority///`, respectively:
+  The first has no Uri-Path Options (due to the special exception),
+  the second, two (empty ones), the third, three (empty ones).
+  >
+  > Similarly, for `coap://authority/foo` a single Uri-Path Option
+  with the value `foo` is generated, while for `coap://authority/foo/`
+  that Uri-Path Option is followed by an empty one.
+
+PENDING: Enough examples now?
+
 
 ## RFC7252-7.2.1: "ct" Attribute (content-format code)
 
@@ -224,7 +283,7 @@ be likely to cause interoperability problems.
 At the 2022-11-23 CoRE WG interim meeting, there was agreement that
 {{Err5078}} should be marked "VERIFIED", which was done on 2023-01-18.
 
-{: vspace='0'}
+{:vspace}
 INCOMPLETE; FORMAL ADDITION:
 : The Content-Format code attribute MUST NOT appear more than once in a
   link.
@@ -331,7 +390,7 @@ content coding:
 2. The field that describes the Content Coding uses the incorrect name
    "Content Encoding".
 
-{: vspace='0'}
+{:vspace}
 INCORRECT, CORRECTED:
 : The VERIFIED Errata Report {{Err4954}} corrects the usage of
   "Content-Encoding" in the text and changes the name of the first
