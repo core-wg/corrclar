@@ -1040,7 +1040,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bormann</td>
-<td class="center">Expires 2 January 2025</td>
+<td class="center">Expires 3 January 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1056,12 +1056,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6690" class="eref">6690</a>, <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a>, <a href="https://www.rfc-editor.org/rfc/rfc7641" class="eref">7641</a>, <a href="https://www.rfc-editor.org/rfc/rfc7959" class="eref">7959</a>, <a href="https://www.rfc-editor.org/rfc/rfc8132" class="eref">8132</a>, <a href="https://www.rfc-editor.org/rfc/rfc8323" class="eref">8323</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-07-01" class="published">1 July 2024</time>
+<time datetime="2024-07-02" class="published">2 July 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-01-02">2 January 2025</time></dd>
+<dd class="expires"><time datetime="2025-01-03">3 January 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1180,7 +1180,10 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
                 <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-rfc7252-721-ct-attribute-co" class="internal xref">RFC7252-7.2.1: "ct" Attribute (content-format code)</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
-                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-rfc-7252-123-content-format" class="internal xref">RFC 7252-12.3: Content-Format Registry</a></p>
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-rfc7252-911-912-match-boxin" class="internal xref">RFC7252-9.1.1/9.1.2: (match boxing)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4">
+                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="auto internal xref">2.4</a>.  <a href="#name-rfc-7252-123-content-format" class="internal xref">RFC 7252-12.3: Content-Format Registry</a></p>
 </li>
             </ul>
 </li>
@@ -1425,12 +1428,90 @@ link.<a href="#section-2.2-5.2.1" class="pilcrow">¶</a></p>
 </dl>
 </section>
 </div>
-<div id="ct">
+<div id="rfc7252-911912-match-boxing">
 <section id="section-2.3">
-        <h3 id="name-rfc-7252-123-content-format">
-<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-rfc-7252-123-content-format" class="section-name selfRef">RFC 7252-12.3: Content-Format Registry</a>
+        <h3 id="name-rfc7252-911-912-match-boxin">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-rfc7252-911-912-match-boxin" class="section-name selfRef">RFC7252-9.1.1/9.1.2: (match boxing)</a>
         </h3>
-<p id="section-2.3-1"><span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> established the CoAP Content-Formats
+<p id="section-2.3-1">Sections <a href="https://rfc-editor.org/rfc/rfc7252#section-9.1.1" class="relref">9.1.1</a> and <a href="https://rfc-editor.org/rfc/rfc7252#section-9.1.2" class="relref">9.1.2</a> of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> provide details about using CoAP
+over DTLS connections; in particular they restrict both message-id
+matching and request/response matching to within a single combination
+of DTLS session/DTLS epoch.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">At the time, this was a decision to be very conservative based on the
+wide variety of security implications a new DTLS epoch might have
+(which also were not widely understood, e.g., for a re-authentication).
+The normally short time between a request and a response made this
+rather strict boxing appear acceptable.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">However, with the Observe functionality <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, it is quite likely
+that significant time elapses between a request and the arrival of a
+notification that is sent back as a response, causing a need for the
+latter to use a different box from the original request.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">Also, additions to CoAP such as CoAP over connection-oriented
+transports <span>[<a href="#RFC8323" class="cite xref">RFC8323</a>]</span> and OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> create similar matching
+boxes that also do not fit certain likely use cases of these additions
+(e.g., with short-lived TCP connections as discussed in <span><a href="https://rfc-editor.org/rfc/rfc9006#section-4.3" class="relref">Section 4.3</a> of [<a href="#RFC9006" class="cite xref">RFC9006</a>]</span>).<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-5">The match boxing semantics of the current protocol are clearly
+defined, but can be unsatisfactory given the current requirements.
+Therefore, enhancements may be called for:<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.3-6">
+<li id="section-2.3-6.1">
+            <p id="section-2.3-6.1.1">Protocols such as OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, as enhanced by the proposed
+KUDOS mechanism <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, need to define how the matching functions
+are impacted by state transitions of the underlying transport and
+security sessions.
+Where extensions are already actively being developed, this work
+should be done in the context of the extension effort.<a href="#section-2.3-6.1.1" class="pilcrow">¶</a></p>
+<ol start="1" type="a" class="normal type-a" id="section-2.3-6.1.2">
+<li id="section-2.3-6.1.2.1">
+                <p id="section-2.3-6.1.2.1.1">Protocol mechanisms that have been defined for stitching
+together connections or phases of an underlying connection, such
+as Connection Identifiers for DTLS 1.2 <span>[<a href="#RFC9176" class="cite xref">RFC9176</a>]</span>, may enable
+keeping the session/epoch unchanged and even to change the
+transport address (ip-address/port), once appropriately modified
+match boxing rules are specified for the stitching mechanism.
+(These rules either need to be defined to be implicitly active
+for any use of the mechanism or they may require negotiation,
+see below.)<a href="#section-2.3-6.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ol>
+</li>
+          <li id="section-2.3-6.2">
+            <p id="section-2.3-6.2.1">Optimizations such as Eclipse/Californium EndpointContextMatcher
+<span>[<a href="#CF-MATCHER" class="cite xref">CF-MATCHER</a>]</span> might not work properly unless both sides of the
+communication agree on the extent of the matching boxes.
+Mechanisms to indicate capabilities and choices selected may need
+to be defined; also, a way to define the progression of matching
+boxes needs to be defined that is compatible with the security
+properties of the underlying protocols.
+This may require new efforts, to be initiated based on some
+formative contributions.<a href="#section-2.3-6.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-2.3-7">PENDING.<a href="#section-2.3-7" class="pilcrow">¶</a></p>
+<p id="section-2.3-8">Relevant starting points for retrieving existing discussion of this
+issue include:<a href="#section-2.3-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.3-9.1">
+            <p id="section-2.3-9.1.1"><a href="https://mailarchive.ietf.org/arch/msg/core/biDJ8n4w0kBQATzyh9xHlKnGy1o/">https://mailarchive.ietf.org/arch/msg/core/biDJ8n4w0kBQATzyh9xHlKnGy1o/</a><br>
+("DTLS and Epochs")<a href="#section-2.3-9.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.3-9.2">
+            <p id="section-2.3-9.2.1"><a href="https://mailarchive.ietf.org/arch/msg/core/TsyyKIHQ1FJtAvAo0ODNEt2Ileo/">https://mailarchive.ietf.org/arch/msg/core/TsyyKIHQ1FJtAvAo0ODNEt2Ileo/</a><br>
+("Connection ID")<a href="#section-2.3-9.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.3-9.3">
+            <p id="section-2.3-9.3.1"><a href="https://github.com/core-wg/corrclar/issues/9">https://github.com/core-wg/corrclar/issues/9</a><br>
+("Clarify/revise language around epochs in section 9.1.1 #9")<a href="#section-2.3-9.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="ct">
+<section id="section-2.4">
+        <h3 id="name-rfc-7252-123-content-format">
+<a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-rfc-7252-123-content-format" class="section-name selfRef">RFC 7252-12.3: Content-Format Registry</a>
+        </h3>
+<p id="section-2.4-1"><span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> established the CoAP Content-Formats
 Registry, which maps a combination of an Internet Media Type
 with an HTTP Content Coding, collectively called a Content-Format, to
 a concise numeric identifier for that Content-Format.
@@ -1441,42 +1522,42 @@ combination of a type-name and a subtype-name registered in
 the two names separated by a slash.
 This construct is often called a Content Type to reduce the confusion
 with a Media-Type-Name (e.g., in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3" class="relref">Section 8.3</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>, which then
-however also opts to use the term Media Type for the same information set).<a href="#section-2.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.3-2">The second column of the Content-Format registry is the Content
+however also opts to use the term Media Type for the same information set).<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-2">The second column of the Content-Format registry is the Content
 Coding, which is defined in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.4.1" class="relref">Section 8.4.1</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>.
 For historical reasons, the HTTP header field that actually carries
 the content coding is called Content-Encoding; this often leads to the
-misnaming of Content Coding as "content encoding".<a href="#section-2.3-2" class="pilcrow">¶</a></p>
-<p id="section-2.3-3">As has been noted in <span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span>, the text in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>
+misnaming of Content Coding as "content encoding".<a href="#section-2.4-2" class="pilcrow">¶</a></p>
+<p id="section-2.4-3">As has been noted in <span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span>, the text in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>
 incorrectly uses these terms in the context of content types and
-content coding:<a href="#section-2.3-3" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-2.3-4">
-<li id="section-2.3-4.1">
-            <p id="section-2.3-4.1.1">The field that describes the Content Type is called "Media Type".
+content coding:<a href="#section-2.4-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.4-4">
+<li id="section-2.4-4.1">
+            <p id="section-2.4-4.1.1">The field that describes the Content Type is called "Media Type".
 This can lead to the misunderstanding that this column just carries
 a Media-Type-Name (such as "<code>text/plain</code>"), while it actually also
-can carry media type parameters (as in "<code>text/plain; charset=UTF-8</code>").<a href="#section-2.3-4.1.1" class="pilcrow">¶</a></p>
+can carry media type parameters (as in "<code>text/plain; charset=UTF-8</code>").<a href="#section-2.4-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-2.3-4.2">
-            <p id="section-2.3-4.2.1">The field that describes the Content Coding uses the incorrect name
-"Content Encoding".<a href="#section-2.3-4.2.1" class="pilcrow">¶</a></p>
+          <li id="section-2.4-4.2">
+            <p id="section-2.4-4.2.1">The field that describes the Content Coding uses the incorrect name
+"Content Encoding".<a href="#section-2.4-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<span class="break"></span><dl class="dlNewline" id="section-2.3-5">
-          <dt id="section-2.3-5.1">INCORRECT, CORRECTED:</dt>
-          <dd style="margin-left: 1.5em" id="section-2.3-5.2">
-            <p id="section-2.3-5.2.1">The VERIFIED Errata Report <span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span> corrects the usage of
+<span class="break"></span><dl class="dlNewline" id="section-2.4-5">
+          <dt id="section-2.4-5.1">INCORRECT, CORRECTED:</dt>
+          <dd style="margin-left: 1.5em" id="section-2.4-5.2">
+            <p id="section-2.4-5.2.1">The VERIFIED Errata Report <span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span> corrects the usage of
 "Content-Encoding" in the text and changes the name of the first
 column of the Content-Format registry to "Content Type" and the name
 of the second field to "Content Coding".
-This change has been carried out by IANA.<a href="#section-2.3-5.2.1" class="pilcrow">¶</a></p>
+This change has been carried out by IANA.<a href="#section-2.4-5.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-2.3-6"><span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span> also has some notes on what would be valid or invalid
+<p id="section-2.4-6"><span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span> also has some notes on what would be valid or invalid
 Content-Format registrations.
 These are not repeated here; they are however quite useful as a
-reference when preparing additional Content-Format registrations.<a href="#section-2.3-6" class="pilcrow">¶</a></p>
+reference when preparing additional Content-Format registrations.<a href="#section-2.4-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1488,7 +1569,7 @@ reference when preparing additional Content-Format registrations.<a href="#secti
       </h2>
 <p id="section-3-1">This document makes no new requests to IANA.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Individual clarifications may contain IANA considerations; as for
-example in <a href="#ct" class="auto internal xref">Section 2.3</a>.<a href="#section-3-2" class="pilcrow">¶</a></p>
+example in <a href="#ct" class="auto internal xref">Section 2.4</a>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
@@ -1543,8 +1624,12 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8323">[RFC8323]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Lemay, S.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Hartke, K.</span>, <span class="refAuthor">Silverajan, B.</span>, and <span class="refAuthor">B. Raymor, Ed.</span>, <span class="refTitle">"CoAP (Constrained Application Protocol) over TCP, TLS, and WebSockets"</span>, <span class="seriesInfo">RFC 8323</span>, <span class="seriesInfo">DOI 10.17487/RFC8323</span>, <time datetime="2018-02" class="refDate">February 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8323">https://www.rfc-editor.org/rfc/rfc8323</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8613">[RFC8613]</dt>
+      <dd>
+<span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J.</span>, <span class="refAuthor">Palombini, F.</span>, and <span class="refAuthor">L. Seitz</span>, <span class="refTitle">"Object Security for Constrained RESTful Environments (OSCORE)"</span>, <span class="seriesInfo">RFC 8613</span>, <span class="seriesInfo">DOI 10.17487/RFC8613</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8613">https://www.rfc-editor.org/rfc/rfc8613</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1555,6 +1640,10 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="CF-MATCHER">[CF-MATCHER]</dt>
+        <dd>
+<span class="refTitle">"EndpointContextMatcher.java"</span>, <span>&lt;<a href="https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java">https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="Err4954">[Err4954]</dt>
         <dd>
 <span class="refTitle">RFC Errata Report 4954</span>, <span class="seriesInfo">RFC 7252</span>, <span>&lt;<a href="https://www.rfc-editor.org/errata/eid4954">https://www.rfc-editor.org/errata/eid4954</a>&gt;</span>. </dd>
@@ -1562,6 +1651,10 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <dt id="Err5078">[Err5078]</dt>
         <dd>
 <span class="refTitle">RFC Errata Report 5078</span>, <span class="seriesInfo">RFC 7252</span>, <span>&lt;<a href="https://www.rfc-editor.org/errata/eid5078">https://www.rfc-editor.org/errata/eid5078</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-core-oscore-key-update">[I-D.ietf-core-oscore-key-update]</dt>
+        <dd>
+<span class="refAuthor">Höglund, R.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Key Update for OSCORE (KUDOS)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-key-update-07</span>, <time datetime="2024-03-04" class="refDate">4 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-07">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.media-types">[IANA.media-types]</dt>
         <dd>
@@ -1575,9 +1668,17 @@ considerations will then be on the individual clarifications.)<a href="#section-
         <dd>
 <span class="refAuthor">Keranen, A.</span>, <span class="refTitle">""Too Many Requests" Response Code for the Constrained Application Protocol"</span>, <span class="seriesInfo">RFC 8516</span>, <span class="seriesInfo">DOI 10.17487/RFC8516</span>, <time datetime="2019-01" class="refDate">January 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8516">https://www.rfc-editor.org/rfc/rfc8516</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC9006">[RFC9006]</dt>
+        <dd>
+<span class="refAuthor">Gomez, C.</span>, <span class="refAuthor">Crowcroft, J.</span>, and <span class="refAuthor">M. Scharf</span>, <span class="refTitle">"TCP Usage Guidance in the Internet of Things (IoT)"</span>, <span class="seriesInfo">RFC 9006</span>, <span class="seriesInfo">DOI 10.17487/RFC9006</span>, <time datetime="2021-03" class="refDate">March 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9006">https://www.rfc-editor.org/rfc/rfc9006</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC9110">[RFC9110]</dt>
         <dd>
 <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9146">[RFC9146]</dt>
+        <dd>
+<span class="refAuthor">Rescorla, E., Ed.</span>, <span class="refAuthor">Tschofenig, H., Ed.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">A. Kraus</span>, <span class="refTitle">"Connection Identifier for DTLS 1.2"</span>, <span class="seriesInfo">RFC 9146</span>, <span class="seriesInfo">DOI 10.17487/RFC9146</span>, <time datetime="2022-03" class="refDate">March 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9146">https://www.rfc-editor.org/rfc/rfc9146</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9148">[RFC9148]</dt>
         <dd>
