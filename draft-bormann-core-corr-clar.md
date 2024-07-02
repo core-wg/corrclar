@@ -35,6 +35,7 @@ normative:
   RFC8613: oscore
 informative:
   RFC8516: RC429
+  I-D.bormann-core-responses: responses
   RFC3986: uri
   Err4895: 7252
   Err4954: 7252
@@ -182,6 +183,58 @@ In this document, a reference to a section in RFC nnnn is written
 as RFC nnnn-\<number>, where \<number> is the section number.
 
 # RFC 7252
+
+## RFC7252-1.2: Terminology (Request-URI)
+
+{{RFC7252}} uses the term "request URI" repeatedly, but only provides a
+vague definition in {{Section 5.7.2 of RFC7252}}.
+Text should be added to the definitions in {{Section 1.2 (Terminology)
+of RFC7252}}.
+
+{: vspace='0'}
+INCOMPLETE; FORMAL ADDITION (Section 1.2):
+: Request URI:
+  : The URI that identifies a resource on a server intended to be
+    addressed by a request; constructed from the context of the
+    request combined with Options present in the request using the
+    process defined in {{Section 6.5 (Composing URIs from Options) of
+    RFC7252}}, see {{Section 5.7.2 (Forward-Proxies) of
+    RFC7252}} for further details.
+    Related to the HTTP concept of "target URI"; see {{Section 7.1
+    (Determining the Target Resource) of ?RFC9110}}; previously called
+    "effective request URI" in {{Section 5.5 (Effective Request URI) of
+    ?RFC7230}}.
+
+PENDING.
+
+Note that a similar, but distinct concept is the "base URI", relative
+to which relative URIs are resolved.
+This is more complex in CoAP than in HTTP because CoAP can multicast
+requests {{Section 8 of -coap}}, expecting unicast responses; these need
+to be interpreted relative to the unicast source address from which
+the responses come.
+
+{{Section 8.2 of -coap}} has:
+
+{:quote}
+>  For the purposes of interpreting the Location-* options and any links
+   embedded in the representation, the request URI (i.e., the base URI
+   relative to which the response is interpreted) is formed by replacing
+   the multicast address in the Host component of the original request
+   URI by the literal IP address of the endpoint actually responding.
+
+Similarly, {{Section 8.2.1 of -coap}} (Caching) says:
+
+{:quote}
+>  A response received in reply to a GET request to a multicast group
+   MAY be used to satisfy a subsequent request on the related unicast
+   request URI.  The unicast request URI is obtained by replacing the
+   authority part of the request URI with the transport-layer source
+   address of the response message.
+
+Further discussion of a more generalized response concept can be found in
+{{-responses}}.
+
 
 ## RFC7252-5.10.5: Max-Age
 
