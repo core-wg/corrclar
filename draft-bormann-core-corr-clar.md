@@ -32,11 +32,22 @@ normative:
   RFC7959: block
   RFC8132: etch
   RFC8323: coap-tcp
+  RFC8613: oscore
 informative:
   RFC8516: RC429
   I-D.bormann-core-responses: responses
+  RFC3986: uri
+  Err4895: 7252
   Err4954: 7252
   Err5078: 7252
+  I-D.ietf-core-oscore-key-update: kudos
+  CF-MATCHER:
+    target: https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java
+    title: EndpointContextMatcher.java
+    date: false
+  RFC9146:
+    # Connection Identifiers for DTLS 1.2. That keeps the session/epoch and enables to change the ip-address/port, if the matching is relaxed from the ip-endpoints.
+
 
 --- abstract
 
@@ -240,11 +251,68 @@ This extension was deemed acceptable for the purposes of {{-RC429}},
 but may be suboptimal when Max-Age is about the lifetime of a response
 object.
 
-{: vspace='0'}
+{:vspace}
 INCOMPLETE:
 : The value is intended to be current at the time of transmission.
 
 PENDING.
+
+
+## RFC7252-6.4: Decomposing URIs into Options
+
+{{Err4895}} notes (text updated with newer link):
+
+{:quote}
+>
+The current specification for decomposing a URI into CoAP Options
+(Section 6.4) is correct; however the text may still be unclear to
+implementers who may think that the phrase "not including the
+delimiting slash characters" means simply omitting a trailing slash
+character in the URI path. This is incorrect. See the discussion
+outcome in email thread
+> <https://mailarchive.ietf.org/arch/msg/core/vqOiUreodGXqWZGeGOTREChCsKY/>.
+
+{{Err4895}} proceeds to propose adding another note at the end of
+{{Section 6.4 of RFC7252}}.
+A slightly updated version of the proposed note might be:
+
+{:vspace}
+INCOMPLETE; FORMAL ADDITION at the end of {{Section 6.4 of RFC7252}}:
+: Also note that a trailing slash character in the \<path> component
+  represents a separate, zero-character path segment (see the ABNF in
+  {{Section 3.3 of -uri}}).
+  This is encoded using a Uri-Path Option of zero length.
+  The exception at the start of step 8 means that no such
+  zero-character path segment is added for a trailing slash that
+  immediately follows the authority (host and port).
+
+  {:aside}
+  > This means that for a CoAP server, no difference is visible
+  between a request that was generated from the URI
+  `coap://authority/` and one that was generated from the URI
+  `coap://authority` -- in both cases, there is no Uri-Path Option in
+  the request.
+  >
+  > Note that this does not mean that a client cannot create a request
+  with a single empty Uri-Path Option (which cannot be generated from
+  a URI according to the algorithm given here), or that a server is
+  compelled to treat a request with such a single empty Uri-Path
+  Option the same way as one without any Uri-Path Option — the
+  exception at the start of step 8 is only about generating CoAP
+  Options from a URI.
+  >
+  > Note also that there is a difference between requests generated
+  from `coap://authority/`, `coap://authority//`, and
+  `coap://authority///`, respectively:
+  The first has no Uri-Path Options (due to the special exception),
+  the second, two (empty ones), the third, three (empty ones).
+  >
+  > Similarly, for `coap://authority/foo` a single Uri-Path Option
+  with the value `foo` is generated, while for `coap://authority/foo/`
+  that Uri-Path Option is followed by an empty one.
+
+PENDING: Enough examples now?
+
 
 ## RFC7252-7.2.1: "ct" Attribute (content-format code)
 
@@ -268,10 +336,79 @@ be likely to cause interoperability problems.
 At the 2022-11-23 CoRE WG interim meeting, there was agreement that
 {{Err5078}} should be marked "VERIFIED", which was done on 2023-01-18.
 
-{: vspace='0'}
+{:vspace}
 INCOMPLETE; FORMAL ADDITION:
 : The Content-Format code attribute MUST NOT appear more than once in a
   link.
+
+## RFC7252-9.1.1/9.1.2: (match boxing)
+
+{{Sections 9.1.1 and 9.1.2 of RFC7252}} provide details about using CoAP
+over DTLS connections; in particular they restrict both message-id
+matching and request/response matching to within a single combination
+of DTLS session/DTLS epoch.
+
+At the time, this was a decision to be very conservative based on the
+wide variety of security implications a new DTLS epoch might have
+(which also were not widely understood, e.g., for a re-authentication).
+The normally short time between a request and a response made this
+rather strict boxing appear acceptable.
+
+However, with the Observe functionality {{-observe}}, it is quite likely
+that significant time elapses between a request and the arrival of a
+notification that is sent back as a response, causing a need for the
+latter to use a different box from the original request.
+
+Also, additions to CoAP such as CoAP over connection-oriented
+transports {{-coap-tcp}} and OSCORE {{-oscore}} create similar matching
+boxes that also do not fit certain likely use cases of these additions
+(e.g., with short-lived TCP connections as discussed in {{Section 4.3
+of ?RFC9006}}).
+
+The match boxing semantics of the current protocol are clearly
+defined, but can be unsatisfactory given the current requirements.
+Therefore, enhancements may be called for:
+
+1. Protocols such as OSCORE {{-oscore}}, as enhanced by the proposed
+   KUDOS mechanism {{-kudos}}, need to define how the matching functions
+   are impacted by state transitions of the underlying transport and
+   security sessions.
+   Where extensions are already actively being developed, this work
+   should be done in the context of the extension effort.
+
+   {:type="a"}
+   1. Protocol mechanisms that have been defined for stitching
+      together connections or phases of an underlying connection, such
+      as Connection Identifiers for DTLS 1.2 {{RFC9176}}, may enable
+      keeping the session/epoch unchanged and even to change the
+      transport address (ip-address/port), once appropriately modified
+      match boxing rules are specified for the stitching mechanism.
+      (These rules either need to be defined to be implicitly active
+      for any use of the mechanism or they may require negotiation,
+      see below.)
+
+2. Optimizations such as Eclipse/Californium EndpointContextMatcher
+   {{CF-MATCHER}} might not work properly unless both sides of the
+   communication agree on the extent of the matching boxes.
+   Mechanisms to indicate capabilities and choices selected may need
+   to be defined; also, a way to define the progression of matching
+   boxes needs to be defined that is compatible with the security
+   properties of the underlying protocols.
+   This may require new efforts, to be initiated based on some
+   formative contributions.
+
+PENDING.
+
+Relevant starting points for retrieving existing discussion of this
+issue include:
+
+* <https://mailarchive.ietf.org/arch/msg/core/biDJ8n4w0kBQATzyh9xHlKnGy1o/>\\
+("DTLS and Epochs")
+* <https://mailarchive.ietf.org/arch/msg/core/TsyyKIHQ1FJtAvAo0ODNEt2Ileo/>\\
+("Connection ID")
+* <https://github.com/core-wg/corrclar/issues/9>\\
+("Clarify/revise language around epochs in section 9.1.1 #9")
+
 
 ## RFC 7252-12.3: Content-Format Registry {#ct}
 
@@ -306,13 +443,18 @@ content coding:
 2. The field that describes the Content Coding uses the incorrect name
    "Content Encoding".
 
-{: vspace='0'}
+{:vspace}
 INCORRECT, CORRECTED:
 : The VERIFIED Errata Report {{Err4954}} corrects the usage of
   "Content-Encoding" in the text and changes the name of the first
   column of the Content-Format registry to "Content Type" and the name
-  of the second field to "Content Coding"; this change has been
-  carried out by IANA.
+  of the second field to "Content Coding".
+  This change has been carried out by IANA.
+
+{{Err4954}} also has some notes on what would be valid or invalid
+Content-Format registrations.
+These are not repeated here; they are however quite useful as a
+reference when preparing additional Content-Format registrations.
 
 # IANA Considerations
 
