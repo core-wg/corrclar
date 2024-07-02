@@ -42,6 +42,9 @@ informative:
     target: https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java
     title: EndpointContextMatcher.java
     date: false
+  RFC9146:
+    # Connection Identifiers for DTLS 1.2. That keeps the session/epoch and enables to change the ip-address/port, if the matching is relaxed from the ip-endpoints.
+
 
 --- abstract
 
@@ -260,6 +263,17 @@ Therefore, enhancements may be called for:
    security sessions.
    Where extensions are already actively being developed, this work
    should be done in the context of the extension effort.
+
+   {:type="a"}
+   1. Protocol mechanisms that have been defined for stitching
+      together connections or phases of an underlying connection, such
+      as Connection Identifiers for DTLS 1.2 {{RFC9176}}, may enable
+      keeping the session/epoch unchanged and even to change the
+      transport address (ip-address/port), once appropriately modified
+      match boxing rules are specified for the stitching mechanism.
+      (These rules either need to be defined to be implicitly active
+      for any use of the mechanism or they may require negotiation,
+      see below.)
 
 2. Optimizations such as Eclipse/Californium EndpointContextMatcher
    {{CF-MATCHER}} might not work properly unless both sides of the
