@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-02T01:24:36.151010+00:00",
+  "timestamp": "2024-07-04T01:24:25.968532+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "example-desirable",
+      "description": "",
+      "color": "c2e0c6"
     }
   ],
   "issues": [
@@ -299,7 +304,7 @@
       "id": "MDU6SXNzdWUxODE2ODY3NjQ4",
       "title": "Uri-Path encoding of trailing slash",
       "url": "https://github.com/core-wg/corrclar/issues/7",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ektrah",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -308,8 +313,8 @@
       ],
       "body": "Errata ID: [4895](https://www.rfc-editor.org/errata/eid4895)\r\nType: Editorial\r\nReported By: Esko Dijk\r\nDate Reported: 2016-12-23\r\n\r\n[Section 6.4](https://tools.ietf.org/html/rfc7252#section-6.4) says/should say:\r\n\r\n```diff\r\n-Note that these rules completely resolve any percent-encoding.\r\n+Note that these rules completely resolve any percent-encoding. Also\r\n+note that a trailing slash character in the <path> component represents\r\n+a separate, zero-character path segment (see [RFC3986] Section 3.3\r\n+ABNF) and therefore it is encoded using a Uri-Path Option of zero\r\n+length.\r\n```\r\n\r\nThe current specification for decomposing a URI into CoAP Options (Section 6.4) is correct; however the text may still be unclear to implementers who may think that the phrase \"not including the delimiting slash characters\" means simply omitting a trailing slash character in the URI path. This is incorrect. See the discussion outcome in email thread https://www.ietf.org/mail-archive/web/core/current/msg08223.html . Therefore, a minor clarification is proposed in the notes after the parsing steps.",
       "createdAt": "2019-06-12T13:52:09Z",
-      "updatedAt": "2024-06-16T23:15:19Z",
-      "closedAt": null,
+      "updatedAt": "2024-07-02T20:11:27Z",
+      "closedAt": "2024-07-02T20:11:27Z",
       "comments": [
         {
           "author": "cabo",
@@ -373,7 +378,7 @@
       ],
       "body": "Current text is:\r\n\r\n  The following rules are added for matching an Acknowledgement message\r\n   or Reset message to a Confirmable message, or a Reset message to a\r\n   Non-confirmable message: The DTLS session MUST be the same, and the\r\n   epoch MUST be the same.\r\n\r\nHowever this does not really make any sense in terms of what DTLS does for authentication.  The rule was initially created so that if the authentication data changed, which forces an epoch change, then the message would not be matched.  The problem is that epochs can change for other reasons such as simple re-keys which do not change any of the authentication data.\r\n\r\nWhen a re-authentication is done in TLS, then there is a large discussion about what this means.  One interpretation is that the new authentication is added to the existing one.  In which case not matching may not make sense.  The other interpretation is that the new authentication replaces the old one.\r\n\r\nUnder each of these situations it does not really make sense for the client to have to add this rule for matching.  The sequence of events would be:\r\n* Client sends request\r\n* Client-server does a new authentication set\r\n* Client receives response from server\r\n\r\nThe server should have checked that the authentication was fine when creating the response and there is no change in the client that is at the other end of the pipe.\r\n\r\nRecommend: Remove all of the language about epochs from RFC 7252.",
       "createdAt": "2019-06-12T16:55:14Z",
-      "updatedAt": "2024-06-16T23:13:44Z",
+      "updatedAt": "2024-07-02T19:43:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -417,6 +422,13 @@
           "body": "Maybe a bit out of the topic of this issue. \r\n\r\n @boaks raises that particular attention should be taken for RFC7641 observe/notify case: \r\n\r\n> For the most request/response pairs the time span is short, and therefore the probability the something changes according the DTLS layer is low.\r\n> The most pain comes with RFC7641, observe/notify. With that, the time span gets much larger. Assuming longer quiet periods, NAT timeouts occur too often.\r\n\r\nRegarding this topic about matching request/response for observe/notify.\r\nIt could maybe have a very similar issue with coap over tcp.\r\n\r\nThe [RFC8323](https://www.rfc-editor.org/rfc/rfc8323#section-3.3) says : \r\n```\r\n Responses MUST be returned over the same connection as the originating request. \r\n```\r\nWhich is fine for \"classic\" CoAP request/response but maybe not for observe/notify.\r\n\r\n[RFC-9006\u00a74.3 - TCP Connection Lifetime](https://www.rfc-editor.org/rfc/rfc9006.html#section-4.3) says : \r\n```\r\nOne approach for infrequent data transfer is to use short-lived TCP connections.\r\nInstead of trying to maintain a TCP connection for a long time, it is possible that short-lived\r\nconnections can be opened between two endpoints, which are closed if no more data \r\nneeds to be exchanged. For use cases that can cope with the additional messages\r\nand the latency resulting from starting new connections, it is recommended to use a sequence\r\nof short-lived connections instead of maintaining a single long-lived connection.\r\n```\r\n\r\nI'm not totally sure but I feel using sequence of short-lived connections could fit the case of an observed device which send notify very infrequently but with current RFC8323 this seems not possible. \r\n\r\nThis seems to illustrate that the \"classic\" Request/Response matching  is often not very well suited to observe/notify.",
           "createdAt": "2022-11-24T17:03:23Z",
           "updatedAt": "2022-11-24T17:03:23Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "I reopened this so further PRs can easily reference this issue.",
+          "createdAt": "2024-07-02T19:42:59Z",
+          "updatedAt": "2024-07-02T19:42:59Z"
         }
       ]
     },
@@ -434,7 +446,7 @@
       ],
       "body": "The RFC uses \"request URI\" terminology, but there is no definition or reference of what a request URI is.\r\n\r\nAlso, while the RFC document does describe how the request URI can be generated based on CoAP message elements, it is not very clear that the request URI is not a message element itself (in SIP, the request URI is part of the message syntax).\r\n\r\n",
       "createdAt": "2019-10-14T12:09:33Z",
-      "updatedAt": "2024-06-16T23:10:49Z",
+      "updatedAt": "2024-07-02T20:17:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -443,6 +455,13 @@
           "body": "Thanks! We should probably include some bits from [section 2 of RFC 7230](https://tools.ietf.org/html/rfc7230#section-2) on this (where it's called \"target URI\"). It might also be a good idea to emphasize the distinction between the concept (request URI) and its representation (Uri-* options).",
           "createdAt": "2019-10-14T15:09:31Z",
           "updatedAt": "2019-10-14T15:09:31Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "Reopen due to large PENDING",
+          "createdAt": "2024-07-02T20:17:45Z",
+          "updatedAt": "2024-07-02T20:17:45Z"
         }
       ]
     },
@@ -1486,24 +1505,26 @@
       "id": "PR_kwDOJ-N8wM5ysvjA",
       "title": "Close #7: Uri-Path encoding of trailing slash",
       "url": "https://github.com/core-wg/corrclar/pull/32",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "cabo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Use text of Err4895 for a an additional note about trailing slashes in URI paths",
       "createdAt": "2024-06-17T14:05:27Z",
-      "updatedAt": "2024-06-20T14:48:58Z",
+      "updatedAt": "2024-07-02T20:12:27Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
       "headRepository": "core-wg/corrclar",
       "headRefName": "close-7",
-      "headRefOid": "e1610c1e4280a51fccda0f81b554ce2bf9c0ab0a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "0c2ca33c08a4870a49c11f2729d2643f9cd8616d",
+      "closedAt": "2024-07-02T20:11:26Z",
+      "mergedAt": "2024-07-02T20:11:26Z",
+      "mergedBy": "cabo",
+      "mergeCommit": {
+        "oid": "897d1e57630e1d46bceffe78b5a04a87e95535ae"
+      },
       "comments": [
         {
           "author": "chrysn",
@@ -1546,6 +1567,20 @@
           "body": "I don't like it as well.  But need to understand potential consequences.",
           "createdAt": "2024-06-20T14:48:56Z",
           "updatedAt": "2024-06-20T14:48:56Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "> From interim: Let's add examples.\r\n\r\nDo we add examples to corrclar or to the formal addition to RFC7252?",
+          "createdAt": "2024-07-02T19:51:59Z",
+          "updatedAt": "2024-07-02T19:51:59Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "I added some examples and merged -- we can reopen the issue if it isn't completely covered yet.",
+          "createdAt": "2024-07-02T20:12:26Z",
+          "updatedAt": "2024-07-02T20:12:26Z"
         }
       ],
       "reviews": []
@@ -1555,24 +1590,26 @@
       "id": "PR_kwDOJ-N8wM5yuDgf",
       "title": "Close #10: \"request URI\" not defined",
       "url": "https://github.com/core-wg/corrclar/pull/33",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "cabo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-06-17T17:11:05Z",
-      "updatedAt": "2024-07-01T12:35:52Z",
+      "updatedAt": "2024-07-02T20:17:18Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
-      "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
+      "baseRefOid": "897d1e57630e1d46bceffe78b5a04a87e95535ae",
       "headRepository": "core-wg/corrclar",
       "headRefName": "close-10",
-      "headRefOid": "240dc5d79850d96731eaecf5af13103318090be6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "e51c7e77259315fa4b96507de52ec4b320e8daf5",
+      "closedAt": "2024-07-02T20:16:39Z",
+      "mergedAt": "2024-07-02T20:16:39Z",
+      "mergedBy": "cabo",
+      "mergeCommit": {
+        "oid": "d01ecc87194224680f97ff27031b94ac1834e823"
+      },
       "comments": [
         {
           "author": "chrysn",
@@ -1587,6 +1624,13 @@
           "body": "groupcomm-bis would also be easier with that defined: Currently, it has to bend around the involved URIs saying\r\n\r\n> A client sending a GET or FETCH group request MAY use a response received from a server, to satisfy a subsequent sent request intended to that server on the related unicast request URI. In particular, the unicast request URI is obtained by replacing the authority component of the request URI with the transport-layer source address of the cached response message.",
           "createdAt": "2024-06-27T09:41:07Z",
           "updatedAt": "2024-06-27T09:41:07Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "Merging this with a big PENDING so we can have -04 for the interim tomorrow",
+          "createdAt": "2024-07-02T20:17:17Z",
+          "updatedAt": "2024-07-02T20:17:17Z"
         }
       ],
       "reviews": []
@@ -1596,24 +1640,26 @@
       "id": "PR_kwDOJ-N8wM5y7wr2",
       "title": "close #9: epochs (or, more generally, match boxing)",
       "url": "https://github.com/core-wg/corrclar/pull/34",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "cabo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-06-19T09:14:42Z",
-      "updatedAt": "2024-06-19T15:14:59Z",
+      "updatedAt": "2024-07-02T19:40:59Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b00719a4ae119d37acbbd56034d0f0352f04959e",
       "headRepository": "core-wg/corrclar",
       "headRefName": "close-9",
-      "headRefOid": "54450feff454cf6e22a0d1bfa7cec95fdef629af",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "db15d5a7d644e998e05f4ed8be4d5ecbd8cb16cd",
+      "closedAt": "2024-07-02T19:40:59Z",
+      "mergedAt": "2024-07-02T19:40:59Z",
+      "mergedBy": "cabo",
+      "mergeCommit": {
+        "oid": "0953e9d1316e1aa6fb57a306fccb0ddf5c490061"
+      },
       "comments": [
         {
           "author": "chrysn",
@@ -1623,6 +1669,200 @@
           "updatedAt": "2024-06-19T15:14:58Z"
         }
       ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ-N8wM6AWfEc",
+          "commit": {
+            "abbreviatedOid": "54450fe"
+          },
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T10:15:39Z",
+          "updatedAt": "2024-07-02T10:15:40Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "Maybe it's also worth to mention [RFC 9146 - Connection Identifiers for DTLS 1.2](https://www.rfc-editor.org/rfc/rfc9146.html). That keeps the session/epoch and enables to change the ip-address/port, if the matching is relaxed from the ip-endpoints. ",
+              "createdAt": "2024-07-02T10:15:39Z",
+              "updatedAt": "2024-07-02T10:15:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6AbjVP",
+          "commit": {
+            "abbreviatedOid": "54450fe"
+          },
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T19:39:35Z",
+          "updatedAt": "2024-07-02T19:39:35Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "I have added some text mentioning RFC 9146.",
+              "createdAt": "2024-07-02T19:39:35Z",
+              "updatedAt": "2024-07-02T19:39:35Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "PR_kwDOJ-N8wM50P4TB",
+      "title": "address #9: match boxing with (Group) OSCORE",
+      "url": "https://github.com/core-wg/corrclar/pull/36",
+      "state": "OPEN",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Match boxing when using OSCORE, KUDOS, and Group OSCORE",
+      "createdAt": "2024-07-02T21:01:18Z",
+      "updatedAt": "2024-07-02T21:25:58Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b2615344f74fed17e6d31eaf95dc03c598ed57c7",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "address-9-oscore",
+      "headRefOid": "9a2a3268f936716ab12c71fccbfafc8d6309f18c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ-N8wM6AcTOv",
+          "commit": {
+            "abbreviatedOid": "9a2a326"
+          },
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T21:20:52Z",
+          "updatedAt": "2024-07-02T21:20:52Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "```suggestion\r\n  However, KUDOS allows the two OSCORE peers to agree on preserving their ongoing CoAP Observations across the performed key update. If and only if both peers agree to do that during an execution of KUDOS, their Observations will remain active after installing the new OSCORE Security Context, which the two peers will use from then on to protect their exchanged Observe notifications.\r\n```\r\n\r\n(this isn't just about observe, but any request with pending responses?)",
+              "createdAt": "2024-07-02T21:20:52Z",
+              "updatedAt": "2024-07-02T21:20:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6AcT8y",
+          "commit": {
+            "abbreviatedOid": "9a2a326"
+          },
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T21:22:44Z",
+          "updatedAt": "2024-07-02T21:22:44Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "\"Such an update\" is the key update, not the update of 8613, no?",
+              "createdAt": "2024-07-02T21:22:44Z",
+              "updatedAt": "2024-07-02T21:22:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6AcUiY",
+          "commit": {
+            "abbreviatedOid": "9a2a326"
+          },
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T21:24:16Z",
+          "updatedAt": "2024-07-02T21:24:17Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "I'm having a hard time with \"does not impact\".  It sure does, but maybe only in one way and not another?  I think we need to be more precise here (maybe even adding an example).",
+              "createdAt": "2024-07-02T21:24:17Z",
+              "updatedAt": "2024-07-02T21:24:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6AcUkd",
+          "commit": {
+            "abbreviatedOid": "9a2a326"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T21:24:22Z",
+          "updatedAt": "2024-07-02T21:24:22Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "Correct.",
+              "createdAt": "2024-07-02T21:24:22Z",
+              "updatedAt": "2024-07-02T21:24:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6AcVCv",
+          "commit": {
+            "abbreviatedOid": "9a2a326"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T21:25:57Z",
+          "updatedAt": "2024-07-02T21:25:58Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "It refers to the update made to RFC 8613. Maybe s/Such an update/Such an update to OSCORE",
+              "createdAt": "2024-07-02T21:25:58Z",
+              "updatedAt": "2024-07-02T21:25:58Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "id": "PR_kwDOJ-N8wM50W8H3",
+      "title": "Update #32 from 2024-07-03 CoRE interim WG meeting discussion",
+      "url": "https://github.com/core-wg/corrclar/pull/37",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-07-03T18:32:01Z",
+      "updatedAt": "2024-07-03T18:32:01Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "b2615344f74fed17e6d31eaf95dc03c598ed57c7",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "update-32-after-interim",
+      "headRefOid": "8ffd8459021ed67614e2ce14db5b31946f5112ae",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
