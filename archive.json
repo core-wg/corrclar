@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-04T01:24:25.968532+00:00",
+  "timestamp": "2024-07-07T01:41:36.946077+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -378,7 +378,7 @@
       ],
       "body": "Current text is:\r\n\r\n  The following rules are added for matching an Acknowledgement message\r\n   or Reset message to a Confirmable message, or a Reset message to a\r\n   Non-confirmable message: The DTLS session MUST be the same, and the\r\n   epoch MUST be the same.\r\n\r\nHowever this does not really make any sense in terms of what DTLS does for authentication.  The rule was initially created so that if the authentication data changed, which forces an epoch change, then the message would not be matched.  The problem is that epochs can change for other reasons such as simple re-keys which do not change any of the authentication data.\r\n\r\nWhen a re-authentication is done in TLS, then there is a large discussion about what this means.  One interpretation is that the new authentication is added to the existing one.  In which case not matching may not make sense.  The other interpretation is that the new authentication replaces the old one.\r\n\r\nUnder each of these situations it does not really make sense for the client to have to add this rule for matching.  The sequence of events would be:\r\n* Client sends request\r\n* Client-server does a new authentication set\r\n* Client receives response from server\r\n\r\nThe server should have checked that the authentication was fine when creating the response and there is no change in the client that is at the other end of the pipe.\r\n\r\nRecommend: Remove all of the language about epochs from RFC 7252.",
       "createdAt": "2019-06-12T16:55:14Z",
-      "updatedAt": "2024-07-02T19:43:00Z",
+      "updatedAt": "2024-07-04T14:56:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -429,6 +429,13 @@
           "body": "I reopened this so further PRs can easily reference this issue.",
           "createdAt": "2024-07-02T19:42:59Z",
           "updatedAt": "2024-07-02T19:42:59Z"
+        },
+        {
+          "author": "sbernard31",
+          "authorAssociation": "NONE",
+          "body": "(0953e9d is a very good summary)",
+          "createdAt": "2024-07-04T14:56:54Z",
+          "updatedAt": "2024-07-04T14:56:54Z"
         }
       ]
     },
