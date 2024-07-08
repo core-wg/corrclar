@@ -618,11 +618,11 @@ Bormann                  Expires 9 January 2025                [Page 11]
 Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
-   messages protected with the group mode of Group OSCORE (see Section 8
-   of [I-D.ietf-core-oscore-groupcomm]) are also required to convey a
-   "kid" as key identifier information (i.e., the OSCORE Sender ID
-   associated with the message sender), if the corresponding request was
-   also protected with the group mode.
+   messages are also required to convey a "kid" as key identifier
+   information (i.e., the OSCORE Sender ID associated with the message
+   sender), if the corresponding request was protected with the group
+   mode of Group OSCORE (see Section 8 of
+   [I-D.ietf-core-oscore-groupcomm]) .
 
    Some particular uses of (Group) OSCORE enable to build OSCORE-based
    tunneling [I-D.ietf-core-oscore-capable-proxies].  In such a case, a
