@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-07T01:41:36.946077+00:00",
+  "timestamp": "2024-07-09T01:25:52.450804+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -884,7 +884,7 @@
       "comments": [
         {
           "author": "rikard-sics",
-          "authorAssociation": "NONE",
+          "authorAssociation": "MEMBER",
           "body": "My understanding is that on the wire the kid_context is always just a sequence of bytes (**not** CBOR encoded), except for in Appendix B.2 where it is in fact a CBOR byte string.\r\n\r\nIt is true that 0x44616c656b decodes as a valid CBOR byte string, but I don't think the intent is for it to be a CBOR byte string. The plain ASCII value is \"Dalek\", while as a CBOR byte string it becomes h'616C656B' which is \"alek\".\r\n\r\nEDIT: Add tag @gselander",
           "createdAt": "2022-04-13T21:27:15Z",
           "updatedAt": "2022-04-13T21:29:06Z"
@@ -905,7 +905,7 @@
         },
         {
           "author": "rikard-sics",
-          "authorAssociation": "NONE",
+          "authorAssociation": "MEMBER",
           "body": "> How does the B.2 capable server determine that a client is trying to invoke B.2 or not with a kid context of 0x44616c656b?\r\n\r\nThe approximate steps I follow in the OSCORE Java code in Californium:\r\n\r\n1. Check if the KID and KID Context in the incoming request matches a context on the server.\r\n    - If so unprotect the request as normal with that context, no Appendix B.2 involved.\r\n    - (The KID Context may also be not included in the request, if so find a matching context based on KID. No Appendix B.2 for sure since the KID Context is empty.)\r\n2. If no context matched in 1. look for a context with matching KID\r\n    - If none is found abort the message processing.\r\n3. If a context is found in 2. check if the KID Context of the request is a valid CBOR byte string\r\n    - If it is not, abort the processing.\r\n4. Generate a new OSCORE security context with parameters from the context in 2. but with the KID Context in the request unwrapped from its CBOR byte string.\r\n5. Attempt to unprotect the request with this new context\r\n    - If this works continue the Appendix B.2 procedure by preparing and sending Response 1.\r\n    - If the unprotection fails abort the message processing.",
           "createdAt": "2022-04-14T09:14:14Z",
           "updatedAt": "2022-04-14T09:14:14Z"
@@ -926,14 +926,14 @@
         },
         {
           "author": "rikard-sics",
-          "authorAssociation": "NONE",
+          "authorAssociation": "MEMBER",
           "body": "> So, with a KID Context of 0x44616c656b, we can match a ID Context of 0x44616c656b at this point\r\n\r\n> Now we can match on a ID context of 0x616c656b to continue decrypting.\r\n> \r\n> In other words, there is the potental to match on 2 different ID Contexts for a single request. Not convinced that is a good idea.\r\n\r\nPractically in my code that can never happen as if a context with matching KID and KID Context is found initially it never progresses beyond point 1 or even considers Appendix B.2.\r\n\r\nAlso there is no second matching after the CBOR unwrapping of the KID Context, just generation of a brand new OSCORE security context with that ID Context.",
           "createdAt": "2022-04-14T09:49:51Z",
           "updatedAt": "2022-04-14T09:49:51Z"
         },
         {
           "author": "rikard-sics",
-          "authorAssociation": "NONE",
+          "authorAssociation": "MEMBER",
           "body": "I just wanted to mention here that we are currently working on a draft to define a procedure that is intended to obsolete the current OSCORE Appendix B.2. The draft related to it can be found here:\r\n[Key Update for OSCORE (KUDOS)](https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-01)\r\n\r\nComments and feedback on the design of this new procedure is very welcome.",
           "createdAt": "2022-05-05T12:15:12Z",
           "updatedAt": "2022-05-05T12:18:19Z"
@@ -1454,6 +1454,22 @@
       "updatedAt": "2024-06-19T10:40:59Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 38,
+      "id": "I_kwDOJ-N8wM6O1pxH",
+      "title": "Every transport re-states the URI decomposing and composing rules",
+      "url": "https://github.com/core-wg/corrclar/issues/38",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "The experience doing different protocols over CoAP is that every transport re-states the rules of section 6 of RFC7252 in some way (or misses URIs completely, resulting in LwM2M using CoAP-over-SMS without having an idea of what the URIs behind it are). Those are largely copied, and put implementers in the bad place where they have to decide whether or not they are really equivalent (because such duplication in code would be frowned upon).\r\n\r\nA restatement of CoAP rules could say that there is a single consistent rule set, and that different transports just have different default values for some options (such as Uri-Host, which may be influenced by SNI), and a different value for the scheme (which I think should just be the default value for Proxy-Scheme rather than treating this as possibly-absent).\r\n\r\nQuite possibly,  that scheme mapping could be tuples (the protocol itself, the scheme name, the ALPN value / coaptransport value) after transport-indication -- it does no harm there that the scheme name is \"coap\" or \"coaps\" for newer transports (if coaps even stays a thing).",
+      "createdAt": "2024-07-08T19:49:10Z",
+      "updatedAt": "2024-07-08T19:49:10Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -1731,13 +1747,13 @@
       "labels": [],
       "body": "Match boxing when using OSCORE, KUDOS, and Group OSCORE",
       "createdAt": "2024-07-02T21:01:18Z",
-      "updatedAt": "2024-07-02T21:25:58Z",
+      "updatedAt": "2024-07-08T13:13:12Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b2615344f74fed17e6d31eaf95dc03c598ed57c7",
       "headRepository": "core-wg/corrclar",
       "headRefName": "address-9-oscore",
-      "headRefOid": "9a2a3268f936716ab12c71fccbfafc8d6309f18c",
+      "headRefOid": "bcdb64e9c6a3b980bf0d76584a296c9e6823880d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -1841,6 +1857,26 @@
               "body": "It refers to the update made to RFC 8613. Maybe s/Such an update/Such an update to OSCORE",
               "createdAt": "2024-07-02T21:25:58Z",
               "updatedAt": "2024-07-02T21:25:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6A7HeN",
+          "commit": {
+            "abbreviatedOid": "9a2a326"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-08T11:07:14Z",
+          "updatedAt": "2024-07-08T11:07:14Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "Largely addressed in https://github.com/core-wg/corrclar/commit/d16eb1af94ed916c6c57e6c07a73d03c2918d5da",
+              "createdAt": "2024-07-08T11:07:14Z",
+              "updatedAt": "2024-07-08T11:07:14Z"
             }
           ]
         }
