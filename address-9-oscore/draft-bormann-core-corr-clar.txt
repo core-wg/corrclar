@@ -494,7 +494,7 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
    their communications, two peers need to have already established an
    OSCORE Security Context.
 
-   As an example, Appendix B.2 of [RFC8613] provides a key update
+   Appendix B.2 of [RFC8613] provides an example for a key update
    procedure, which two OSCORE peers can run for establishing a new
    shared OSCORE Security Context that replaces their old one.  The
    recent key update protocol KUDOS [I-D.ietf-core-oscore-key-update]
@@ -522,7 +522,7 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
    group rekeying.
 
    The following discusses how OSCORE, KUDOS, and Group OSCORE position
-   themselves with respect to the match boxing, the used transport
+   themselves with respect to the match boxing, the transport used
    underlying CoAP, and the renewal of the keying material.
 
 2.5.1.1.  Match Boxing
@@ -551,7 +551,7 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
    Master Salt.  Furthermore, for each OSCORE Security Context, the
    quartet (Master Secret, Master Salt, ID Context, Sender ID) must be
    unique.  As per Section 3.3 of [RFC8613], this is a hard requirement
-   and guarantees unique (key, nonce) pairs for the used AEAD algorithm.
+   and guarantees unique (key, nonce) pairs for the AEAD algorithm used.
 
 
 
@@ -576,12 +576,12 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 2.5.1.2.  Underlying Transport
 
    The security protocol (Group) OSCORE does not have any requirement on
-   binding the used Security Context to specific addressing information
-   used by the transport protocol underlying CoAP.  What occurs below
-   (Group) OSCORE with transport-specific addressing information is
-   transparent to (Group) OSCORE, but it needs to work well enough to
-   ensure that received data is delivered to (Group) OSCORE for security
-   processing.
+   binding the Security Context in use to specific addressing
+   information used by the transport protocol underlying CoAP.  What
+   occurs below (Group) OSCORE with transport-specific addressing
+   information is transparent to (Group) OSCORE, but it needs to work
+   well enough to ensure that received data is delivered to (Group)
+   OSCORE for security processing.
 
    Consistent with the above, (Group) OSCORE does not interfere with any
    low-layer, transport specific information.  Instead, it entrusts data
@@ -608,7 +608,7 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
    responses.
 
    In OSCORE, the key identifier information in request messages is
-   typically limited to a "kid", with value the OSCORE Sender ID
+   typically limited to a "kid", with a value the OSCORE Sender ID
    associated with the message sender.  In case Sender IDs are not
 
 
@@ -656,14 +656,14 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
    The following provides more details about key update, separately for
    OSCORE, KUDOS, and Group OSCORE.
 
-   *  OSCORE - [RFC8613] tacitly assumes that two peers terminate any
+   *  OSCORE: [RFC8613] tacitly assumes that two peers terminate any
       ongoing CoAP Observation that they still have ongoing, upon
       installing a new OSCORE Security Context, irrespective of the
       method used to perform the key update.
 
       On these premises, a belated response protected with the old
-      OSCORE Security Context will fail decryption, due to that Security
-      Context not available anymore on the receiving client.
+      OSCORE Security Context will fail decryption, as that Security
+      Context is not available anymore on the receiving client.
 
 
 
@@ -674,7 +674,7 @@ Bormann                   Expires 28 March 2025                [Page 12]
 Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 
 
-   *  KUDOS - The key update protocol KUDOS allows the two OSCORE peers
+   *  KUDOS: The key update protocol KUDOS allows the two OSCORE peers
       to negotiate about preserving their ongoing CoAP Observations
       across the performed key update.  If and only if both peers agree
       to do that during an execution of KUDOS, their Observations will
@@ -697,7 +697,7 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
       when running the key update procedure defined in Appendix B.2 of
       [RFC8613].
 
-   *  Group OSCORE - The Group Manager can distribute new group keying
+   *  Group OSCORE: The Group Manager can distribute new group keying
       material to the members of an OSCORE group, by performing a group
       rekeying.  When receiving updated group keying material from the
       Group Manager, either upon joining the group or by participating
@@ -706,7 +706,7 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
       replaces the old one (if any is stored).
 
       Also, Group OSCORE makes it possible for group members to safely
-      preserve their ongoing long exchanges (e.g., CoAP Observations),
+      preserve their ongoing active requests (e.g., CoAP Observations),
       also across the establishment of new Group OSCORE Security
       Contexts.  This is achieved by virtue of how the Group Manager
       assigns and maintains the identifiers of OSCORE groups (see
