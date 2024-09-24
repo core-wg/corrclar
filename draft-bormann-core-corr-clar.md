@@ -381,6 +381,22 @@ The match boxing semantics of the current protocol are clearly defined, but can 
 
 This calls for careful design choices and enhancements when developing extensions for CoAP or protocols and methods applicable to CoAP, such as in the cases overviewed in the following {{match-boxing-oscore}} and {{match-boxing-eclipse}}.
 
+### DTLS with Connection ID
+
+PENDING:
+
+{:aside}
+>
+Protocol mechanisms that have been defined for stitching
+together connections or phases of an underlying connection, such
+as Connection Identifiers for DTLS 1.2 {{RFC9146}}, may enable
+keeping the session/epoch unchanged and even to change the
+transport address (ip-address/port), once appropriately modified
+match boxing rules are specified for the stitching mechanism.
+(These rules either need to be defined to be implicitly active
+for any use of the mechanism or they may require negotiation.)
+
+
 ### OSCORE, KUDOS, and Group OSCORE # {#match-boxing-oscore}
 
 The security protocol Object Security for Constrained RESTful Environments (OSCORE) defined in {{-oscore}} provides end-to-end security for CoAP messages at the application level, by using CBOR Object Signing and Encryption (COSE) {{-cose}}. In order to protect their communications, two peers need to have already established an OSCORE Security Context.
