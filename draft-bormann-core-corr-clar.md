@@ -393,7 +393,7 @@ The following discusses how OSCORE, KUDOS, and Group OSCORE position themselves 
 
 #### Match Boxing
 
-The security processing of (Group) OSCORE is agnostic of the value assumed by the CoAP Token and MessageID. Also, (Group) OSCORE can be seamlessly used in the presence of (cross-)proxies that will change the value of the CoAP Token and MessageID on the different communication legs. This does not affect the security processing at the (Group) OSCORE endpoints.
+The security processing of (Group) OSCORE is agnostic of the value assumed by the CoAP Token and Message ID. Also, (Group) OSCORE can be seamlessly used in the presence of (cross-)proxies that will change the value of the CoAP Token and Message ID on the different communication legs. This does not affect the security processing at the (Group) OSCORE endpoints.
 
 Before any security processing is performed, the only use that (Group) OSCORE makes of the Token value is on the CoAP client upon receiving a response, in order to retrieve the right Security Context to use for decrypting and verifying the response.
 
@@ -409,7 +409,7 @@ Finally, (Group) OSCORE performs a separate secure match boxing under its own co
 
 The security protocol (Group) OSCORE does not have any requirement on binding the used Security Context to specific addressing information used by the transport protocol underlying CoAP. What occurs below (Group) OSCORE with transport-specific addressing information is transparent to (Group) OSCORE, but it needs to work well enough to ensure that received data is delivered to (Group) OSCORE for security processing.
 
-Consistent with the above, (Group) OSCORE does not interfere with any low-layer, transport specific information. Instead, it entrusts data to a Request-Response exchange mechanism that can rely on different means to enforce the Request-Response matching at the transport level (e.g., the 5-tuple, the CoAP MessageID, a file handle). Also, (Group) OSCORE does not alter the fact that a CoAP response needs to come from where the corresponding CoAP request was sent, which simply follows from using transports where that is a requirement.
+Consistent with the above, (Group) OSCORE does not interfere with any low-layer, transport specific information. Instead, it entrusts data to a Request-Response exchange mechanism that can rely on different means to enforce the Request-Response matching at the transport level (e.g., the 5-tuple, the CoAP Message ID, a file handle). Also, (Group) OSCORE does not alter the fact that a CoAP response needs to come from where the corresponding CoAP request was sent, which simply follows from using transports where that is a requirement.
 
 Furthermore, two peers can seamlessly use (Group) OSCORE also in the presence of cross-proxies that change transport across different communication legs. This does not affect the security processing at the (Group) OSCORE endpoints.
 
