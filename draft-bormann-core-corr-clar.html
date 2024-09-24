@@ -21,22 +21,21 @@ RFCs.
 In addition, other clarifications related to the use of CoAP in other
 specifications, including RFC 7390 and RFC 8075, are also provided. 
     " name="description">
-<meta content="xml2rfc 3.21.0" name="generator">
+<meta content="xml2rfc 3.23.1" name="generator">
 <meta content="draft-bormann-core-corr-clar-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.21.0
-    Python 3.12.3
+  xml2rfc 3.23.1
+    Python 3.12.6
     ConfigArgParse 1.7
-    google-i18n-address 3.1.0
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
     lxml 4.9.4
-    platformdirs 4.2.2
+    platformdirs 4.3.6
     pycountry 22.3.5
     PyYAML 6.0.1
-    requests 2.31.0
-    setuptools 69.5.1
-    six 1.16.0
+    requests 2.32.3
+    setuptools 70.3.0
     wcwidth 0.2.13
 -->
 <link href="draft-bormann-core-corr-clar.xml" rel="alternate" type="application/rfc+xml">
@@ -1036,11 +1035,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Corrections and Clarifications to CoAP</td>
-<td class="right">July 2024</td>
+<td class="right">September 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bormann</td>
-<td class="center">Expires 3 January 2025</td>
+<td class="center">Expires 28 March 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1056,12 +1055,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6690" class="eref">6690</a>, <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a>, <a href="https://www.rfc-editor.org/rfc/rfc7641" class="eref">7641</a>, <a href="https://www.rfc-editor.org/rfc/rfc7959" class="eref">7959</a>, <a href="https://www.rfc-editor.org/rfc/rfc8132" class="eref">8132</a>, <a href="https://www.rfc-editor.org/rfc/rfc8323" class="eref">8323</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-07-02" class="published">2 July 2024</time>
+<time datetime="2024-09-24" class="published">24 September 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-01-03">3 January 2025</time></dd>
+<dd class="expires"><time datetime="2025-03-28">28 March 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1121,7 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1486,31 +1485,41 @@ The exception at the start of step 8 means that no such
 zero-character path segment is added for a trailing slash that
 immediately follows the authority (host and port).<a href="#section-2.3-4.2.1" class="pilcrow">¶</a></p>
 <aside id="section-2.3-4.2.2">
-              <p id="section-2.3-4.2.2.1">This means that for a CoAP server, no difference is visible
+              <p id="section-2.3-4.2.2.1">This exception means that, for a CoAP server, no difference is visible
 between a request that was generated from the URI
 <code>coap://authority/</code> and one that was generated from the URI
-<code>coap://authority</code> -- in both cases, there is no Uri-Path Option in
-the request.<a href="#section-2.3-4.2.2.1" class="pilcrow">¶</a></p>
-<p id="section-2.3-4.2.2.2">Note that this does not mean that a client cannot create a request
-with a single empty Uri-Path Option (which cannot be generated from
-a URI according to the algorithm given here), or that a server is
-compelled to treat a request with such a single empty Uri-Path
-Option the same way as one without any Uri-Path Option — the
-exception at the start of step 8 is only about generating CoAP
-Options from a URI.<a href="#section-2.3-4.2.2.2" class="pilcrow">¶</a></p>
-<p id="section-2.3-4.2.2.3">Note also that there is a difference between requests generated
+<code>coap://authority</code> — in both cases, there is no Uri-Path Option in
+the request.
+(The URI continues to be parsed as defined:  e.g., for the URIs
+<code>coap://authority/?</code> and <code>coap://authority?</code>, there is no Uri-Path
+Option but a single Uri-Query Option that carries an empty query
+component.)<a href="#section-2.3-4.2.2.1" class="pilcrow">¶</a></p>
+<p id="section-2.3-4.2.2.2">Note that the exception at the start of step 8 does not mean that
+a client cannot create a request with a single empty Uri-Path
+Option; such a request just cannot be generated from a URI because
+of the algorithm given here.
+It also does not mean that a server is compelled to treat a request
+with such a single empty Uri-Path Option in the same way as one
+without any Uri-Path Option — the exception at the start of step 8
+is only about the process of generating a sequence of CoAP Options
+from a URI.<a href="#section-2.3-4.2.2.2" class="pilcrow">¶</a></p>
+<p id="section-2.3-4.2.2.3">The exception only applies to initial Uri-Path Options.
+So for <code>coap://authority/foo</code>, a single Uri-Path Option with the
+value <code>foo</code> is generated, while for <code>coap://authority/foo/</code> that
+Uri-Path Option is followed by an empty Uri-Path Option (an
+established idiom for a collection resource).<a href="#section-2.3-4.2.2.3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4.2.2.4">Similarly, there is a difference between requests generated
 from <code>coap://authority/</code>, <code>coap://authority//</code>, and
 <code>coap://authority///</code>, respectively:
-The first has no Uri-Path Options (due to the special exception),
-the second, two (empty ones), the third, three (empty ones).<a href="#section-2.3-4.2.2.3" class="pilcrow">¶</a></p>
-<p id="section-2.3-4.2.2.4">Similarly, for <code>coap://authority/foo</code> a single Uri-Path Option
-with the value <code>foo</code> is generated, while for <code>coap://authority/foo/</code>
-that Uri-Path Option is followed by an empty one.<a href="#section-2.3-4.2.2.4" class="pilcrow">¶</a></p>
+The first has no Uri-Path Options (due to the special exception);
+the second, two (empty ones); the third, three (empty ones).
+No server is compelled to offer resources under URIs with
+multiple empty path name components, which would generally be
+considered weird.<a href="#section-2.3-4.2.2.4" class="pilcrow">¶</a></p>
 </aside>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-2.3-5">PENDING: Enough examples now?<a href="#section-2.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="rfc7252-721-ct-attribute-content-format-code">
@@ -1700,6 +1709,7 @@ considerations of the referenced RFCs apply without additions.<a href="#section-
 considerations will then be on the individual clarifications.)<a href="#section-4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="sec-combined-references">
 <section id="section-5">
       <h2 id="name-references">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-references" class="section-name selfRef">References</a>
@@ -1773,15 +1783,15 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <dd class="break"></dd>
 <dt id="I-D.bormann-core-responses">[I-D.bormann-core-responses]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">C. Amsüss</span>, <span class="refTitle">"CoAP: Non-traditional response forms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bormann-core-responses-02</span>, <time datetime="2024-03-03" class="refDate">3 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-bormann-core-responses-02">https://datatracker.ietf.org/doc/html/draft-bormann-core-responses-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">C. Amsüss</span>, <span class="refTitle">"CoAP: Non-traditional response forms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bormann-core-responses-03</span>, <time datetime="2024-09-01" class="refDate">1 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-bormann-core-responses-03">https://datatracker.ietf.org/doc/html/draft-bormann-core-responses-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-oscore-key-update">[I-D.ietf-core-oscore-key-update]</dt>
         <dd>
-<span class="refAuthor">Höglund, R.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Key Update for OSCORE (KUDOS)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-key-update-07</span>, <time datetime="2024-03-04" class="refDate">4 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-07">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-07</a>&gt;</span>. </dd>
+<span class="refAuthor">Höglund, R.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Key Update for OSCORE (KUDOS)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-key-update-08</span>, <time datetime="2024-07-08" class="refDate">8 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-08">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-08</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.media-types">[IANA.media-types]</dt>
         <dd>
-<span class="refAuthor">IANA</span>, <span class="refTitle">"Media Types"</span>, <span>&lt;<a href="http://www.iana.org/assignments/media-types">http://www.iana.org/assignments/media-types</a>&gt;</span>. </dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Media Types"</span>, <span>&lt;<a href="https://www.iana.org/assignments/media-types">https://www.iana.org/assignments/media-types</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3986">[RFC3986]</dt>
         <dd>
@@ -1827,6 +1837,7 @@ considerations will then be on the individual clarifications.)<a href="#section-
 </section>
 </div>
 </section>
+</div>
 <div id="acknowledgements">
 <section id="appendix-A">
       <h2 id="name-acknowledgements">

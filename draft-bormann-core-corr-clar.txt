@@ -4,10 +4,10 @@
 
 Network Working Group                                         C. Bormann
 Internet-Draft                                    Universität Bremen TZI
-Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if              2 July 2024
+Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if        24 September 2024
          approved)                                                      
 Intended status: Standards Track                                        
-Expires: 3 January 2025
+Expires: 28 March 2025
 
 
 Constrained Application Protocol (CoAP): Corrections and Clarifications
@@ -53,9 +53,9 @@ Status of This Memo
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 1]
+Bormann                   Expires 28 March 2025                 [Page 1]
 
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 
 
    Internet-Drafts are working documents of the Internet Engineering
@@ -68,7 +68,7 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 January 2025.
+   This Internet-Draft will expire on 28 March 2025.
 
 Copyright Notice
 
@@ -97,21 +97,21 @@ Table of Contents
      2.2.  RFC7252-5.10.5: Max-Age . . . . . . . . . . . . . . . . .   6
      2.3.  RFC7252-6.4: Decomposing URIs into Options  . . . . . . .   7
      2.4.  RFC7252-7.2.1: "ct" Attribute (content-format code) . . .   8
-     2.5.  RFC7252-9.1.1/9.1.2: (match boxing) . . . . . . . . . . .   8
+     2.5.  RFC7252-9.1.1/9.1.2: (match boxing) . . . . . . . . . . .   9
      2.6.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .  10
    3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     5.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
-     5.2.  Informative References  . . . . . . . . . . . . . . . . .  12
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .  12
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .  13
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  14
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  15
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 2]
+Bormann                   Expires 28 March 2025                 [Page 2]
 
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 3]
+Bormann                   Expires 28 March 2025                 [Page 3]
 
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 
 
    This process might be revised as its execution progresses.
@@ -221,9 +221,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 4]
+Bormann                   Expires 28 March 2025                 [Page 4]
 
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 
 
        Even though at a high-level, the scope should be already clear by
@@ -277,9 +277,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 5]
+Bormann                   Expires 28 March 2025                 [Page 5]
 
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 
 
          the Target Resource) of [RFC9110]; previously called "effective
@@ -333,9 +333,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 6]
+Bormann                   Expires 28 March 2025                 [Page 6]
 
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 
 
       The value is intended to be current at the time of transmission.
@@ -370,41 +370,54 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
       that no such zero-character path segment is added for a trailing
       slash that immediately follows the authority (host and port).
 
-         |  This means that for a CoAP server, no difference is visible
-         |  between a request that was generated from the URI
+         |  This exception means that, for a CoAP server, no difference
+         |  is visible between a request that was generated from the URI
          |  coap://authority/ and one that was generated from the URI
-         |  coap://authority -- in both cases, there is no Uri-Path
-         |  Option in the request.
-         |  
-         |  Note that this does not mean that a client cannot create a
-         |  request with a single empty Uri-Path Option (which cannot be
-         |  generated from a URI according to the algorithm given here),
-         |  or that a server is compelled to treat a request with such a
-         |  single empty Uri-Path Option the same way as one without any
-         |  Uri-Path Option — the exception at the start of step 8 is
-         |  only about generating CoAP Options from a URI.
+         |  coap://authority — in both cases, there is no Uri-Path
+         |  Option in the request.  (The URI continues to be parsed as
+         |  defined: e.g., for the URIs coap://authority/? and
+         |  coap://authority?, there is no Uri-Path Option but a single
+         |  Uri-Query Option that carries an empty query component.)
          |  
 
 
 
 
 
-Bormann                  Expires 3 January 2025                 [Page 7]
+
+
+
+
+
+Bormann                   Expires 28 March 2025                 [Page 7]
 
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 
 
-         |  Note also that there is a difference between requests
-         |  generated from coap://authority/, coap://authority//, and
-         |  coap://authority///, respectively: The first has no Uri-Path
-         |  Options (due to the special exception), the second, two
-         |  (empty ones), the third, three (empty ones).
+         |  Note that the exception at the start of step 8 does not mean
+         |  that a client cannot create a request with a single empty
+         |  Uri-Path Option; such a request just cannot be generated
+         |  from a URI because of the algorithm given here.  It also
+         |  does not mean that a server is compelled to treat a request
+         |  with such a single empty Uri-Path Option in the same way as
+         |  one without any Uri-Path Option — the exception at the start
+         |  of step 8 is only about the process of generating a sequence
+         |  of CoAP Options from a URI.
          |  
-         |  Similarly, for coap://authority/foo a single Uri-Path Option
-         |  with the value foo is generated, while for coap://authority/
-         |  foo/ that Uri-Path Option is followed by an empty one.
-
-   PENDING: Enough examples now?
+         |  The exception only applies to initial Uri-Path Options.  So
+         |  for coap://authority/foo, a single Uri-Path Option with the
+         |  value foo is generated, while for coap://authority/foo/ that
+         |  Uri-Path Option is followed by an empty Uri-Path Option (an
+         |  established idiom for a collection resource).
+         |  
+         |  Similarly, there is a difference between requests generated
+         |  from coap://authority/, coap://authority//, and
+         |  coap://authority///, respectively: The first has no Uri-Path
+         |  Options (due to the special exception); the second, two
+         |  (empty ones); the third, three (empty ones).  No server is
+         |  compelled to offer resources under URIs with multiple empty
+         |  path name components, which would generally be considered
+         |  weird.
 
 2.4.  RFC7252-7.2.1: "ct" Attribute (content-format code)
 
@@ -428,6 +441,15 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    [Err5078] should be marked "VERIFIED", which was done on 2023-01-18.
 
    INCOMPLETE; FORMAL ADDITION:
+
+
+
+
+Bormann                   Expires 28 March 2025                 [Page 8]
+
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
+
+
       The Content-Format code attribute MUST NOT appear more than once
       in a link.
 
@@ -437,18 +459,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    CoAP over DTLS connections; in particular they restrict both message-
    id matching and request/response matching to within a single
    combination of DTLS session/DTLS epoch.
-
-
-
-
-
-
-
-
-Bormann                  Expires 3 January 2025                 [Page 8]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    At the time, this was a decision to be very conservative based on the
    wide variety of security implications a new DTLS epoch might have
@@ -488,6 +498,14 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
            implicitly active for any use of the mechanism or they may
            require negotiation, see below.)
 
+
+
+
+Bormann                   Expires 28 March 2025                 [Page 9]
+
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
+
+
    2.  Optimizations such as Eclipse/Californium EndpointContextMatcher
        [CF-MATCHER] might not work properly unless both sides of the
        communication agree on the extent of the matching boxes.
@@ -498,13 +516,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
        efforts, to be initiated based on some formative contributions.
 
    PENDING.
-
-
-
-Bormann                  Expires 3 January 2025                 [Page 9]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    Relevant starting points for retrieving existing discussion of this
    issue include:
@@ -540,6 +551,17 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    Section 8.3 of [RFC9110], which then however also opts to use the
    term Media Type for the same information set).
 
+
+
+
+
+
+
+Bormann                   Expires 28 March 2025                [Page 10]
+
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
+
+
    The second column of the Content-Format registry is the Content
    Coding, which is defined in Section 8.4.1 of [RFC9110].  For
    historical reasons, the HTTP header field that actually carries the
@@ -549,18 +571,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    As has been noted in [Err4954], the text in Section 12.3 of [RFC7252]
    incorrectly uses these terms in the context of content types and
    content coding:
-
-
-
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 10]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    1.  The field that describes the Content Type is called "Media Type".
        This can lead to the misunderstanding that this column just
@@ -600,6 +610,14 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    (To be changed when that is no longer true; probably the security
    considerations will then be on the individual clarifications.)
 
+
+
+
+Bormann                   Expires 28 March 2025                [Page 11]
+
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
+
+
 5.  References
 
 5.1.  Normative References
@@ -608,15 +626,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 11]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    [RFC6690]  Shelby, Z., "Constrained RESTful Environments (CoRE) Link
               Format", RFC 6690, DOI 10.17487/RFC6690, August 2012,
@@ -657,6 +666,14 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               (OSCORE)", RFC 8613, DOI 10.17487/RFC8613, July 2019,
               <https://www.rfc-editor.org/rfc/rfc8613>.
 
+
+
+
+Bormann                   Expires 28 March 2025                [Page 12]
+
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
+
+
 5.2.  Informative References
 
    [CF-MATCHER]
@@ -664,15 +681,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               eclipse-californium/californium/blob/main/element-
               connector/src/main/java/org/eclipse/californium/elements/
               EndpointContextMatcher.java>.
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 12]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    [Err4895]  RFC Errata Report 4895, RFC 7252,
               <https://www.rfc-editor.org/errata/eid4895>.
@@ -686,20 +694,20 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
    [I-D.bormann-core-responses]
               Bormann, C. and C. Amsüss, "CoAP: Non-traditional response
               forms", Work in Progress, Internet-Draft, draft-bormann-
-              core-responses-02, 3 March 2024,
+              core-responses-03, 1 September 2024,
               <https://datatracker.ietf.org/doc/html/draft-bormann-core-
-              responses-02>.
+              responses-03>.
 
    [I-D.ietf-core-oscore-key-update]
               Höglund, R. and M. Tiloca, "Key Update for OSCORE
               (KUDOS)", Work in Progress, Internet-Draft, draft-ietf-
-              core-oscore-key-update-07, 4 March 2024,
+              core-oscore-key-update-08, 8 July 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-key-update-07>.
+              oscore-key-update-08>.
 
    [IANA.media-types]
               IANA, "Media Types",
-              <http://www.iana.org/assignments/media-types>.
+              <https://www.iana.org/assignments/media-types>.
 
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
@@ -711,6 +719,17 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6838>.
 
+
+
+
+
+
+
+Bormann                   Expires 28 March 2025                [Page 13]
+
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
+
+
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
@@ -720,15 +739,6 @@ Internet-Draft   Corrections and Clarifications to CoAP        July 2024
               Constrained Application Protocol", RFC 8516,
               DOI 10.17487/RFC8516, January 2019,
               <https://www.rfc-editor.org/rfc/rfc8516>.
-
-
-
-
-
-Bormann                  Expires 3 January 2025                [Page 13]
-
-Internet-Draft   Corrections and Clarifications to CoAP        July 2024
-
 
    [RFC9006]  Gomez, C., Crowcroft, J., and M. Scharf, "TCP Usage
               Guidance in the Internet of Things (IoT)", RFC 9006,
@@ -768,6 +778,14 @@ Acknowledgements
    of the ROHC WG and WG members that made this a worthwhile and
    successful experiment at the time.
 
+
+
+
+Bormann                   Expires 28 March 2025                [Page 14]
+
+Internet-Draft   Corrections and Clarifications to CoAP   September 2024
+
+
 Author's Address
 
    Carsten Bormann
@@ -781,4 +799,42 @@ Author's Address
 
 
 
-Bormann                  Expires 3 January 2025                [Page 14]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bormann                   Expires 28 March 2025                [Page 15]
