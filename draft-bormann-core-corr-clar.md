@@ -449,7 +449,8 @@ The following provides more details about key update, separately for OSCORE, KUD
 
 * Group OSCORE: The Group Manager can distribute new group keying material to the members of an OSCORE group, by performing a group rekeying. When receiving updated group keying material from the Group Manager, either upon joining the group or by participating in a group rekeying, a group member uses that material to install a new, commonly shared Group OSCORE Security Context, which replaces the old one (if any is stored).
 
-  Also, Group OSCORE makes it possible for group members to safely preserve their ongoing long exchanges (e.g., CoAP Observations), also across the establishment of new Group OSCORE Security Contexts. This is achieved by virtue of how the Group Manager assigns and maintains the identifiers of OSCORE groups (see {{Section 3.2.1.1 of -group-oscore}}).
+  Also, Group OSCORE makes it possible for group members to safely
+  preserve their ongoing active requests (e.g., CoAP Observations), also across the establishment of new Group OSCORE Security Contexts. This is achieved by virtue of how the Group Manager assigns and maintains the identifiers of OSCORE groups (see {{Section 3.2.1.1 of -group-oscore}}).
 
   Furthermore, analogous to the update that {{-kudos}} makes on the OSCORE protocol with respect to protecting responses, Group OSCORE prevents security issues that can arise from misbinding a request and a response, when those are protected with two different Group OSCORE Security Contexts.
 
