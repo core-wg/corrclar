@@ -291,32 +291,40 @@ INCOMPLETE; FORMAL ADDITION at the end of {{Section 6.4 of RFC7252}}:
   immediately follows the authority (host and port).
 
   {:aside}
-  > This means that for a CoAP server, no difference is visible
+  > This exception means that, for a CoAP server, no difference is visible
   between a request that was generated from the URI
   `coap://authority/` and one that was generated from the URI
-  `coap://authority` -- in both cases, there is no Uri-Path Option in
+  `coap://authority` — in both cases, there is no Uri-Path Option in
   the request.
+  (The URI continues to be parsed as defined:  e.g., for the URIs
+  `coap://authority/?` and `coap://authority?`, there is no Uri-Path
+  Option but a single Uri-Query Option that carries an empty query
+  component.)
   >
-  > Note that this does not mean that a client cannot create a request
-  with a single empty Uri-Path Option (which cannot be generated from
-  a URI according to the algorithm given here), or that a server is
-  compelled to treat a request with such a single empty Uri-Path
-  Option the same way as one without any Uri-Path Option — the
-  exception at the start of step 8 is only about generating CoAP
-  Options from a URI.
+  > Note that the exception at the start of step 8 does not mean that
+  a client cannot create a request with a single empty Uri-Path
+  Option; such a request just cannot be generated from a URI because
+  of the algorithm given here.
+  It also does not mean that a server is compelled to treat a request
+  with such a single empty Uri-Path Option in the same way as one
+  without any Uri-Path Option — the exception at the start of step 8
+  is only about the process of generating a sequence of CoAP Options
+  from a URI.
   >
-  > Note also that there is a difference between requests generated
+  > The exception only applies to initial Uri-Path Options.
+  So for `coap://authority/foo`, a single Uri-Path Option with the
+  value `foo` is generated, while for `coap://authority/foo/` that
+  Uri-Path Option is followed by an empty Uri-Path Option (an
+  established idiom for a collection resource).
+  >
+  > Similarly, there is a difference between requests generated
   from `coap://authority/`, `coap://authority//`, and
   `coap://authority///`, respectively:
-  The first has no Uri-Path Options (due to the special exception),
-  the second, two (empty ones), the third, three (empty ones).
-  >
-  > Similarly, for `coap://authority/foo` a single Uri-Path Option
-  with the value `foo` is generated, while for `coap://authority/foo/`
-  that Uri-Path Option is followed by an empty one.
-
-PENDING: Enough examples now?
-
+  The first has no Uri-Path Options (due to the special exception);
+  the second, two (empty ones); the third, three (empty ones).
+  No server is compelled to offer resources under URIs with
+  multiple empty path name components, which would generally be
+  considered weird.
 
 ## RFC7252-7.2.1: "ct" Attribute (content-format code)
 
