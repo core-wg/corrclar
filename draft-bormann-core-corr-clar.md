@@ -389,7 +389,7 @@ The security protocol Object Security for Constrained RESTful Environments (OSCO
 
 The security protocol Group Object Security for Constrained RESTful Environments (Group OSCORE) defined in {{-group-oscore}} builds on OSCORE and protects group communication for CoAP {{-groupcomm-bis}}. The management of the group keying material is entrusted to a Group Manager (see {{Section 3 of -group-oscore}}), which provides the latest group keying material to a new group member upon its group joining, and can update the group keying material by performing a group rekeying.
 
-The following discusses how OSCORE, KUDOS, and Group OSCORE position themselves with respect to the match boxing, the used transport underlying CoAP, and the renewal of the keying material.
+The following discusses how OSCORE, KUDOS, and Group OSCORE position themselves with respect to the match boxing, the transport used underlying CoAP, and the renewal of the keying material.
 
 #### Match Boxing
 
@@ -399,7 +399,12 @@ Before any security processing is performed, the only use that (Group) OSCORE ma
 
 Even in case the Token value in a CoAP response is manipulated to induce a Request-Response matching at the client, there is no risk for the client to successfully decrypt the response instead of failing as expected. This is because, per {{Section 12.3 of -oscore}}, the OSCORE Master Secret of each OSCORE Security Context is required not only to be secret, but also to have a good amount of randomness.
 
-Building on that, an HKDF is used to derive the actual encryption keys from the Master Secret and, optionally, from an additional Master Salt. Furthermore, for each OSCORE Security Context, the quartet (Master Secret, Master Salt, ID Context, Sender ID) must be unique. As per {{Section 3.3 of -oscore}}, this is a hard requirement and guarantees unique (key, nonce) pairs for the used AEAD algorithm.
+Building on that, an HKDF is used to derive the actual encryption keys
+from the Master Secret and, optionally, from an additional Master
+Salt. Furthermore, for each OSCORE Security Context, the quartet
+(Master Secret, Master Salt, ID Context, Sender ID) must be unique. As
+per {{Section 3.3 of -oscore}}, this is a hard requirement and
+guarantees unique (key, nonce) pairs for the AEAD algorithm used.
 
 In Group OSCORE, the Security Context extends that of OSCORE, and the same as above holds  (see {{Sections 2, 2.2, and 13.11 of -group-oscore}}).
 
@@ -407,7 +412,8 @@ Finally, (Group) OSCORE performs a separate secure match boxing under its own co
 
 #### Underlying Transport
 
-The security protocol (Group) OSCORE does not have any requirement on binding the used Security Context to specific addressing information used by the transport protocol underlying CoAP. What occurs below (Group) OSCORE with transport-specific addressing information is transparent to (Group) OSCORE, but it needs to work well enough to ensure that received data is delivered to (Group) OSCORE for security processing.
+The security protocol (Group) OSCORE does not have any requirement on
+binding the Security Context in use to specific addressing information used by the transport protocol underlying CoAP. What occurs below (Group) OSCORE with transport-specific addressing information is transparent to (Group) OSCORE, but it needs to work well enough to ensure that received data is delivered to (Group) OSCORE for security processing.
 
 Consistent with the above, (Group) OSCORE does not interfere with any low-layer, transport specific information. Instead, it entrusts data to a Request-Response exchange mechanism that can rely on different means to enforce the Request-Response matching at the transport level (e.g., the 5-tuple, the CoAP Message ID, a file handle). Also, (Group) OSCORE does not alter the fact that a CoAP response needs to come from where the corresponding CoAP request was sent, which simply follows from using transports where that is a requirement.
 
