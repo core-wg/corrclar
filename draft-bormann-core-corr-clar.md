@@ -423,7 +423,8 @@ Practically, (Group) OSCORE relies on the underlying CoAP implementation for obt
 
 Upon receiving a protected message, the recipient endpoint retrieves the OSCORE Security Context to use for decryption based on key identifier information specified in the CoAP OSCORE Option of protected requests, and on the value of the CoAP Token of protected responses.
 
-In OSCORE, the key identifier information in request messages is typically limited to a "kid", with value the OSCORE Sender ID associated with the message sender. In case Sender IDs are not unique among different OSCORE Security Contexts stored by the same peer, it is possible to disambiguate by additionally using a "kid context" identifying the OSCORE Security Context as a whole. Instead, response messages are not required to convey key identifier information, as the client can rely on the Token conveyed in the response for retrieving the Security Context to use (see above).
+In OSCORE, the key identifier information in request messages is
+typically limited to a "kid", with a value the OSCORE Sender ID associated with the message sender. In case Sender IDs are not unique among different OSCORE Security Contexts stored by the same peer, it is possible to disambiguate by additionally using a "kid context" identifying the OSCORE Security Context as a whole. Instead, response messages are not required to convey key identifier information, as the client can rely on the Token conveyed in the response for retrieving the Security Context to use (see above).
 
 In Group OSCORE, the key identifier information in request messages always includes also a "kid context", whose value is used as identifier of the OSCORE group associated with the Security Context to use for security processing of the exchanged message. Response messages are also required to convey a "kid" as key identifier information (i.e., the OSCORE Sender ID associated with the message sender), if the corresponding request was protected with the group mode of Group OSCORE (see {{Section 8 of -group-oscore}}) .
 
@@ -437,7 +438,8 @@ The following provides more details about key update, separately for OSCORE, KUD
 
 * OSCORE - {{-oscore}} tacitly assumes that two peers terminate any ongoing CoAP Observation that they still have ongoing, upon installing a new OSCORE Security Context, irrespective of the method used to perform the key update.
 
-  On these premises, a belated response protected with the old OSCORE Security Context will fail decryption, due to that Security Context not available anymore on the receiving client.
+  On these premises, a belated response protected with the old OSCORE
+  Security Context will fail decryption, as that Security Context is not available anymore on the receiving client.
 
 * KUDOS - The key update protocol KUDOS allows the two OSCORE peers to negotiate about preserving their ongoing CoAP Observations across the performed key update. If and only if both peers agree to do that during an execution of KUDOS, their Observations will remain active after installing the new OSCORE Security Context, which the two peers will use from then on to protect their exchanged Observe notifications.
 
