@@ -214,7 +214,7 @@ PENDING.
 Note that a similar, but distinct concept is the "base URI", relative
 to which relative URIs are resolved.
 This is more complex in CoAP than in HTTP because CoAP can multicast
-requests {{Section 8 of -coap}}, expecting unicast responses; these need
+requests ({{Section 8 of -coap}}), expecting unicast responses; these need
 to be interpreted relative to the unicast source address from which
 the responses come.
 
