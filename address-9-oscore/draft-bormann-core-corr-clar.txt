@@ -528,9 +528,9 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
 2.5.1.1.  Match Boxing
 
    The security processing of (Group) OSCORE is agnostic of the value
-   assumed by the CoAP Token and MessageID.  Also, (Group) OSCORE can be
-   seamlessly used in the presence of (cross-)proxies that will change
-   the value of the CoAP Token and MessageID on the different
+   assumed by the CoAP Token and Message ID.  Also, (Group) OSCORE can
+   be seamlessly used in the presence of (cross-)proxies that will
+   change the value of the CoAP Token and Message ID on the different
    communication legs.  This does not affect the security processing at
    the (Group) OSCORE endpoints.
 
@@ -587,7 +587,7 @@ Internet-Draft   Corrections and Clarifications to CoAP   September 2024
    low-layer, transport specific information.  Instead, it entrusts data
    to a Request-Response exchange mechanism that can rely on different
    means to enforce the Request-Response matching at the transport level
-   (e.g., the 5-tuple, the CoAP MessageID, a file handle).  Also,
+   (e.g., the 5-tuple, the CoAP Message ID, a file handle).  Also,
    (Group) OSCORE does not alter the fact that a CoAP response needs to
    come from where the corresponding CoAP request was sent, which simply
    follows from using transports where that is a requirement.
