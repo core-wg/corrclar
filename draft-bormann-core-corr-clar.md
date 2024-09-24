@@ -436,18 +436,18 @@ Updating an OSCORE Security Context does not change or interfere with the values
 
 The following provides more details about key update, separately for OSCORE, KUDOS, and Group OSCORE.
 
-* OSCORE - {{-oscore}} tacitly assumes that two peers terminate any ongoing CoAP Observation that they still have ongoing, upon installing a new OSCORE Security Context, irrespective of the method used to perform the key update.
+* OSCORE: {{-oscore}} tacitly assumes that two peers terminate any ongoing CoAP Observation that they still have ongoing, upon installing a new OSCORE Security Context, irrespective of the method used to perform the key update.
 
   On these premises, a belated response protected with the old OSCORE
   Security Context will fail decryption, as that Security Context is not available anymore on the receiving client.
 
-* KUDOS - The key update protocol KUDOS allows the two OSCORE peers to negotiate about preserving their ongoing CoAP Observations across the performed key update. If and only if both peers agree to do that during an execution of KUDOS, their Observations will remain active after installing the new OSCORE Security Context, which the two peers will use from then on to protect their exchanged Observe notifications.
+* KUDOS: The key update protocol KUDOS allows the two OSCORE peers to negotiate about preserving their ongoing CoAP Observations across the performed key update. If and only if both peers agree to do that during an execution of KUDOS, their Observations will remain active after installing the new OSCORE Security Context, which the two peers will use from then on to protect their exchanged Observe notifications.
 
   Furthermore, irrespective of the method used to perform a key update, {{Section 3 of -kudos}} updates the security protocol OSCORE {{-oscore}} in order to prevent security issues that can arise from misbinding a request and a response, when those are protected with two different OSCORE Security Contexts.
 
   Such an update to the OSCORE protocol requires a server to include its own Sender Sequence Number as Partial IV of an outgoing response, when protecting it with a Security Context different from the one used to protect the corresponding request. An exception safely applies to the response messages that are sent when running the key update procedure defined in {{Section B.2 of -oscore}}.
 
-* Group OSCORE - The Group Manager can distribute new group keying material to the members of an OSCORE group, by performing a group rekeying. When receiving updated group keying material from the Group Manager, either upon joining the group or by participating in a group rekeying, a group member uses that material to install a new, commonly shared Group OSCORE Security Context, which replaces the old one (if any is stored).
+* Group OSCORE: The Group Manager can distribute new group keying material to the members of an OSCORE group, by performing a group rekeying. When receiving updated group keying material from the Group Manager, either upon joining the group or by participating in a group rekeying, a group member uses that material to install a new, commonly shared Group OSCORE Security Context, which replaces the old one (if any is stored).
 
   Also, Group OSCORE makes it possible for group members to safely preserve their ongoing long exchanges (e.g., CoAP Observations), also across the establishment of new Group OSCORE Security Contexts. This is achieved by virtue of how the Group Manager assigns and maintains the identifiers of OSCORE groups (see {{Section 3.2.1.1 of -group-oscore}}).
 
