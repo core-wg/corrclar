@@ -517,6 +517,16 @@ It should still include an Echo value, whose presence in the next request serves
 This situation can happen at any time in OSCORE,
 or in DTLS after a CID based resumption.
 
+Verifying the client's address is not only relevant for amplification attacks
+(which addresses attacks described in {{?I-D.irtf-t2trg-amplification-attacks}})
+but also for traffic misdirection.
+{{Section 7 of ?I-D.ietf-tls-dtls-rrc}} contains a menu of options how to use RRC messages to distinguish different cases.
+An 4.01 response with Echo can perform some of the functions equivalently
+(with the Echo value taking the place of the RRC cookie),
+but does not provide a means to distinguish between non-preferred and preferred paths.
+Where that distinction matters,
+RRC provides the right tools to make it.
+
 ### Replay protection
 
 If it is not certain that the request is not a replay,
