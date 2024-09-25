@@ -496,14 +496,18 @@ In those situations, a server still needs to maintain its security and and ampli
 which are generally independent but can be addressed using the same tools.
 
 A safe option is always to reject the initial request and request confirmation,
-either using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option
-(where a subsequent request with the same Echo value proves to the server that the destination was reachable)
-or by using a more security mechanism specific tool such as RRC ({{?I-D.ietf-tls-dtls-rrc}}.
+eg. using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option
+(where a subsequent request with the same Echo value proves to the server that the destination was reachable).
+It is RECOMMENDED to use the Echo mechanism for interoperability.
+A more security mechanism specific tool such as RRC ({{?I-D.ietf-tls-dtls-rrc}} may be used instead,
+but the peer may or may not support that extension.
 
 If it is not certain that the client is reachable on the request's sender address,
 but the response does not exceed the request's size by a factor of 3 ({{Section 2.4 of RFC9175}}, item 3),
 the server can answer the request.
 It should still include an Echo value, whose presence in the next request serves to confirm the client's address.
+This situation can happen at any time in OSCORE,
+or in DTLS after a CID based resumption.
 
 If it is not certain that the request is not a replay,
 but the request handler is safe or long-term idempotent
@@ -517,6 +521,10 @@ Assessing whether a resource is long-term idempotent is not always trivial, and 
 If nothing else, GET requests to constant resources,
 such as queries to /.well-known/core,
 can often be responded to safely on the CoAP layer even without any replay protection.
+This situation can happen in OSCORE after a partial loss of context.
+It can currently not happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}})
+at the time of writing
+(but that may change with a future document).
 
 Implementors of OSCORE beware answering potential replays is only safe from the CoAP application's point of view.
 As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,
