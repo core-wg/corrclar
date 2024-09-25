@@ -490,24 +490,34 @@ issue include:
 
 ## RFC 7252-9.1/11.3: Handling outdated addresses and security contexts {#amp-0rtt}
 
+INCOMPLETE:
+: Tools for mitigating these scenarios were unavailable when specified, and are now explained.
+
+PENDING.
+
 Established security contexts and established return addresses can become obsolete.
 For example, this happens when a DTLS session is resumed via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of [Appendix B.1.2 of RFC8613].
 In those situations, a server still needs to maintain its security and and amplification mitigation properties,
-which are generally independent but can be addressed using the same tools.
+which are generally independent topics but can be addressed using the same tools.
 
-A safe option is always to reject the initial request and request confirmation,
-eg. using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option
-(where a subsequent request with the same Echo value proves to the server that the destination was reachable).
-It is RECOMMENDED to use the Echo mechanism for interoperability.
-A more security mechanism specific tool such as RRC ({{?I-D.ietf-tls-dtls-rrc}} may be used instead,
-but the peer may or may not support that extension.
+A safe option is always to reject the initial request and request confirmation.
+The RECOMMENDED way to do that is using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option
+(where a subsequent request with the same Echo value proves to the server that the destination was reachable);
+clients SHOULD act to the Echo option as specified in {{?RFC9175}}.
+Tools specific to a security mechanism such as RRC ({{?I-D.ietf-tls-dtls-rrc}} may be used instead,
+but their use may depend on successful negotiation.
+
+### Amplification mitigation and return routability
 
 If it is not certain that the client is reachable on the request's sender address,
 but the response does not exceed the request's size by a factor of 3 ({{Section 2.4 of RFC9175}}, item 3),
 the server can answer the request.
 It should still include an Echo value, whose presence in the next request serves to confirm the client's address.
+
 This situation can happen at any time in OSCORE,
 or in DTLS after a CID based resumption.
+
+### Replay protection
 
 If it is not certain that the request is not a replay,
 but the request handler is safe or long-term idempotent
@@ -517,10 +527,12 @@ Metadata that can reveal data are the size of the response
 (which, in a replay situation, can give an active attacker additional data)
 as well as any processing delays.
 (There should be no observable side effects for safe or previously processed idempotent requests).
+
 Assessing whether a resource is long-term idempotent is not always trivial, and it is prudent to err at the side of caution.
 If nothing else, GET requests to constant resources,
 such as queries to /.well-known/core,
 can often be responded to safely on the CoAP layer even without any replay protection.
+
 This situation can happen in OSCORE after a partial loss of context.
 It can currently not happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}})
 at the time of writing
