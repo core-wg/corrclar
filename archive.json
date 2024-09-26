@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-24T01:44:57.304535+00:00",
+  "timestamp": "2024-09-26T01:43:51.214836+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1483,9 +1483,31 @@
       "labels": [],
       "body": "CoAP based documents receive comments on how to correctly work with CIDs, eg. in <https://mailarchive.ietf.org/arch/msg/core/Md4gV_0tUq7K6uyIwCjuRHSJOaA/>. I'd prefer if those comments would not need to be addressed in those documents but once and for all in some CoAP update such as corr-clar.\r\n\r\nThe original comments were about DTLS CIDs, but we'd have the same with any zero-round-trip encrypted requests; for example, if an OSCORE server uses [RFC8613 Appendix B.1.2](https://datatracker.ietf.org/doc/html/rfc8613#appendix-B.1.2) recovery, it's actually legitimate to send something else than a 4.01 Unauthorized along with the Echo option (but that needs some explanation as to when that's OK; [DTLS RRCs](https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc#name-rrc-and-cid-interplay) hint at something similar on the DTLS side without going into CoAP specifics).\r\n\r\nProposed text (wherever that'll fit):\r\n\r\n> Established security contexts and established return addresses can become obsolete.\r\n> For example, this happens when a DTLS session is resumed via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of [Appendix B.1.2 of RFC8613].\r\n> In those situations, a server still needs to maintain its security and and amplification mitigation properties,\r\n> which are generally independent but can be addressed using the same tools.\r\n>\r\n> A safe option is always to reject the initial request and request confirmation,\r\n> either using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option\r\n> (where a subsequent request with the same Echo value proves to the server that the destination was reachable)\r\n> or by using a more security mechanism specific tool such as RRC ({{?I-D.ietf-tls-dtls-rrc}}.\r\n>\r\n> If it is not certain that the client is reachable on the request's sender address,\r\n> but the response does not exceed the request's size by a factor of 3 ({{Section 2.4 of RFC9175}}, item 3),\r\n> the server can answer the request.\r\n> It should still include an Echo value, whose presence in the next request serves to confirm the client's address.\r\n>\r\n> If it is not certain that the request is not a replay,\r\n> but the request handler is safe or long-term idempotent\r\n> and there is no risk of metadata revealing data,\r\n> the server can answer the request.\r\n> Metadata that can reveal data are the size of the response\r\n> (which, in a replay situation, can give an active attacker additional data)\r\n> as well as any processing delays.\r\n> (There should be no observable side effects for safe or previously processed idempotent requests).\r\n> Assessing whether a resource is long-term idempotent is not always trivial, and it is prudent to err at the side of caution.\r\n> If nothing else, GET requests to constant resources,\r\n> such as queries to /.well-known/core,\r\n> can often be responded to safely on the CoAP layer even without any replay protection.\r\n>\r\n> Implementors of OSCORE beware answering potential replays is only safe from the CoAP application's point of view.\r\n> As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,\r\n> the response can not reuse the request's nonce, but needs to take an own sequence number from the server's space.\r\n\r\n(I think this also picks up everything that is important from [Section 3.1 of draft-amsuess-lwig-oscore-00](https://www.ietf.org/archive/id/draft-amsuess-lwig-oscore-00.html#name-replay-freshness-and-safety), which doesn't really have a new home with LWIG shut down)\r\n\r\nI'm taking the liberty to CC\r\n* @miri64 (who is just addressing comments around this in [DoC](https://datatracker.ietf.org/doc/draft-ietf-core-dns-over-coap/))\r\n* @thomas-fossati (who made the comments and is also an author of RRC)\r\n* @gselander, @emanjon, @rikard-sics and @marco-tiloca-sics (who are active around the OSCORE protection mechanisms)",
       "createdAt": "2024-09-19T13:46:11Z",
-      "updatedAt": "2024-09-19T13:46:11Z",
+      "updatedAt": "2024-09-25T20:55:31Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Changing as per today's interim:\r\n\r\n* Add compatibility remark preferring Echo\r\n* Add note that 0RTT is forbidden pending other document (along with general text on when things happen)\r\n\r\n(And then this goes into a PR for better change tracking)\r\n\r\n> Established security contexts and established return addresses can become obsolete.\r\n> For example, this happens when a DTLS session is resumed via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of [Appendix B.1.2 of RFC8613].\r\n> In those situations, a server still needs to maintain its security and and amplification mitigation properties,\r\n> which are generally independent but can be addressed using the same tools.\r\n>\r\n> A safe option is always to reject the initial request and request confirmation,\r\n> eg. using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option\r\n> (where a subsequent request with the same Echo value proves to the server that the destination was reachable).\r\n> It is RECOMMENDED to use the Echo mechanism for interoperability.\r\n> A more security mechanism specific tool such as RRC ({{?I-D.ietf-tls-dtls-rrc}} may be used instead,\r\n> but the peer may or may not support that extension.\r\n>\r\n> If it is not certain that the client is reachable on the request's sender address,\r\n> but the response does not exceed the request's size by a factor of 3 ({{Section 2.4 of RFC9175}}, item 3),\r\n> the server can answer the request.\r\n> It should still include an Echo value, whose presence in the next request serves to confirm the client's address.\r\n> This situation can happen at any time in OSCORE,\r\n> or in DTLS after a CID based resumption.\r\n>\r\n> If it is not certain that the request is not a replay,\r\n> but the request handler is safe or long-term idempotent\r\n> and there is no risk of metadata revealing data,\r\n> the server can answer the request.\r\n> Metadata that can reveal data are the size of the response\r\n> (which, in a replay situation, can give an active attacker additional data)\r\n> as well as any processing delays.\r\n> (There should be no observable side effects for safe or previously processed idempotent requests).\r\n> Assessing whether a resource is long-term idempotent is not always trivial, and it is prudent to err at the side of caution.\r\n> If nothing else, GET requests to constant resources,\r\n> such as queries to /.well-known/core,\r\n> can often be responded to safely on the CoAP layer even without any replay protection.\r\n> This situation can happen in OSCORE after a partial loss of context.\r\n> It can currently not happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}})\r\n> at the time of writing\r\n> (but that may change with a future document).\r\n>\r\n> Implementors of OSCORE beware answering potential replays is only safe from the CoAP application's point of view.\r\n> As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,\r\n> the response can not reuse the request's nonce, but needs to take an own sequence number from the server's space.\r\n\r\n",
+          "createdAt": "2024-09-25T15:59:35Z",
+          "updatedAt": "2024-09-25T15:59:35Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Also per today's interim, checking we're not missing anything:\r\n* RRC can do \"are you still there\". Echo doesn't do that, but we have CoAP pings for that. Don't think this needs mentioning here.\r\n* RRC is negotiated, Echo is not. That's fine because Echo can be used in a fine-grained way: If the server really needs the confirmation, it'll do a 4.01 with Echo \u2013 \"sorry, no can do\". If the server prefers confirmation but can still answer, Echo on a response is not critical, and things can continue until either the server needs the Echo (at which point, again, sorry but there's no other way than to fail) or the server has seen confirmation in a different way.\r\n* RRC concerns itself with off-path packet forwarding in [section 6.2](https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc-10#name-off-path-packet-forwarding) in its enhanced path validation algorithm. If our match-boxing allows it, the strategy can be ported (and will get a mention); if not, it's something CoAP can't do the same way (TBD in the upcoming PR).\r\n  * With OSCORE, that kind of trick is certainly not match-boxable: The response needs to travel the same path as the request over the underlying unprotected CoAP layer. Then again, OSCORE is specifically designed to allow untrusted intermediaries, so that's not *supposed* to be there.",
+          "createdAt": "2024-09-25T19:43:58Z",
+          "updatedAt": "2024-09-25T19:43:58Z"
+        },
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "NONE",
+          "body": "cc @boaks\r\n",
+          "createdAt": "2024-09-25T20:55:30Z",
+          "updatedAt": "2024-09-25T20:55:30Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -1756,24 +1778,26 @@
       "id": "PR_kwDOJ-N8wM50P4TB",
       "title": "address #9: match boxing with (Group) OSCORE",
       "url": "https://github.com/core-wg/corrclar/pull/36",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "marco-tiloca-sics",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Match boxing when using OSCORE, KUDOS, and Group OSCORE",
       "createdAt": "2024-07-02T21:01:18Z",
-      "updatedAt": "2024-07-08T13:13:12Z",
+      "updatedAt": "2024-09-24T16:09:08Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
-      "baseRefOid": "b2615344f74fed17e6d31eaf95dc03c598ed57c7",
+      "baseRefOid": "f15f73d5b23dd483ad6efd51b5a84962a10f98ab",
       "headRepository": "core-wg/corrclar",
       "headRefName": "address-9-oscore",
-      "headRefOid": "bcdb64e9c6a3b980bf0d76584a296c9e6823880d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "f43955bc524b1496d3e23bad4dce012209cf2478",
+      "closedAt": "2024-09-24T16:09:08Z",
+      "mergedAt": "2024-09-24T16:09:08Z",
+      "mergedBy": "cabo",
+      "mergeCommit": {
+        "oid": "7ff3fec771a11598ade0794105219a11ed794da0"
+      },
       "comments": [],
       "reviews": [
         {
@@ -1842,7 +1866,7 @@
             "abbreviatedOid": "9a2a326"
           },
           "author": "marco-tiloca-sics",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-07-02T21:24:22Z",
@@ -1862,7 +1886,7 @@
             "abbreviatedOid": "9a2a326"
           },
           "author": "marco-tiloca-sics",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-07-02T21:25:57Z",
@@ -1882,7 +1906,7 @@
             "abbreviatedOid": "9a2a326"
           },
           "author": "marco-tiloca-sics",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-07-08T11:07:14Z",
@@ -1903,25 +1927,61 @@
       "id": "PR_kwDOJ-N8wM50W8H3",
       "title": "Update #32 from 2024-07-03 CoRE interim WG meeting discussion",
       "url": "https://github.com/core-wg/corrclar/pull/37",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "cabo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-07-03T18:32:01Z",
-      "updatedAt": "2024-07-03T18:32:01Z",
+      "updatedAt": "2024-09-24T14:40:09Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b2615344f74fed17e6d31eaf95dc03c598ed57c7",
       "headRepository": "core-wg/corrclar",
       "headRefName": "update-32-after-interim",
       "headRefOid": "8ffd8459021ed67614e2ce14db5b31946f5112ae",
+      "closedAt": "2024-09-24T14:40:09Z",
+      "mergedAt": "2024-09-24T14:40:09Z",
+      "mergedBy": "cabo",
+      "mergeCommit": {
+        "oid": "f15f73d5b23dd483ad6efd51b5a84962a10f98ab"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 40,
+      "id": "PR_kwDOJ-N8wM58toYS",
+      "title": "Amplification and 0-RTT",
+      "url": "https://github.com/core-wg/corrclar/pull/40",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This adds text I suggested in #39 to close it.\r\n\r\nCompared to the text discussed there, it also takes up the TBD item of covering the advanced return routability strategies (mainly by saying \"apply what you can or just use RRC\"). Unlike envisioned there I did *not* say that that doesn't work on OSCORE, because as long as it's all about flipping NATs and attacks sending the response through the old address *will* work, but I don't want to waste time on IPv4 stuff, and it kind of feels off to counter an attack by doing layering violations (sending the OSCORE response to the old address is one, as it affects the underlying CoAP layer). If there is a need to ensure that there are no proxies on an OSCORE hop (or that all are known), I'd rather discuss how to do that once-and-for-all than by probing around at address change time.\r\n\r\nSlightly differently from the interim discussion the text is *not* marked as \"this will go away\", because it's more offering criteria for when a 0RTT response is good than saying that it can be done over DTLS (so it now only contains an unspec reference to whichever document will say that it *is* allowed, and that document can then defer to corrclar for criteria or take the text, depending on preferences and timelines).\r\n\r\nCC'ing @boaks as per @thomas-fossati's suggestion",
+      "createdAt": "2024-09-25T21:22:44Z",
+      "updatedAt": "2024-09-25T21:25:46Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "c77bd9e7f6841d1a22c694ecfb81feb32d868ead",
+      "headRepository": "chrysn-pull-requests/corrclar",
+      "headRefName": "amplification-and-0rtt",
+      "headRefOid": "05d250b82904701656fe98de9eab3fa4da99e725",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "We had an action item in today's interim to inform the RRC authors of what we're doing, but thanks, you already took care of that yourselves :-)",
+          "createdAt": "2024-09-25T21:25:45Z",
+          "updatedAt": "2024-09-25T21:25:45Z"
+        }
+      ],
       "reviews": []
     }
   ]
