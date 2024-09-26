@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Constrained Application Protocol (CoAP): Corrections and Clarifications</title>
+<meta content="Carsten Bormann" name="author">
+<meta content="
+       RFC 7252 defines the Constrained Application Protocol (CoAP), along
+with a number of additional specifications, including RFC 7641, RFC
+7959, RFC 8132, and RFC 8323.
+RFC 6690 defines the link format that is used in CoAP self-description
+documents. 
+       Some parts of the specification may be unclear or even contain errors
+that may lead to misinterpretations that may impair interoperability
+between different implementations.
+The present document provides corrections, additions, and
+clarifications to the RFCs cited; this document thus updates these
+RFCs.
+In addition, other clarifications related to the use of CoAP in other
+specifications, including RFC 7390 and RFC 8075, are also provided. 
+    " name="description">
+<meta content="xml2rfc 3.23.1" name="generator">
+<meta content="draft-bormann-core-corr-clar-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.23.1
+    Python 3.12.6
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.1.0
+    Jinja2 3.1.4
+    lxml 4.9.4
+    platformdirs 4.3.6
+    pycountry 22.3.5
+    PyYAML 6.0.1
+    requests 2.32.3
+    setuptools 70.3.0
+    wcwidth 0.2.13
+-->
+<link href="draft-bormann-core-corr-clar.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+}
+:is(ol, ul) :is(ol, ul) {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  line-height: 1;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+}
+dl.olPercent {
+  --indent: 5ch;
+}
+dl > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+dl.olPercent > dt {
+  min-width: calc(var(--indent) - 2ch);
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
+  margin-top: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
+  margin-bottom: 0;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    overflow-x: auto;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+}
+a.pilcrow[href] { color: var(--pilcrow-weak); }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  min-width: var(--identifier-width);
+  clear: left;
+  float: left;
+  text-align: right;
+  margin-right: 1ch;
+}
+#identifiers dd {
+  margin: 0;
+  margin-left: calc(1em + var(--identifier-width)) !important;
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 2px 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 10ch;
+  margin-right: 1.5ch;
+}
+.references dt:target::before {
+  content: "⇒";
+  width: 15px;
+  margin: 0 10px 0 -25px;
+}
+.references dd {
+  margin-left: 12ch !important;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul :is(p, li) {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Corrections and Clarifications to CoAP</td>
+<td class="right">September 2024</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Bormann</td>
+<td class="center">Expires 30 March 2025</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-bormann-core-corr-clar-latest</dd>
+<dt class="label-updates">Updates:</dt>
+<dd class="updates">
+<a href="https://www.rfc-editor.org/rfc/rfc6690" class="eref">6690</a>, <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a>, <a href="https://www.rfc-editor.org/rfc/rfc7641" class="eref">7641</a>, <a href="https://www.rfc-editor.org/rfc/rfc7959" class="eref">7959</a>, <a href="https://www.rfc-editor.org/rfc/rfc8132" class="eref">8132</a>, <a href="https://www.rfc-editor.org/rfc/rfc8323" class="eref">8323</a> (if approved)</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2024-09-26" class="published">26 September 2024</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2025-03-30">30 March 2025</time></dd>
+<dt class="label-authors">Author:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">C. Bormann</div>
+<div class="org">Universität Bremen TZI</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Constrained Application Protocol (CoAP): Corrections and Clarifications</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">RFC 7252 defines the Constrained Application Protocol (CoAP), along
+with a number of additional specifications, including RFC 7641, RFC
+7959, RFC 8132, and RFC 8323.
+RFC 6690 defines the link format that is used in CoAP self-description
+documents.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">Some parts of the specification may be unclear or even contain errors
+that may lead to misinterpretations that may impair interoperability
+between different implementations.
+The present document provides corrections, additions, and
+clarifications to the RFCs cited; this document thus updates these
+RFCs.
+In addition, other clarifications related to the use of CoAP in other
+specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-bormann-core-corr-clar/">https://datatracker.ietf.org/doc/draft-bormann-core-corr-clar/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        core Working Group mailing list (<span><a href="mailto:core@ietf.org">mailto:core@ietf.org</a></span>),
+        which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/core/">https://mailarchive.ietf.org/arch/browse/core/</a></span>.
+        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/core/">https://www.ietf.org/mailman/listinfo/core/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/core-wg/corrclar">https://github.com/core-wg/corrclar</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 30 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2024 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-process" class="internal xref">Process</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.1">
+                    <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="auto internal xref">1.1.1</a>.  <a href="#name-original-text" class="internal xref">Original text</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.2">
+                    <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="auto internal xref">1.1.2</a>.  <a href="#name-proposed-text-based-on-ietf" class="internal xref">Proposed text based on IETF 117 and 2023-08-30 CoRE WG interim discussion</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-rfc-7252" class="internal xref">RFC 7252</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-rfc7252-12-terminology-requ" class="internal xref">RFC7252-1.2: Terminology (Request-URI)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-rfc7252-5105-max-age" class="internal xref">RFC7252-5.10.5: Max-Age</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-rfc7252-64-decomposing-uris" class="internal xref">RFC7252-6.4: Decomposing URIs into Options</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4">
+                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="auto internal xref">2.4</a>.  <a href="#name-rfc7252-721-ct-attribute-co" class="internal xref">RFC7252-7.2.1: "ct" Attribute (content-format code)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5">
+                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="auto internal xref">2.5</a>.  <a href="#name-rfc7252-911-912-match-boxin" class="internal xref">RFC7252-9.1.1/9.1.2: (match boxing)</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5.2.1">
+                    <p id="section-toc.1-1.2.2.5.2.1.1"><a href="#section-2.5.1" class="auto internal xref">2.5.1</a>.  <a href="#name-dtls-with-connection-id" class="internal xref">DTLS with Connection ID</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5.2.2">
+                    <p id="section-toc.1-1.2.2.5.2.2.1"><a href="#section-2.5.2" class="auto internal xref">2.5.2</a>.  <a href="#name-oscore-kudos-and-group-osco" class="internal xref">OSCORE, KUDOS, and Group OSCORE</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5.2.3">
+                    <p id="section-toc.1-1.2.2.5.2.3.1"><a href="#section-2.5.3" class="auto internal xref">2.5.3</a>.  <a href="#name-eclipse-californium" class="internal xref">Eclipse/Californium</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.6">
+                <p id="section-toc.1-1.2.2.6.1"><a href="#section-2.6" class="auto internal xref">2.6</a>.  <a href="#name-rfc-7252-123-content-format" class="internal xref">RFC 7252-12.3: Content-Format Registry</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1"><span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> defines the Constrained Application Protocol (CoAP), along
+with a number of additional specifications, including <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>,
+<span>[<a href="#RFC7959" class="cite xref">RFC7959</a>]</span>, <span>[<a href="#RFC8132" class="cite xref">RFC8132</a>]</span>, and <span>[<a href="#RFC8323" class="cite xref">RFC8323</a>]</span>.
+<span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span> defines the link format that is used in CoAP
+self-description documents.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">During implementation and interoperability testing of these RFCs, and
+in their practical use, some ambiguities and common misinterpretations
+have been identified, as well as a few errors.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The present document summarizes identified issues and provides
+corrections needed for implementations of CoAP to interoperate, i.e.,
+it constitutes an update to the RFCs referenced.  This document also
+provides other clarifications related to common misinterpretations of
+the specification.  References to CoAP should, therefore, also include
+this document.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">In addition, some clarifications and corrections are also provided for
+documents that are related to CoAP, including RFC 7390 and RFC 8075.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<div id="process">
+<section id="section-1.1">
+        <h3 id="name-process">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-process" class="section-name selfRef">Process</a>
+        </h3>
+<div id="original-text">
+<section id="section-1.1.1">
+          <h4 id="name-original-text">
+<a href="#section-1.1.1" class="section-number selfRef">1.1.1. </a><a href="#name-original-text" class="section-name selfRef">Original text</a>
+          </h4>
+<p id="section-1.1.1-1">The present document is an Internet-Draft, which is not intended to be
+published as an RFC quickly.  Instead, it will be maintained as a
+running document of the CoRE WG, probably for a number of years, until
+the need for new entries tails off and the document can finally be
+published as an RFC.  (This paragraph to be rephrased when that
+happens.)<a href="#section-1.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.1-2">The status of this document as a running document of the WG implies a
+consensus process that is applied in making updates to it.  The rest
+of this subsection provides more details about this consensus process.
+(This is the intended status; currently, the document is an individual submission only.)<a href="#section-1.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1.1-3">(Consensus process TBD, but it will likely be based on an editor's
+version in a publicly accessible git repository, as well as periodic
+calls for consensus that lead to a new published Internet-Draft.)<a href="#section-1.1.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="proposed-text-based-on-ietf-117-and-2023-08-30-core-wg-interim-discussion">
+<section id="section-1.1.2">
+          <h4 id="name-proposed-text-based-on-ietf">
+<a href="#section-1.1.2" class="section-number selfRef">1.1.2. </a><a href="#name-proposed-text-based-on-ietf" class="section-name selfRef">Proposed text based on IETF 117 and 2023-08-30 CoRE WG interim discussion</a>
+          </h4>
+<p id="section-1.1.2-1">This section describes the process that will be used for developing
+the present document (called "-corr-clar" colloquially).<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.2-2">This process might be revised as its execution progresses.<a href="#section-1.1.2-2" class="pilcrow">¶</a></p>
+<ol start="0" type="1" class="normal type-1" id="section-1.1.2-3">
+<li id="section-1.1.2-3.1">
+              <p id="section-1.1.2-3.1.1">(Done as of this a draft): include the present process proposal.<br>
+The document can then already be considered for WG adoption.<a href="#section-1.1.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-1.1.2-3.2">
+              <p id="section-1.1.2-3.2.1">Go through the following available material and revise/create
+Github issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a> as needed:<a href="#section-1.1.2-3.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.2.2.1">
+                  <p id="section-1.1.2-3.2.2.1.1">Existing issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a><a href="#section-1.1.2-3.2.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.2.2.1.2.1">
+                      <p id="section-1.1.2-3.2.2.1.2.1.1">More to be opened by Jon Shallow regarding Block-wise, see <a href="https://datatracker.ietf.org/doc/minutes-interim-2023-core-11-202307051400/#attacks-on-the-constrained-application-protocol-coap-christian-amsuss-jon-shallow">JON-ISSUES</a><a href="#section-1.1.2-3.2.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  </ul>
+</li>
+                <li class="normal" id="section-1.1.2-3.2.2.2">
+                  <p id="section-1.1.2-3.2.2.2.1">CoAP FAQ at the CoRE WIKI <a href="https://github.com/core-wg/wiki/wiki/CoAP-FAQ">WIKI-FAQ</a><a href="#section-1.1.2-3.2.2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.2.2.2.2.1">
+                      <p id="section-1.1.2-3.2.2.2.2.1.1">Each point likely to become a new, short issue<a href="#section-1.1.2-3.2.2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  </ul>
+</li>
+              </ul>
+</li>
+            <li id="section-1.1.2-3.3">
+              <p id="section-1.1.2-3.3.1">Categorize the Github issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a> as to the topics they relate to, by tagging them.<br>
+Completing a first round of this will be a task for a dedicated team.<a href="#section-1.1.2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-1.1.2-3.4">
+              <p id="section-1.1.2-3.4.1">For each issue or set of issues at <a href="https://github.com/core-wg/corrclar/issues">ISSUES</a>, confirm with the CoRE
+WG and gather feedback from affected protocol
+designers/implementors if the issue is best to be:<a href="#section-1.1.2-3.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.4.2.1">
+                  <p id="section-1.1.2-3.4.2.1.1">Included and covered in -corr-clar, as is or revised<a href="#section-1.1.2-3.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-1.1.2-3.4.2.2">
+                  <p id="section-1.1.2-3.4.2.2.1">Simply omitted in -corr-clar<a href="#section-1.1.2-3.4.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-1.1.2-3.4.2.3">
+                  <p id="section-1.1.2-3.4.2.3.1">Omitted in -corr-clar and left for a possible -bis document.<br>
+(For example, this might be the case for some specific points related to RFC 7959.)<a href="#section-1.1.2-3.4.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</li>
+            <li id="section-1.1.2-3.5">
+              <p id="section-1.1.2-3.5.1">Reshape the -corr-clar document in order to reflect a sequence of
+ pairs (Diagnosis, Therapy), where:<a href="#section-1.1.2-3.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.2-3.5.2.1">
+                  <p id="section-1.1.2-3.5.2.1.1">Diagnosis is the gist of a set of Github issues to cover, and<a href="#section-1.1.2-3.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-1.1.2-3.5.2.2">
+                  <p id="section-1.1.2-3.5.2.2.1">Therapy is the correction or clarification to address those.<a href="#section-1.1.2-3.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+<p id="section-1.1.2-3.5.3">
+Even though at a high-level, the scope should be already clear by
+looking at the table of contents.
+That is, at this stage, there is no need to necessarily elaborate
+the Therapy in detail, but it is necessary to make a reader
+understand "what we are dealing with and taking which direction".<a href="#section-1.1.2-3.5.3" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-1.1.2-3.6">
+              <p id="section-1.1.2-3.6.1">WG document work can then focus on improving the therapy parts,
+until all points are satisfactorily addressed and documented.<a href="#section-1.1.2-3.6.1" class="pilcrow">¶</a></p>
+</li>
+          </ol>
+</section>
+</div>
+</section>
+</div>
+<div id="terminology">
+<section id="section-1.2">
+        <h3 id="name-terminology">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+        </h3>
+<p id="section-1.2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.2-2">When a section of this document makes formal corrections, additions
+or invalidations to text in a referenced RFC, this is clearly summarized.
+The text from the RFC that is being addressed is given and labeled
+"INCOMPLETE", "INCORRECT", or "INCORRECT AND INVALIDATED", followed
+by the correct text labeled "CORRECTED", where applicable.  When text
+is added that does not simply correct text in previous
+specifications, it is given with the label "FORMAL ADDITION".<a href="#section-1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.2-3">Where a resolution has not yet been agreed, the resolution is marked PENDING.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.2-4">In this document, a reference to a section in RFC nnnn is written
+as RFC nnnn-&lt;number&gt;, where &lt;number&gt; is the section number.<a href="#section-1.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="rfc-7252">
+<section id="section-2">
+      <h2 id="name-rfc-7252">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-rfc-7252" class="section-name selfRef">RFC 7252</a>
+      </h2>
+<div id="rfc7252-12-terminology-request-uri">
+<section id="section-2.1">
+        <h3 id="name-rfc7252-12-terminology-requ">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-rfc7252-12-terminology-requ" class="section-name selfRef">RFC7252-1.2: Terminology (Request-URI)</a>
+        </h3>
+<p id="section-2.1-1"><span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> uses the term "request URI" repeatedly, but only provides a
+vague definition in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.7.2" class="relref">Section 5.7.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.
+Text should be added to the definitions in Section <span><a href="https://rfc-editor.org/rfc/rfc7252#section-1.2" class="relref">1.2</a> (<a href="https://rfc-editor.org/rfc/rfc7252#section-1.2" class="relref">Terminology</a>)</span> of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-2.1-2">
+          <dt id="section-2.1-2.1">INCOMPLETE; FORMAL ADDITION (Section 1.2):</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-2.2">
+            <span class="break"></span><dl class="dlParallel" id="section-2.1-2.2.1">
+              <dt id="section-2.1-2.2.1.1">Request URI:</dt>
+              <dd style="margin-left: 1.5em" id="section-2.1-2.2.1.2">
+                <p id="section-2.1-2.2.1.2.1">The URI that identifies a resource on a server intended to be
+addressed by a request; constructed from the context of the
+request combined with Options present in the request using the
+process defined in Section <span><a href="https://rfc-editor.org/rfc/rfc7252#section-6.5" class="relref">6.5</a> (<a href="https://rfc-editor.org/rfc/rfc7252#section-6.5" class="relref">Composing URIs from Options</a>)</span> of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, see Section <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.7.2" class="relref">5.7.2</a> (<a href="https://rfc-editor.org/rfc/rfc7252#section-5.7.2" class="relref">Forward-Proxies</a>)</span> of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> for further details.
+Related to the HTTP concept of "target URI"; see Section <span><a href="https://rfc-editor.org/rfc/rfc9110#section-7.1" class="relref">7.1</a> (<a href="https://rfc-editor.org/rfc/rfc9110#section-7.1" class="relref">Determining the Target Resource</a>)</span> of <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>; previously called
+"effective request URI" in Section <span><a href="https://rfc-editor.org/rfc/rfc7230#section-5.5" class="relref">5.5</a> (<a href="https://rfc-editor.org/rfc/rfc7230#section-5.5" class="relref">Effective Request URI</a>)</span> of <span>[<a href="#RFC7230" class="cite xref">RFC7230</a>]</span>.<a href="#section-2.1-2.2.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-2.1-3">PENDING.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1-4">Note that a similar, but distinct concept is the "base URI", relative
+to which relative URIs are resolved.
+This is more complex in CoAP than in HTTP because CoAP can multicast
+requests (<span><a href="https://rfc-editor.org/rfc/rfc7252#section-8" class="relref">Section 8</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>), expecting unicast responses; these need
+to be interpreted relative to the unicast source address from which
+the responses come.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.1-5"><span><a href="https://rfc-editor.org/rfc/rfc7252#section-8.2" class="relref">Section 8.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> has:<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+<blockquote id="section-2.1-6">
+          <p id="section-2.1-6.1">For the purposes of interpreting the Location-* options and any links
+   embedded in the representation, the request URI (i.e., the base URI
+   relative to which the response is interpreted) is formed by replacing
+   the multicast address in the Host component of the original request
+   URI by the literal IP address of the endpoint actually responding.<a href="#section-2.1-6.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-2.1-7">Similarly, <span><a href="https://rfc-editor.org/rfc/rfc7252#section-8.2.1" class="relref">Section 8.2.1</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> (Caching) says:<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<blockquote id="section-2.1-8">
+          <p id="section-2.1-8.1">A response received in reply to a GET request to a multicast group
+   <span class="bcp14">MAY</span> be used to satisfy a subsequent request on the related unicast
+   request URI.  The unicast request URI is obtained by replacing the
+   authority part of the request URI with the transport-layer source
+   address of the response message.<a href="#section-2.1-8.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-2.1-9">Further discussion of a more generalized response concept can be found in
+<span>[<a href="#I-D.bormann-core-responses" class="cite xref">I-D.bormann-core-responses</a>]</span>.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="rfc7252-5105-max-age">
+<section id="section-2.2">
+        <h3 id="name-rfc7252-5105-max-age">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-rfc7252-5105-max-age" class="section-name selfRef">RFC7252-5.10.5: Max-Age</a>
+        </h3>
+<p id="section-2.2-1">In the discussion of <span>[<a href="#RFC8516" class="cite xref">RFC8516</a>]</span>, a comment was
+made that it would be needed to define the point in time relative to
+which Max-Age is defined.  A sender might reference it to the time it
+actually sends the message containing the option (and paragraph 3 of
+RFC7252-5.10.5 indeed requests that Max-Age be updated each time a
+message is retransmitted).  The receiver of the message does not have
+reliable information about the time of sending, though.  It may
+instead reference the Max-Age to the time of reception.  This in
+effect extends the time of Max-Age by the latency of the packet.
+This extension was deemed acceptable for the purposes of <span>[<a href="#RFC8516" class="cite xref">RFC8516</a>]</span>,
+but may be suboptimal when Max-Age is about the lifetime of a response
+object.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-2.2-2">
+          <dt id="section-2.2-2.1">INCOMPLETE:</dt>
+          <dd style="margin-left: 1.5em" id="section-2.2-2.2">
+            <p id="section-2.2-2.2.1">The value is intended to be current at the time of transmission.<a href="#section-2.2-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-2.2-3">PENDING.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="rfc7252-64-decomposing-uris-into-options">
+<section id="section-2.3">
+        <h3 id="name-rfc7252-64-decomposing-uris">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-rfc7252-64-decomposing-uris" class="section-name selfRef">RFC7252-6.4: Decomposing URIs into Options</a>
+        </h3>
+<p id="section-2.3-1"><span>[<a href="#Err4895" class="cite xref">Err4895</a>]</span> notes (text updated with newer link):<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<blockquote id="section-2.3-2">
+          <p id="section-2.3-2.1">The current specification for decomposing a URI into CoAP Options
+(Section 6.4) is correct; however the text may still be unclear to
+implementers who may think that the phrase "not including the
+delimiting slash characters" means simply omitting a trailing slash
+character in the URI path. This is incorrect. See the discussion
+outcome in email thread
+<a href="https://mailarchive.ietf.org/arch/msg/core/vqOiUreodGXqWZGeGOTREChCsKY/">https://mailarchive.ietf.org/arch/msg/core/vqOiUreodGXqWZGeGOTREChCsKY/</a>.<a href="#section-2.3-2.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-2.3-3"><span>[<a href="#Err4895" class="cite xref">Err4895</a>]</span> proceeds to propose adding another note at the end of
+<span><a href="https://rfc-editor.org/rfc/rfc7252#section-6.4" class="relref">Section 6.4</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.
+A slightly updated version of the proposed note might be:<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-2.3-4">
+          <dt id="section-2.3-4.1">FORMAL ADDITION at the end of <span><a href="https://rfc-editor.org/rfc/rfc7252#section-6.4" class="relref">Section 6.4</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>:</dt>
+          <dd style="margin-left: 1.5em" id="section-2.3-4.2">
+            <p id="section-2.3-4.2.1">Also note that a trailing slash character in the &lt;path&gt; component
+represents a separate, zero-character path segment (see the ABNF in
+<span><a href="https://rfc-editor.org/rfc/rfc3986#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>).
+This is encoded using a Uri-Path Option of zero length.
+The exception at the start of step 8 means that no such
+zero-character path segment is added for a trailing slash that
+immediately follows the authority (host and port).<a href="#section-2.3-4.2.1" class="pilcrow">¶</a></p>
+<aside id="section-2.3-4.2.2">
+              <p id="section-2.3-4.2.2.1">This exception means that, for a CoAP server, no difference is visible
+between a request that was generated from the URI
+<code>coap://authority/</code> and one that was generated from the URI
+<code>coap://authority</code> — in both cases, there is no Uri-Path Option in
+the request.
+(The URI continues to be parsed as defined:  e.g., for the URIs
+<code>coap://authority/?</code> and <code>coap://authority?</code>, there is no Uri-Path
+Option but a single Uri-Query Option that carries an empty query
+component.)<a href="#section-2.3-4.2.2.1" class="pilcrow">¶</a></p>
+<p id="section-2.3-4.2.2.2">Note that the exception at the start of step 8 does not mean that
+a client cannot create a request with a single empty Uri-Path
+Option; such a request just cannot be generated from a URI because
+of the algorithm given here.
+It also does not mean that a server is compelled to treat a request
+with such a single empty Uri-Path Option in the same way as one
+without any Uri-Path Option — the exception at the start of step 8
+is only about the process of generating a sequence of CoAP Options
+from a URI.<a href="#section-2.3-4.2.2.2" class="pilcrow">¶</a></p>
+<p id="section-2.3-4.2.2.3">The exception only applies to initial Uri-Path Options.
+So for <code>coap://authority/foo</code>, a single Uri-Path Option with the
+value <code>foo</code> is generated, while for <code>coap://authority/foo/</code> that
+Uri-Path Option is followed by an empty Uri-Path Option (an
+established idiom for a collection resource).<a href="#section-2.3-4.2.2.3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4.2.2.4">Similarly, there is a difference between requests generated
+from <code>coap://authority/</code>, <code>coap://authority//</code>, and
+<code>coap://authority///</code>, respectively:
+The first has no Uri-Path Options (due to the special exception);
+the second, two (empty ones); the third, three (empty ones).
+No server is compelled to offer resources under URIs with
+multiple empty path name components, which would generally be
+considered weird.<a href="#section-2.3-4.2.2.4" class="pilcrow">¶</a></p>
+</aside>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="rfc7252-721-ct-attribute-content-format-code">
+<section id="section-2.4">
+        <h3 id="name-rfc7252-721-ct-attribute-co">
+<a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-rfc7252-721-ct-attribute-co" class="section-name selfRef">RFC7252-7.2.1: "ct" Attribute (content-format code)</a>
+        </h3>
+<p id="section-2.4-1">As has been noted in <span>[<a href="#Err5078" class="cite xref">Err5078</a>]</span>, there is no information in <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>
+about whether the "ct" target attribute can be present multiply or
+not.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-2">The text does indicate that the value of the attribute <span class="bcp14">MAY</span> be "a
+space-separated sequence of Content-Format codes, indicating that
+multiple content-formats are available", but it does not repeat the
+prohibition of multiple instances that the analogously structured "rt"
+and "if" attributes in Sections <a href="https://rfc-editor.org/rfc/rfc6690#section-3.1" class="relref">3.1</a> and <a href="https://rfc-editor.org/rfc/rfc6690#section-3.2" class="relref">3.2</a> of <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span> have.<a href="#section-2.4-2" class="pilcrow">¶</a></p>
+<p id="section-2.4-3">This appears to be an oversight.
+Published examples in <span><a href="https://rfc-editor.org/rfc/rfc9148#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9148" class="cite xref">RFC9148</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9176#section-4.3" class="relref">Section 4.3</a> of [<a href="#RFC9176" class="cite xref">RFC9176</a>]</span> further illustrate that the space-separated approach is
+generally accepted to be the one to be used.
+There is no gain to be had from allowing both variants, and it would
+be likely to cause interoperability problems.<a href="#section-2.4-3" class="pilcrow">¶</a></p>
+<p id="section-2.4-4">At the 2022-11-23 CoRE WG interim meeting, there was agreement that
+<span>[<a href="#Err5078" class="cite xref">Err5078</a>]</span> should be marked "VERIFIED", which was done on 2023-01-18.<a href="#section-2.4-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-2.4-5">
+          <dt id="section-2.4-5.1">INCOMPLETE; FORMAL ADDITION:</dt>
+          <dd style="margin-left: 1.5em" id="section-2.4-5.2">
+            <p id="section-2.4-5.2.1">The Content-Format code attribute <span class="bcp14">MUST NOT</span> appear more than once in a
+link.<a href="#section-2.4-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="rfc7252-911912-match-boxing">
+<section id="section-2.5">
+        <h3 id="name-rfc7252-911-912-match-boxin">
+<a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-rfc7252-911-912-match-boxin" class="section-name selfRef">RFC7252-9.1.1/9.1.2: (match boxing)</a>
+        </h3>
+<p id="section-2.5-1">Sections <a href="https://rfc-editor.org/rfc/rfc7252#section-9.1.1" class="relref">9.1.1</a> and <a href="https://rfc-editor.org/rfc/rfc7252#section-9.1.2" class="relref">9.1.2</a> of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> provide details about using CoAP
+over DTLS connections; in particular they restrict both message-id
+matching and request/response matching to within a single combination
+of DTLS session/DTLS epoch.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
+<p id="section-2.5-2">At the time, this was a decision to be very conservative based on the
+wide variety of security implications a new DTLS epoch might have
+(which also were not widely understood, e.g., for a re-authentication).
+The normally short time between a request and a response made this
+rather strict boxing appear acceptable.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
+<p id="section-2.5-3">However, with the Observe functionality <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, it is quite likely
+that significant time elapses between a request and the arrival of a
+notification that is sent back as a response, causing a need for the
+latter to use a different box from the original request.<a href="#section-2.5-3" class="pilcrow">¶</a></p>
+<p id="section-2.5-4">Also, additions to CoAP such as CoAP over connection-oriented
+transports <span>[<a href="#RFC8323" class="cite xref">RFC8323</a>]</span> and OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> create similar matching
+boxes that also do not fit certain likely use cases of these additions
+(e.g., with short-lived TCP connections as discussed in <span><a href="https://rfc-editor.org/rfc/rfc9006#section-4.3" class="relref">Section 4.3</a> of [<a href="#RFC9006" class="cite xref">RFC9006</a>]</span>).<a href="#section-2.5-4" class="pilcrow">¶</a></p>
+<p id="section-2.5-5">The match boxing semantics of the current protocol are clearly defined, but can be unsatisfactory given the current requirements.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
+<p id="section-2.5-6">This calls for careful design choices and enhancements when developing extensions for CoAP or protocols and methods applicable to CoAP, such as in the cases overviewed in the following <a href="#match-boxing-oscore" class="auto internal xref">Section 2.5.2</a> and <a href="#match-boxing-eclipse" class="auto internal xref">Section 2.5.3</a>.<a href="#section-2.5-6" class="pilcrow">¶</a></p>
+<div id="dtls-with-connection-id">
+<section id="section-2.5.1">
+          <h4 id="name-dtls-with-connection-id">
+<a href="#section-2.5.1" class="section-number selfRef">2.5.1. </a><a href="#name-dtls-with-connection-id" class="section-name selfRef">DTLS with Connection ID</a>
+          </h4>
+<p id="section-2.5.1-1">PENDING:<a href="#section-2.5.1-1" class="pilcrow">¶</a></p>
+<aside id="section-2.5.1-2">
+            <p id="section-2.5.1-2.1">Protocol mechanisms that have been defined for stitching
+together connections or phases of an underlying connection, such
+as Connection Identifiers for DTLS 1.2 <span>[<a href="#RFC9146" class="cite xref">RFC9146</a>]</span>, may enable
+keeping the session/epoch unchanged and even to change the
+transport address (ip-address/port), once appropriately modified
+match boxing rules are specified for the stitching mechanism.
+(These rules either need to be defined to be implicitly active
+for any use of the mechanism or they may require negotiation.)<a href="#section-2.5.1-2.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="match-boxing-oscore">
+<section id="section-2.5.2">
+          <h4 id="name-oscore-kudos-and-group-osco">
+<a href="#section-2.5.2" class="section-number selfRef">2.5.2. </a><a href="#name-oscore-kudos-and-group-osco" class="section-name selfRef">OSCORE, KUDOS, and Group OSCORE</a>
+          </h4>
+<p id="section-2.5.2-1">The security protocol Object Security for Constrained RESTful Environments (OSCORE) defined in <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> provides end-to-end security for CoAP messages at the application level, by using CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>. In order to protect their communications, two peers need to have already established an OSCORE Security Context.<a href="#section-2.5.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.5.2-2"><span><a href="https://rfc-editor.org/rfc/rfc8613#appendix-B.2" class="relref">Appendix B.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> provides an example for a key update procedure, which two OSCORE peers can run for establishing a new shared OSCORE Security Context that replaces their old one. The recent key update protocol KUDOS <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span> specifies how two OSCORE peers can establish a new shared OSCORE Security Context that replaces their old one, with a number of advantages compared to the method defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#appendix-B.2" class="relref">Appendix B.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.<a href="#section-2.5.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.5.2-3">The security protocol Group Object Security for Constrained RESTful Environments (Group OSCORE) defined in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span> builds on OSCORE and protects group communication for CoAP <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>. The management of the group keying material is entrusted to a Group Manager (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-3" class="relref">Section 3</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), which provides the latest group keying material to a new group member upon its group joining, and can update the group keying material by performing a group rekeying.<a href="#section-2.5.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.5.2-4">The following discusses how OSCORE, KUDOS, and Group OSCORE position themselves with respect to the match boxing, the transport used underlying CoAP, and the renewal of the keying material.<a href="#section-2.5.2-4" class="pilcrow">¶</a></p>
+<div id="match-boxing">
+<section id="section-2.5.2.1">
+            <h5 id="name-match-boxing">
+<a href="#section-2.5.2.1" class="section-number selfRef">2.5.2.1. </a><a href="#name-match-boxing" class="section-name selfRef">Match Boxing</a>
+            </h5>
+<p id="section-2.5.2.1-1">The security processing of (Group) OSCORE is agnostic of the value assumed by the CoAP Token and Message ID. Also, (Group) OSCORE can be seamlessly used in the presence of (cross-)proxies that will change the value of the CoAP Token and Message ID on the different communication legs. This does not affect the security processing at the (Group) OSCORE endpoints.<a href="#section-2.5.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.1-2">Before any security processing is performed, the only use that (Group) OSCORE makes of the Token value is on the CoAP client upon receiving a response, in order to retrieve the right Security Context to use for decrypting and verifying the response.<a href="#section-2.5.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.1-3">Even in case the Token value in a CoAP response is manipulated to induce a Request-Response matching at the client, there is no risk for the client to successfully decrypt the response instead of failing as expected. This is because, per <span><a href="https://rfc-editor.org/rfc/rfc8613#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, the OSCORE Master Secret of each OSCORE Security Context is required not only to be secret, but also to have a good amount of randomness.<a href="#section-2.5.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.1-4">Building on that, an HKDF is used to derive the actual encryption keys
+from the Master Secret and, optionally, from an additional Master
+Salt. Furthermore, for each OSCORE Security Context, the quartet
+(Master Secret, Master Salt, ID Context, Sender ID) must be unique. As
+per <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, this is a hard requirement and
+guarantees unique (key, nonce) pairs for the AEAD algorithm used.<a href="#section-2.5.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.1-5">In Group OSCORE, the Security Context extends that of OSCORE, and the same as above holds  (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2" class="relref">2</a>, <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2.2" class="relref">2.2</a>, and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-13.11" class="relref">13.11</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-2.5.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.1-6">Finally, (Group) OSCORE performs a separate secure match boxing under its own control, by cryptographically binding each protected request with all the corresponding protected responses. This is achieved by means of the COSE external_aad involved during the security processing of protected messages (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-5.4" class="relref">Section 5.4</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> and <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-4.4" class="relref">Section 4.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-2.5.2.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="underlying-transport">
+<section id="section-2.5.2.2">
+            <h5 id="name-underlying-transport">
+<a href="#section-2.5.2.2" class="section-number selfRef">2.5.2.2. </a><a href="#name-underlying-transport" class="section-name selfRef">Underlying Transport</a>
+            </h5>
+<p id="section-2.5.2.2-1">The security protocol (Group) OSCORE does not have any requirement on
+binding the Security Context in use to specific addressing information used by the transport protocol underlying CoAP. What occurs below (Group) OSCORE with transport-specific addressing information is transparent to (Group) OSCORE, but it needs to work well enough to ensure that received data is delivered to (Group) OSCORE for security processing.<a href="#section-2.5.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.2-2">Consistent with the above, (Group) OSCORE does not interfere with any low-layer, transport specific information. Instead, it entrusts data to a Request-Response exchange mechanism that can rely on different means to enforce the Request-Response matching at the transport level (e.g., the 5-tuple, the CoAP Message ID, a file handle). Also, (Group) OSCORE does not alter the fact that a CoAP response needs to come from where the corresponding CoAP request was sent, which simply follows from using transports where that is a requirement.<a href="#section-2.5.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.2-3">Furthermore, two peers can seamlessly use (Group) OSCORE also in the presence of cross-proxies that change transport across different communication legs. This does not affect the security processing at the (Group) OSCORE endpoints.<a href="#section-2.5.2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.2-4">Practically, (Group) OSCORE relies on the underlying CoAP implementation for obtaining received CoAP messages on which to perform the expected security processing.<a href="#section-2.5.2.2-4" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.2-5">Upon receiving a protected message, the recipient endpoint retrieves the OSCORE Security Context to use for decryption based on key identifier information specified in the CoAP OSCORE Option of protected requests, and on the value of the CoAP Token of protected responses.<a href="#section-2.5.2.2-5" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.2-6">In OSCORE, the key identifier information in request messages is
+typically limited to a "kid", with a value the OSCORE Sender ID associated with the message sender. In case Sender IDs are not unique among different OSCORE Security Contexts stored by the same peer, it is possible to disambiguate by additionally using a "kid context" identifying the OSCORE Security Context as a whole. Instead, response messages are not required to convey key identifier information, as the client can rely on the Token conveyed in the response for retrieving the Security Context to use (see above).<a href="#section-2.5.2.2-6" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.2-7">In Group OSCORE, the key identifier information in request messages always includes also a "kid context", whose value is used as identifier of the OSCORE group associated with the Security Context to use for security processing of the exchanged message. Response messages are also required to convey a "kid" as key identifier information (i.e., the OSCORE Sender ID associated with the message sender), if the corresponding request was protected with the group mode of Group OSCORE (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-8" class="relref">Section 8</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>) .<a href="#section-2.5.2.2-7" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.2-8">Some particular uses of (Group) OSCORE enable to build OSCORE-based tunneling <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>. In such a case, a CoAP server might have to enforce that some OSCORE Security Contexts are not just looked up by a "kid" and similar key identifier information from the CoAP OSCORE Option in the incoming request to decrypt. Such a lookup should also rely on the alleged client's address, or on an alternative identifier of the tunnel from which the request came from.<a href="#section-2.5.2.2-8" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="key-update">
+<section id="section-2.5.2.3">
+            <h5 id="name-key-update">
+<a href="#section-2.5.2.3" class="section-number selfRef">2.5.2.3. </a><a href="#name-key-update" class="section-name selfRef">Key Update</a>
+            </h5>
+<p id="section-2.5.2.3-1">Updating an OSCORE Security Context does not change or interfere with the values of the Token or Message ID used in the exchanged CoAP messages. However, if long-term exchanges are involved (e.g., CoAP Observations <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>), one has to be careful to ensure that updating the Security Context does not impair the security properties of (Group) OSCORE or result in other security vulnerabilities.<a href="#section-2.5.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.3-2">The following provides more details about key update, separately for OSCORE, KUDOS, and Group OSCORE.<a href="#section-2.5.2.3-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.5.2.3-3.1">
+                <p id="section-2.5.2.3-3.1.1">OSCORE: <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> tacitly assumes that two peers terminate any ongoing CoAP Observation that they still have ongoing, upon installing a new OSCORE Security Context, irrespective of the method used to perform the key update.<a href="#section-2.5.2.3-3.1.1" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.3-3.1.2">
+On these premises, a belated response protected with the old OSCORE
+Security Context will fail decryption, as that Security Context is not available anymore on the receiving client.<a href="#section-2.5.2.3-3.1.2" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-2.5.2.3-3.2">
+                <p id="section-2.5.2.3-3.2.1">KUDOS: The key update protocol KUDOS allows the two OSCORE peers to negotiate about preserving their ongoing CoAP Observations across the performed key update. If and only if both peers agree to do that during an execution of KUDOS, their Observations will remain active after installing the new OSCORE Security Context, which the two peers will use from then on to protect their exchanged Observe notifications.<a href="#section-2.5.2.3-3.2.1" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.3-3.2.2">
+Furthermore, irrespective of the method used to perform a key update, <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-08#section-3" class="relref">Section 3</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span> updates the security protocol OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> in order to prevent security issues that can arise from misbinding a request and a response, when those are protected with two different OSCORE Security Contexts.<a href="#section-2.5.2.3-3.2.2" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.3-3.2.3">
+Such an update to the OSCORE protocol requires a server to include its own Sender Sequence Number as Partial IV of an outgoing response, when protecting it with a Security Context different from the one used to protect the corresponding request. An exception safely applies to the response messages that are sent when running the key update procedure defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#appendix-B.2" class="relref">Appendix B.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.<a href="#section-2.5.2.3-3.2.3" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-2.5.2.3-3.3">
+                <p id="section-2.5.2.3-3.3.1">Group OSCORE: The Group Manager can distribute new group keying material to the members of an OSCORE group, by performing a group rekeying. When receiving updated group keying material from the Group Manager, either upon joining the group or by participating in a group rekeying, a group member uses that material to install a new, commonly shared Group OSCORE Security Context, which replaces the old one (if any is stored).<a href="#section-2.5.2.3-3.3.1" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.3-3.3.2">
+Also, Group OSCORE makes it possible for group members to safely
+preserve their ongoing active requests (e.g., CoAP Observations), also across the establishment of new Group OSCORE Security Contexts. This is achieved by virtue of how the Group Manager assigns and maintains the identifiers of OSCORE groups (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-3.2.1.1" class="relref">Section 3.2.1.1</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-2.5.2.3-3.3.2" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.3-3.3.3">
+Furthermore, analogous to the update that <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span> makes on the OSCORE protocol with respect to protecting responses, Group OSCORE prevents security issues that can arise from misbinding a request and a response, when those are protected with two different Group OSCORE Security Contexts.<a href="#section-2.5.2.3-3.3.3" class="pilcrow">¶</a></p>
+<p id="section-2.5.2.3-3.3.4">
+In the same way specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-08#section-3" class="relref">Section 3</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span> for OSCORE, Group OSCORE requires a server to include its own Sender Sequence Number as Partial IV of an outgoing response, when protecting it with a Security Context different from the one used to protect the corresponding request (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-8.3" class="relref">8.3</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-9.5" class="relref">9.5</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-2.5.2.3-3.3.4" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="match-boxing-eclipse">
+<section id="section-2.5.3">
+          <h4 id="name-eclipse-californium">
+<a href="#section-2.5.3" class="section-number selfRef">2.5.3. </a><a href="#name-eclipse-californium" class="section-name selfRef">Eclipse/Californium</a>
+          </h4>
+<p id="section-2.5.3-1">Enhancements may be called for optimizations such as Eclipse/Californium EndpointContextMatcher <span>[<a href="#CF-MATCHER" class="cite xref">CF-MATCHER</a>]</span> might not work properly unless both sides of the communication agree on the extent of the matching boxes. Mechanisms to indicate capabilities and choices selected may need to be defined; also, a way to define the progression of matching boxes needs to be defined that is compatible with the security properties of the underlying protocols. This may require new efforts, to be initiated based on some formative contributions.<a href="#section-2.5.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.5.3-2">PENDING.<a href="#section-2.5.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.5.3-3">Relevant starting points for retrieving existing discussion of this
+issue include:<a href="#section-2.5.3-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.5.3-4.1">
+              <p id="section-2.5.3-4.1.1"><a href="https://mailarchive.ietf.org/arch/msg/core/biDJ8n4w0kBQATzyh9xHlKnGy1o/">https://mailarchive.ietf.org/arch/msg/core/biDJ8n4w0kBQATzyh9xHlKnGy1o/</a><br>
+("DTLS and Epochs")<a href="#section-2.5.3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-2.5.3-4.2">
+              <p id="section-2.5.3-4.2.1"><a href="https://mailarchive.ietf.org/arch/msg/core/TsyyKIHQ1FJtAvAo0ODNEt2Ileo/">https://mailarchive.ietf.org/arch/msg/core/TsyyKIHQ1FJtAvAo0ODNEt2Ileo/</a><br>
+("Connection ID")<a href="#section-2.5.3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-2.5.3-4.3">
+              <p id="section-2.5.3-4.3.1"><a href="https://github.com/core-wg/corrclar/issues/9">https://github.com/core-wg/corrclar/issues/9</a><br>
+("Clarify/revise language around epochs in section 9.1.1 #9")<a href="#section-2.5.3-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="ct">
+<section id="section-2.6">
+        <h3 id="name-rfc-7252-123-content-format">
+<a href="#section-2.6" class="section-number selfRef">2.6. </a><a href="#name-rfc-7252-123-content-format" class="section-name selfRef">RFC 7252-12.3: Content-Format Registry</a>
+        </h3>
+<p id="section-2.6-1"><span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> established the CoAP Content-Formats
+Registry, which maps a combination of an Internet Media Type
+with an HTTP Content Coding, collectively called a Content-Format, to
+a concise numeric identifier for that Content-Format.
+The "Media Type" is more than a Media-Type-Name (see <span>[<a href="#RFC9193" class="cite xref">RFC9193</a>]</span> for an
+extensive discussion), i.e., it may contain parameters beyond the mere
+combination of a type-name and a subtype-name registered in
+<span>[<a href="#IANA.media-types" class="cite xref">IANA.media-types</a>]</span>, as per <span>[<a href="#RFC6838" class="cite xref">RFC6838</a>]</span>, conventionally identified by
+the two names separated by a slash.
+This construct is often called a Content Type to reduce the confusion
+with a Media-Type-Name (e.g., in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3" class="relref">Section 8.3</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>, which then
+however also opts to use the term Media Type for the same information set).<a href="#section-2.6-1" class="pilcrow">¶</a></p>
+<p id="section-2.6-2">The second column of the Content-Format registry is the Content
+Coding, which is defined in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.4.1" class="relref">Section 8.4.1</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>.
+For historical reasons, the HTTP header field that actually carries
+the content coding is called Content-Encoding; this often leads to the
+misnaming of Content Coding as "content encoding".<a href="#section-2.6-2" class="pilcrow">¶</a></p>
+<p id="section-2.6-3">As has been noted in <span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span>, the text in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>
+incorrectly uses these terms in the context of content types and
+content coding:<a href="#section-2.6-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.6-4">
+<li id="section-2.6-4.1">
+            <p id="section-2.6-4.1.1">The field that describes the Content Type is called "Media Type".
+This can lead to the misunderstanding that this column just carries
+a Media-Type-Name (such as "<code>text/plain</code>"), while it actually also
+can carry media type parameters (as in "<code>text/plain; charset=UTF-8</code>").<a href="#section-2.6-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.6-4.2">
+            <p id="section-2.6-4.2.1">The field that describes the Content Coding uses the incorrect name
+"Content Encoding".<a href="#section-2.6-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<span class="break"></span><dl class="dlNewline" id="section-2.6-5">
+          <dt id="section-2.6-5.1">INCORRECT, CORRECTED:</dt>
+          <dd style="margin-left: 1.5em" id="section-2.6-5.2">
+            <p id="section-2.6-5.2.1">The VERIFIED Errata Report <span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span> corrects the usage of
+"Content-Encoding" in the text and changes the name of the first
+column of the Content-Format registry to "Content Type" and the name
+of the second field to "Content Coding".
+This change has been carried out by IANA.<a href="#section-2.6-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-2.6-6"><span>[<a href="#Err4954" class="cite xref">Err4954</a>]</span> also has some notes on what would be valid or invalid
+Content-Format registrations.
+These are not repeated here; they are however quite useful as a
+reference when preparing additional Content-Format registrations.<a href="#section-2.6-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-3">
+      <h2 id="name-iana-considerations">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-3-1">This document makes no new requests to IANA.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Individual clarifications may contain IANA considerations; as for
+example in <a href="#ct" class="auto internal xref">Section 2.6</a>.<a href="#section-3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-4">
+      <h2 id="name-security-considerations">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-4-1">This document provides a number of corrections and clarifications to
+existing RFCs, but it does not make any changes with regard to the security
+aspects of the protocol.  As a consequence, the security
+considerations of the referenced RFCs apply without additions.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">(To be changed when that is no longer true; probably the security
+considerations will then be on the individual clarifications.)<a href="#section-4-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-5">
+      <h2 id="name-references">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-5.1">
+        <h3 id="name-normative-references">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6690">[RFC6690]</dt>
+        <dd>
+<span class="refAuthor">Shelby, Z.</span>, <span class="refTitle">"Constrained RESTful Environments (CoRE) Link Format"</span>, <span class="seriesInfo">RFC 6690</span>, <span class="seriesInfo">DOI 10.17487/RFC6690</span>, <time datetime="2012-08" class="refDate">August 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6690">https://www.rfc-editor.org/rfc/rfc6690</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7252">[RFC7252]</dt>
+        <dd>
+<span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Hartke, K.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"The Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7252</span>, <span class="seriesInfo">DOI 10.17487/RFC7252</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7252">https://www.rfc-editor.org/rfc/rfc7252</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7641">[RFC7641]</dt>
+        <dd>
+<span class="refAuthor">Hartke, K.</span>, <span class="refTitle">"Observing Resources in the Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7641</span>, <span class="seriesInfo">DOI 10.17487/RFC7641</span>, <time datetime="2015-09" class="refDate">September 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7641">https://www.rfc-editor.org/rfc/rfc7641</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7959">[RFC7959]</dt>
+        <dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">Z. Shelby, Ed.</span>, <span class="refTitle">"Block-Wise Transfers in the Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7959</span>, <span class="seriesInfo">DOI 10.17487/RFC7959</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7959">https://www.rfc-editor.org/rfc/rfc7959</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8132">[RFC8132]</dt>
+        <dd>
+<span class="refAuthor">van der Stok, P.</span>, <span class="refAuthor">Bormann, C.</span>, and <span class="refAuthor">A. Sehgal</span>, <span class="refTitle">"PATCH and FETCH Methods for the Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 8132</span>, <span class="seriesInfo">DOI 10.17487/RFC8132</span>, <time datetime="2017-04" class="refDate">April 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8132">https://www.rfc-editor.org/rfc/rfc8132</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8323">[RFC8323]</dt>
+        <dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Lemay, S.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Hartke, K.</span>, <span class="refAuthor">Silverajan, B.</span>, and <span class="refAuthor">B. Raymor, Ed.</span>, <span class="refTitle">"CoAP (Constrained Application Protocol) over TCP, TLS, and WebSockets"</span>, <span class="seriesInfo">RFC 8323</span>, <span class="seriesInfo">DOI 10.17487/RFC8323</span>, <time datetime="2018-02" class="refDate">February 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8323">https://www.rfc-editor.org/rfc/rfc8323</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8613">[RFC8613]</dt>
+        <dd>
+<span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J.</span>, <span class="refAuthor">Palombini, F.</span>, and <span class="refAuthor">L. Seitz</span>, <span class="refTitle">"Object Security for Constrained RESTful Environments (OSCORE)"</span>, <span class="seriesInfo">RFC 8613</span>, <span class="seriesInfo">DOI 10.17487/RFC8613</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8613">https://www.rfc-editor.org/rfc/rfc8613</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9052">[RFC9052]</dt>
+      <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Structures and Process"</span>, <span class="seriesInfo">STD 96</span>, <span class="seriesInfo">RFC 9052</span>, <span class="seriesInfo">DOI 10.17487/RFC9052</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9052">https://www.rfc-editor.org/rfc/rfc9052</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-5.2">
+        <h3 id="name-informative-references">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="CF-MATCHER">[CF-MATCHER]</dt>
+        <dd>
+<span class="refTitle">"EndpointContextMatcher.java"</span>, <span>&lt;<a href="https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java">https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="Err4895">[Err4895]</dt>
+        <dd>
+<span class="refTitle">RFC Errata Report 4895</span>, <span class="seriesInfo">RFC 7252</span>, <span>&lt;<a href="https://www.rfc-editor.org/errata/eid4895">https://www.rfc-editor.org/errata/eid4895</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="Err4954">[Err4954]</dt>
+        <dd>
+<span class="refTitle">RFC Errata Report 4954</span>, <span class="seriesInfo">RFC 7252</span>, <span>&lt;<a href="https://www.rfc-editor.org/errata/eid4954">https://www.rfc-editor.org/errata/eid4954</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="Err5078">[Err5078]</dt>
+        <dd>
+<span class="refTitle">RFC Errata Report 5078</span>, <span class="seriesInfo">RFC 7252</span>, <span>&lt;<a href="https://www.rfc-editor.org/errata/eid5078">https://www.rfc-editor.org/errata/eid5078</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.bormann-core-responses">[I-D.bormann-core-responses]</dt>
+        <dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">C. Amsüss</span>, <span class="refTitle">"CoAP: Non-traditional response forms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bormann-core-responses-03</span>, <time datetime="2024-09-01" class="refDate">1 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-bormann-core-responses-03">https://datatracker.ietf.org/doc/html/draft-bormann-core-responses-03</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-core-groupcomm-bis">[I-D.ietf-core-groupcomm-bis]</dt>
+        <dd>
+<span class="refAuthor">Dijk, E.</span>, <span class="refAuthor">Wang, C.</span>, and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-groupcomm-bis-11</span>, <time datetime="2024-04-24" class="refDate">24 April 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-11">https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-11</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-core-oscore-capable-proxies">[I-D.ietf-core-oscore-capable-proxies]</dt>
+        <dd>
+<span class="refAuthor">Tiloca, M.</span> and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"OSCORE-capable Proxies"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-capable-proxies-02</span>, <time datetime="2024-07-08" class="refDate">8 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-capable-proxies-02">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-capable-proxies-02</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-core-oscore-groupcomm">[I-D.ietf-core-oscore-groupcomm]</dt>
+        <dd>
+<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Palombini, F.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"Group Object Security for Constrained RESTful Environments (Group OSCORE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-groupcomm-23</span>, <time datetime="2024-09-26" class="refDate">26 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-core-oscore-key-update">[I-D.ietf-core-oscore-key-update]</dt>
+        <dd>
+<span class="refAuthor">Höglund, R.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Key Update for OSCORE (KUDOS)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-key-update-08</span>, <time datetime="2024-07-08" class="refDate">8 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-08">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-08</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA.media-types">[IANA.media-types]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Media Types"</span>, <span>&lt;<a href="https://www.iana.org/assignments/media-types">https://www.iana.org/assignments/media-types</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6838">[RFC6838]</dt>
+        <dd>
+<span class="refAuthor">Freed, N.</span>, <span class="refAuthor">Klensin, J.</span>, and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"Media Type Specifications and Registration Procedures"</span>, <span class="seriesInfo">BCP 13</span>, <span class="seriesInfo">RFC 6838</span>, <span class="seriesInfo">DOI 10.17487/RFC6838</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6838">https://www.rfc-editor.org/rfc/rfc6838</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7230">[RFC7230]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span> and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing"</span>, <span class="seriesInfo">RFC 7230</span>, <span class="seriesInfo">DOI 10.17487/RFC7230</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7230">https://www.rfc-editor.org/rfc/rfc7230</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8516">[RFC8516]</dt>
+        <dd>
+<span class="refAuthor">Keranen, A.</span>, <span class="refTitle">""Too Many Requests" Response Code for the Constrained Application Protocol"</span>, <span class="seriesInfo">RFC 8516</span>, <span class="seriesInfo">DOI 10.17487/RFC8516</span>, <time datetime="2019-01" class="refDate">January 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8516">https://www.rfc-editor.org/rfc/rfc8516</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9006">[RFC9006]</dt>
+        <dd>
+<span class="refAuthor">Gomez, C.</span>, <span class="refAuthor">Crowcroft, J.</span>, and <span class="refAuthor">M. Scharf</span>, <span class="refTitle">"TCP Usage Guidance in the Internet of Things (IoT)"</span>, <span class="seriesInfo">RFC 9006</span>, <span class="seriesInfo">DOI 10.17487/RFC9006</span>, <time datetime="2021-03" class="refDate">March 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9006">https://www.rfc-editor.org/rfc/rfc9006</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9110">[RFC9110]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9146">[RFC9146]</dt>
+        <dd>
+<span class="refAuthor">Rescorla, E., Ed.</span>, <span class="refAuthor">Tschofenig, H., Ed.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">A. Kraus</span>, <span class="refTitle">"Connection Identifier for DTLS 1.2"</span>, <span class="seriesInfo">RFC 9146</span>, <span class="seriesInfo">DOI 10.17487/RFC9146</span>, <time datetime="2022-03" class="refDate">March 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9146">https://www.rfc-editor.org/rfc/rfc9146</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9148">[RFC9148]</dt>
+        <dd>
+<span class="refAuthor">van der Stok, P.</span>, <span class="refAuthor">Kampanakis, P.</span>, <span class="refAuthor">Richardson, M.</span>, and <span class="refAuthor">S. Raza</span>, <span class="refTitle">"EST-coaps: Enrollment over Secure Transport with the Secure Constrained Application Protocol"</span>, <span class="seriesInfo">RFC 9148</span>, <span class="seriesInfo">DOI 10.17487/RFC9148</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9148">https://www.rfc-editor.org/rfc/rfc9148</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9176">[RFC9176]</dt>
+        <dd>
+<span class="refAuthor">Amsüss, C., Ed.</span>, <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Koster, M.</span>, <span class="refAuthor">Bormann, C.</span>, and <span class="refAuthor">P. van der Stok</span>, <span class="refTitle">"Constrained RESTful Environments (CoRE) Resource Directory"</span>, <span class="seriesInfo">RFC 9176</span>, <span class="seriesInfo">DOI 10.17487/RFC9176</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9176">https://www.rfc-editor.org/rfc/rfc9176</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9193">[RFC9193]</dt>
+      <dd>
+<span class="refAuthor">Keränen, A.</span> and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Sensor Measurement Lists (SenML) Fields for Indicating Data Value Content-Format"</span>, <span class="seriesInfo">RFC 9193</span>, <span class="seriesInfo">DOI 10.17487/RFC9193</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9193">https://www.rfc-editor.org/rfc/rfc9193</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgements">
+<section id="appendix-A">
+      <h2 id="name-acknowledgements">
+<a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-A-1">The present document is modeled after RFC 4815 and the Internet-Drafts
+of the ROHC WG that led to it.  Many thanks to the co-chairs of the
+ROHC WG and WG members that made this a worthwhile and successful
+experiment at the time.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-address">
+<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Carsten Bormann</span></div>
+<div dir="auto" class="left"><span class="org">Universität Bremen TZI</span></div>
+<div dir="auto" class="left"><span class="street-address">Postfach 330440</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">D-28359</span> <span class="locality">Bremen</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Germany</span></div>
+<div class="tel">
+<span>Phone:</span>
+<a href="tel:+49-421-218-63921" class="tel">+49-421-218-63921</a>
+</div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:cabo@tzi.org" class="email">cabo@tzi.org</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
