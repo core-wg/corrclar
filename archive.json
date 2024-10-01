@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-29T01:51:39.654343+00:00",
+  "timestamp": "2024-10-01T01:53:44.542374+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -453,7 +453,7 @@
       ],
       "body": "The RFC uses \"request URI\" terminology, but there is no definition or reference of what a request URI is.\r\n\r\nAlso, while the RFC document does describe how the request URI can be generated based on CoAP message elements, it is not very clear that the request URI is not a message element itself (in SIP, the request URI is part of the message syntax).\r\n\r\n",
       "createdAt": "2019-10-14T12:09:33Z",
-      "updatedAt": "2024-07-02T20:17:45Z",
+      "updatedAt": "2024-09-30T13:08:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -469,6 +469,13 @@
           "body": "Reopen due to large PENDING",
           "createdAt": "2024-07-02T20:17:45Z",
           "updatedAt": "2024-07-02T20:17:45Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Let's try to enumerate all the URIs that come with a CoAP request/response:\r\n* [x] The \"Request URI\", eg. <coap://[ff02::1]/foo>. Described in this document since #33\r\n* [ ] The URI that was actually acted on, which the client (in the multicast case) only learns when a response comes, eg <coap://[2001:db8::1]/foo>. I'm not sure this is relevant anywhere other than being the starting point for the next step.\r\n* [ ] The URI that the response tells us something about, which is different from the acted-on URI when there are Location options. If there is a response body, that is also the base URI for resolving URI references in the response body. Eg. if the Location was `[\"a\", \"b\"]`, that is <coap://[2001:db8::1]/a/b>. When there is no response body, that can still have an impact on caches. This may be related .\r\n* [ ] The URI the of the client for when a role reversal happens. This has no path components so it may be <coap://[2001:db8::2]:61616>. In some transports that may not be expressible or limited in its usefulness (a TCP client has a port but only the connected server can send). This is relevant eg. for a Resource Directory.",
+          "createdAt": "2024-09-30T13:08:22Z",
+          "updatedAt": "2024-09-30T13:08:22Z"
         }
       ]
     },
@@ -1451,9 +1458,17 @@
       "labels": [],
       "body": "There are a few places where I think we were too narrow in where we defined new behavior:\r\n\r\n* BERT could be useful outside of TCPish transports: https://github.com/core-wg/corrclar/issues/17\r\n* Observe has been redefined to have an implicit value twice now (TCPish, OSCORE); a clarification could generalize that notifications carry a Observe: 0 on transports that provide implicit ordering.\r\n* Signalling messages were defined for TCPish transports. OSCORE said they can be encrypted too without losing many more words on them. Defining that 7xx is signalling (sharing the number space and the per-code option space across all transports)\r\n\r\nEven though some of those are no-ops in the protocol (there are no other ordered transports right now, and describing that some signalling messages might be usable on TCP is a different topic), stating that those fundamentally apply everywhere would help readers understand them better, and help implementers find the right abstractions. (Like, \"do I need to know the transport just to be able to interpret the code?\" \u2026 so far, with signaling only on TCPish, an update to CoAP-over-UDP could define different codes there).",
       "createdAt": "2024-06-19T10:40:59Z",
-      "updatedAt": "2024-06-19T10:40:59Z",
+      "updatedAt": "2024-09-30T12:56:57Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "It may also make sense to generalize that \"Observation has an implicit value\" property into one of possibly multiple properties that transports have and that applications that set the option need to know. Other properties on that list are the implied scheme, and the way to get the default values for some options (Uri-Host/-Port).",
+          "createdAt": "2024-09-30T12:56:56Z",
+          "updatedAt": "2024-09-30T12:56:56Z"
+        }
+      ]
     },
     {
       "number": 38,
@@ -1508,6 +1523,22 @@
           "updatedAt": "2024-09-25T20:55:30Z"
         }
       ]
+    },
+    {
+      "number": 41,
+      "id": "I_kwDOJ-N8wM6YY6Az",
+      "title": "Things it takes to send a CoAP request",
+      "url": "https://github.com/core-wg/corrclar/issues/41",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a bit wobbly still, but IMO something we should clarify better:\r\n\r\n**What are the pieces that go into dereferencing a CoAP URI, especially when OSCORE is involved (which unlike DTLS does not bring its own scheme)?**\r\n\r\nIt's tempting to claim that OSCORE makes this special, but even dereferencing a coaps URI needs a piece of policy: \"How is the stack supposed to know whom to trust and which credentials to present?\" In a web-browser-style deployment, the implied policy is \"whoever presents a valid certificate for that name from the root CA\", but different uses of CoAP exist, eg. on LwM2M where AIU there is a coaps URI with an IP literal of the bootstrap server, and next to it a certificate (or RPK) that needs to present.\r\n\r\nAnd then there is the choice of whether or not a proxy should be taken. This can be a simple no/yes-and-which choice (as is offered by browsers), but can also become more complex when URIs are not DNS based (eg. with `6tisch.arpa`, \"where is my Tor entry point so I can resolve .onion addresses?\").\r\n\r\nAll those are decisions that a CoAP stack probably may in good conscience claim to just solve automatically, but others may offer those as choices (and some applications need the choices). Right now there is no place that explains that there *are* choices in the first place.\r\n\r\nThe [documentation of RIOT-rs](https://github.com/future-proof-iot/RIOT-rs/blob/d80a2cdd2ff7da2e164cac20d3e33c0729897925/book/src/tooling/coap.md#usage-client-side) has a current PR with some text on that matter (that is biased towards RIOT-rs's choices, but might provide some starting point); [discussion around that PR](https://github.com/future-proof-iot/RIOT-rs/pull/448/files#r1780983238) triggered the creation of this issue.",
+      "createdAt": "2024-09-30T13:20:36Z",
+      "updatedAt": "2024-09-30T13:20:36Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
