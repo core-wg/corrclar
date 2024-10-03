@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-01T01:53:44.542374+00:00",
+  "timestamp": "2024-10-03T01:44:45.443757+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1498,7 +1498,7 @@
       "labels": [],
       "body": "CoAP based documents receive comments on how to correctly work with CIDs, eg. in <https://mailarchive.ietf.org/arch/msg/core/Md4gV_0tUq7K6uyIwCjuRHSJOaA/>. I'd prefer if those comments would not need to be addressed in those documents but once and for all in some CoAP update such as corr-clar.\r\n\r\nThe original comments were about DTLS CIDs, but we'd have the same with any zero-round-trip encrypted requests; for example, if an OSCORE server uses [RFC8613 Appendix B.1.2](https://datatracker.ietf.org/doc/html/rfc8613#appendix-B.1.2) recovery, it's actually legitimate to send something else than a 4.01 Unauthorized along with the Echo option (but that needs some explanation as to when that's OK; [DTLS RRCs](https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc#name-rrc-and-cid-interplay) hint at something similar on the DTLS side without going into CoAP specifics).\r\n\r\nProposed text (wherever that'll fit):\r\n\r\n> Established security contexts and established return addresses can become obsolete.\r\n> For example, this happens when a DTLS session is resumed via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of [Appendix B.1.2 of RFC8613].\r\n> In those situations, a server still needs to maintain its security and and amplification mitigation properties,\r\n> which are generally independent but can be addressed using the same tools.\r\n>\r\n> A safe option is always to reject the initial request and request confirmation,\r\n> either using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option\r\n> (where a subsequent request with the same Echo value proves to the server that the destination was reachable)\r\n> or by using a more security mechanism specific tool such as RRC ({{?I-D.ietf-tls-dtls-rrc}}.\r\n>\r\n> If it is not certain that the client is reachable on the request's sender address,\r\n> but the response does not exceed the request's size by a factor of 3 ({{Section 2.4 of RFC9175}}, item 3),\r\n> the server can answer the request.\r\n> It should still include an Echo value, whose presence in the next request serves to confirm the client's address.\r\n>\r\n> If it is not certain that the request is not a replay,\r\n> but the request handler is safe or long-term idempotent\r\n> and there is no risk of metadata revealing data,\r\n> the server can answer the request.\r\n> Metadata that can reveal data are the size of the response\r\n> (which, in a replay situation, can give an active attacker additional data)\r\n> as well as any processing delays.\r\n> (There should be no observable side effects for safe or previously processed idempotent requests).\r\n> Assessing whether a resource is long-term idempotent is not always trivial, and it is prudent to err at the side of caution.\r\n> If nothing else, GET requests to constant resources,\r\n> such as queries to /.well-known/core,\r\n> can often be responded to safely on the CoAP layer even without any replay protection.\r\n>\r\n> Implementors of OSCORE beware answering potential replays is only safe from the CoAP application's point of view.\r\n> As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,\r\n> the response can not reuse the request's nonce, but needs to take an own sequence number from the server's space.\r\n\r\n(I think this also picks up everything that is important from [Section 3.1 of draft-amsuess-lwig-oscore-00](https://www.ietf.org/archive/id/draft-amsuess-lwig-oscore-00.html#name-replay-freshness-and-safety), which doesn't really have a new home with LWIG shut down)\r\n\r\nI'm taking the liberty to CC\r\n* @miri64 (who is just addressing comments around this in [DoC](https://datatracker.ietf.org/doc/draft-ietf-core-dns-over-coap/))\r\n* @thomas-fossati (who made the comments and is also an author of RRC)\r\n* @gselander, @emanjon, @rikard-sics and @marco-tiloca-sics (who are active around the OSCORE protection mechanisms)",
       "createdAt": "2024-09-19T13:46:11Z",
-      "updatedAt": "2024-09-25T20:55:31Z",
+      "updatedAt": "2024-10-01T12:04:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -1517,10 +1517,17 @@
         },
         {
           "author": "thomas-fossati",
-          "authorAssociation": "NONE",
+          "authorAssociation": "MEMBER",
           "body": "cc @boaks\r\n",
           "createdAt": "2024-09-25T20:55:30Z",
           "updatedAt": "2024-09-25T20:55:30Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Sorry., I'm currently very busy with other tasks, including the Eclipse/Californium 3.13 release. so just some comments:\r\n\r\n> when a DTLS session is resumed via CIDs,\r\n\r\nFor me the word \"resume\" is somehow close to [RFC 6347, page 21, figure 2](https://www.rfc-editor.org/rfc/rfc6347#page-21)\r\n\r\n``` \r\nFigure 2. Message Flights for Session-Resuming Handshake\r\n                           (No Cookie Exchange)\r\n``` \r\n\r\nBut in fact, using DTLS CID doesn't require such extra message exchanges. I would prefer to use \"continued\" or adding \"immediately\" to resumed.\r\n\r\nFMPOV, the most discussions and comments gets pretty large (and somehow complicated), because the assumed attack isn't clearly described. That may be much more misleading than helping. In quite a lot of cases, common traffic doesn't provide a specific attack surface and so there is no need to handle them special. And in some cases, techniques as RRC or similar, will be required to be applied.\r\n\r\nAFAIK spoofing, including spoofing wrong source addresses in DTLS CID records, is done in order to apply a DDoS attack. That requires some amplification so the very first thing, I would got for, is to limit applying countermeasure to message exchanges, which has that amplification. That doesn't only eliminate to apply countermeasure to that part of the message exchanges, which don't come with amplification (e.g. in SCADA that's in my experience about 96% of the traffic without amplification), it also indicates, that the probability for amplification is depending on the use-case low. In the end, an DDoS attack using that will be frequently inefficient, e.g. if you apply the spoofing but only 4% get amplified, that attack doesn't work well. So you need to prepare, but if that will be really applied in the wild, is something else.\r\n\r\nTo be frank, I'm not sure, if all this discussions will make it easier for users to operate the systems more secure, or if that just prevents them from using UDP based protocols at all. But that's more a question for those who are more active in the core group.\r\n",
+          "createdAt": "2024-10-01T12:04:15Z",
+          "updatedAt": "2024-10-01T12:04:15Z"
         }
       ]
     },
@@ -1993,7 +2000,7 @@
       "labels": [],
       "body": "This adds text I suggested in #39 to close it.\r\n\r\nCompared to the text discussed there, it also takes up the TBD item of covering the advanced return routability strategies (mainly by saying \"apply what you can or just use RRC\"). Unlike envisioned there I did *not* say that that doesn't work on OSCORE, because as long as it's all about flipping NATs and attacks sending the response through the old address *will* work, but I don't want to waste time on IPv4 stuff, and it kind of feels off to counter an attack by doing layering violations (sending the OSCORE response to the old address is one, as it affects the underlying CoAP layer). If there is a need to ensure that there are no proxies on an OSCORE hop (or that all are known), I'd rather discuss how to do that once-and-for-all than by probing around at address change time.\r\n\r\nSlightly differently from the interim discussion the text is *not* marked as \"this will go away\", because it's more offering criteria for when a 0RTT response is good than saying that it can be done over DTLS (so it now only contains an unspec reference to whichever document will say that it *is* allowed, and that document can then defer to corrclar for criteria or take the text, depending on preferences and timelines).\r\n\r\nCC'ing @boaks as per @thomas-fossati's suggestion",
       "createdAt": "2024-09-25T21:22:44Z",
-      "updatedAt": "2024-09-25T21:25:46Z",
+      "updatedAt": "2024-10-01T23:27:14Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "c77bd9e7f6841d1a22c694ecfb81feb32d868ead",
@@ -2013,7 +2020,226 @@
           "updatedAt": "2024-09-25T21:25:45Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ-N8wM6LcRkE",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "Thanks!  I've left a few editorial comments and a request for a couple of clarifications in the anti-reply section.",
+          "createdAt": "2024-10-01T08:16:39Z",
+          "updatedAt": "2024-10-01T09:13:48Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "Fix ref typo.\r\n\r\nAlso, the TLS purist might turn his nose up at the use of _resume_ - session resumption completely separate from CID.\r\n\r\nAlso, I suggest splitting the two conditions and pairing them with their respective examples.\r\n\r\n```suggestion\r\nEstablished security contexts can become obsolete.\r\nFor example, when the replay window of an OSCORE context is lost and recovered through the mechanism described in {{Appendix B.1.2 of RFC8613}}.\r\nEstablished return addresses can become obsolete.\r\nFor example, this happens when the use of Connection ID (CID) {{RFC9146}} allows the DTLS session to survive the client's IP address change.\r\n```",
+              "createdAt": "2024-10-01T08:16:39Z",
+              "updatedAt": "2024-10-01T09:13:48Z"
+            },
+            {
+              "originalPosition": 14,
+              "body": "remove duplicate \"and\"\r\ns/topic/concern/\r\n\r\n```suggestion\r\nIn those situations, a server still needs to maintain its security and amplification mitigation properties,\r\nwhich are generally independent concerns but can be addressed using the same tools.\r\n```",
+              "createdAt": "2024-10-01T08:18:27Z",
+              "updatedAt": "2024-10-01T09:13:48Z"
+            },
+            {
+              "originalPosition": 21,
+              "body": "Fix missing parenthesis.\r\nAlso s/mechanism/protocol/\r\nAlso, split long sentence in two.\r\n```suggestion\r\nTools specific to a security protocol, such as RRC ({{?I-D.ietf-tls-dtls-rrc}}) in case of DTLS, may be used. However, their use may depend on successful negotiation.\r\n```",
+              "createdAt": "2024-10-01T08:30:58Z",
+              "updatedAt": "2024-10-01T09:13:48Z"
+            },
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\nThis situation can happen at any time, especially after a prolonged period of quiescence, regardless of the security protocol.\r\n```",
+              "createdAt": "2024-10-01T08:38:17Z",
+              "updatedAt": "2024-10-01T09:13:48Z"
+            },
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\nVerifying the client's address is not only crucial for mitigating amplification attacks ({{?I-D.irtf-t2trg-amplification-attacks}}), but also to avoid traffic misdirection.\r\n```",
+              "createdAt": "2024-10-01T08:39:49Z",
+              "updatedAt": "2024-10-01T09:31:09Z"
+            },
+            {
+              "originalPosition": 36,
+              "body": "grammar\r\n\r\n```suggestion\r\n{{Section 7 of ?I-D.ietf-tls-dtls-rrc}} describes options for how to use RRC messages to distinguish different cases.\r\n```",
+              "createdAt": "2024-10-01T08:41:58Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            },
+            {
+              "originalPosition": 39,
+              "body": "Split long sentence.\r\nAlso, remove extra comma.\r\nAlso, remove the parentheses.\r\n\r\n```suggestion\r\nA 4.01 response with Echo can perform some of the same functions, with the Echo value replacing the RRC cookie. However, it does not offer a way to distinguish between non-preferred and preferred paths.\r\n\r\n```",
+              "createdAt": "2024-10-01T08:45:26Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            },
+            {
+              "originalPosition": 46,
+              "body": "What is the meaning of \"long-term idempotent\"?  I have never heard of it :-)",
+              "createdAt": "2024-10-01T08:51:06Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            },
+            {
+              "originalPosition": 45,
+              "body": "How can the server achieve \"certainty that the request is not a replay?\"",
+              "createdAt": "2024-10-01T08:53:06Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            },
+            {
+              "originalPosition": 51,
+              "body": "I am struggling with the semantics of this paragraph.",
+              "createdAt": "2024-10-01T08:54:19Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            },
+            {
+              "originalPosition": 59,
+              "body": "It's unclear what \"This situation\" refers to.",
+              "createdAt": "2024-10-01T08:56:19Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            },
+            {
+              "originalPosition": 62,
+              "body": "```suggestion\r\nCurrently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}}). However, that may change if a future document defines a profile for using early data with CoAP.\r\n```",
+              "createdAt": "2024-10-01T09:01:45Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            },
+            {
+              "originalPosition": 64,
+              "body": "grammar\r\n\r\n```suggestion\r\nImplementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.\r\n```",
+              "createdAt": "2024-10-01T09:02:49Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            },
+            {
+              "originalPosition": 66,
+              "body": "* \"As always\" can be removed.\r\n* \"sender sequence number of the request\" => \"request sequence number\"\r\n* Why is it important to qualify the anti-reply window as \"correctly initialized\"?\r\n* \"an own sequence number\" => \"its sequence number\"\r\n* spurious comma \"nonce, but\"",
+              "createdAt": "2024-10-01T09:12:43Z",
+              "updatedAt": "2024-10-01T09:13:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6Lee3J",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T12:14:19Z",
+          "updatedAt": "2024-10-01T12:14:19Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "Yes, the term \"resumed\" is in my opinion misleading. Maybe \"continued\" is better?",
+              "createdAt": "2024-10-01T12:14:19Z",
+              "updatedAt": "2024-10-01T12:14:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6LjzbL",
+          "commit": {
+            "abbreviatedOid": "7e19244"
+          },
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T20:41:55Z",
+          "updatedAt": "2024-10-01T20:41:56Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "It can't => (see [comment](https://github.com/core-wg/corrclar/pull/40#discussion_r1783511647)) ",
+              "createdAt": "2024-10-01T20:41:56Z",
+              "updatedAt": "2024-10-02T04:41:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6Lj0cH",
+          "commit": {
+            "abbreviatedOid": "7e19244"
+          },
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T20:44:34Z",
+          "updatedAt": "2024-10-01T20:44:34Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "but if the same request applied later (\"long-term\") does the same (\"idempotent\"), it's not required, that the server know about the replay attack.",
+              "createdAt": "2024-10-01T20:44:34Z",
+              "updatedAt": "2024-10-01T20:44:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6Lj2gb",
+          "commit": {
+            "abbreviatedOid": "7e19244"
+          },
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T20:49:34Z",
+          "updatedAt": "2024-10-01T20:49:34Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "I guess, that means, a server \"can answer\", if there no other security issues, e.g. the size of the response or the time to process the request, which may be considered to be used as \"metadata\" for an attack.   ",
+              "createdAt": "2024-10-01T20:49:34Z",
+              "updatedAt": "2024-10-01T20:49:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6Lkj0G",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T23:22:34Z",
+          "updatedAt": "2024-10-01T23:22:34Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "To be frank I have little knowledge of either session resumptions and CID. My guess is that both can lead to 0RTT situations. If so, is there a general term covering both?\r\n",
+              "createdAt": "2024-10-01T23:22:34Z",
+              "updatedAt": "2024-10-01T23:22:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6LkkoQ",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T23:27:14Z",
+          "updatedAt": "2024-10-01T23:27:14Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "It's a vague field and will need better terminology.\r\n\r\nIn 7252 (or HTTP below it), idempotent requests are requests that, once executed, have no further effect.\r\n\r\nBut the term does not distinguish between whether that's just if they're executed right after another or whether anything else may happen between their executions (maybe from the same client / user, maybe from a different one). As it is used in 7252, it's about duplication, so there it's about whether a request is processed again within EXCHANGE_LIFETIME, but that doesn't tell much about what else might have changed.\r\n\r\nIt may well be that the best course of action is to just talk about safe requests, and leave idempotency at most to a footnote.",
+              "createdAt": "2024-10-01T23:27:14Z",
+              "updatedAt": "2024-10-01T23:27:14Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
