@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-08T01:45:00.824657+00:00",
+  "timestamp": "2024-10-10T01:44:31.952337+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1544,6 +1544,22 @@
       "body": "This is a bit wobbly still, but IMO something we should clarify better:\r\n\r\n**What are the pieces that go into dereferencing a CoAP URI, especially when OSCORE is involved (which unlike DTLS does not bring its own scheme)?**\r\n\r\nIt's tempting to claim that OSCORE makes this special, but even dereferencing a coaps URI needs a piece of policy: \"How is the stack supposed to know whom to trust and which credentials to present?\" In a web-browser-style deployment, the implied policy is \"whoever presents a valid certificate for that name from the root CA\", but different uses of CoAP exist, eg. on LwM2M where AIU there is a coaps URI with an IP literal of the bootstrap server, and next to it a certificate (or RPK) that needs to present.\r\n\r\nAnd then there is the choice of whether or not a proxy should be taken. This can be a simple no/yes-and-which choice (as is offered by browsers), but can also become more complex when URIs are not DNS based (eg. with `6tisch.arpa`, \"where is my Tor entry point so I can resolve .onion addresses?\").\r\n\r\nAll those are decisions that a CoAP stack probably may in good conscience claim to just solve automatically, but others may offer those as choices (and some applications need the choices). Right now there is no place that explains that there *are* choices in the first place.\r\n\r\nThe [documentation of RIOT-rs](https://github.com/future-proof-iot/RIOT-rs/blob/d80a2cdd2ff7da2e164cac20d3e33c0729897925/book/src/tooling/coap.md#usage-client-side) has a current PR with some text on that matter (that is biased towards RIOT-rs's choices, but might provide some starting point); [discussion around that PR](https://github.com/future-proof-iot/RIOT-rs/pull/448/files#r1780983238) triggered the creation of this issue.",
       "createdAt": "2024-09-30T13:20:36Z",
       "updatedAt": "2024-09-30T13:20:36Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 42,
+      "id": "I_kwDOJ-N8wM6ZWm6r",
+      "title": "modified match boxing rules - DTLS with connection ID",
+      "url": "https://github.com/core-wg/corrclar/issues/42",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "[DTLS with Connection ID](https://github.com/core-wg/corrclar/blob/main/draft-bormann-core-corr-clar.md#dtls-with-connection-id)\r\n\r\nI'm not sure, what will be required.\r\n\r\nIn my view, CoAP defines a \"distributed state machine\" on (mainly) two peers. That uses for plain UDP transport the \"ip-address:port\" tuple to identify the related parts of that \"distributed state machine\" (client-state and server-state).\r\n\r\nIf the transport is changed, the data used for that identification is changing. \r\nIn some cases that \"other identity\" is the imply mapped into a IPv:port address and so it's possible to use different transport layers also with common coap implementations. And some implementations are just flexible enough to work with other identities as well, e.g. Eclipse/Californium with DTLS CID.\r\n\r\nWith that it may require to specify, where in the RFCs the ip-address:port is used for that identification and may be replaced by something else (I guess that applies for the most places), or where it is really used for the ip-transport (I guess only in rare cases).\r\n",
+      "createdAt": "2024-10-08T10:54:45Z",
+      "updatedAt": "2024-10-08T10:54:45Z",
       "closedAt": null,
       "comments": []
     }
