@@ -2,10 +2,10 @@
 
 This is the working area for the individual Internet-Draft, "Constrained Application Protocol (CoAP): Corrections and Clarifications".
 
-* [Editor's Copy](https://core-wg.github.io/corrclar/#go.draft-bormann-core-corr-clar.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-bormann-core-corr-clar)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-bormann-core-corr-clar)
-* [Compare Editor's Copy to Individual Draft](https://core-wg.github.io/corrclar/#go.draft-bormann-core-corr-clar.diff)
+* [Editor's Copy](https://core-wg.github.io/corrclar/#go.draft-ietf-core-corr-clar.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-core-corr-clar)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-core-corr-clar)
+* [Compare Editor's Copy to Individual Draft](https://core-wg.github.io/corrclar/#go.draft-ietf-core-corr-clar.diff)
 
 [Access to all branches](https://core-wg.github.io/corrclar/)
 

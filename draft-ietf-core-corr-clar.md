@@ -7,7 +7,7 @@ updates: 6690, 7252, 7641, 7959, 8132, 8323
 title: >
   Constrained Application Protocol (CoAP): Corrections and Clarifications
 abbrev: Corrections and Clarifications to CoAP
-docname: draft-bormann-core-corr-clar-latest
+docname: draft-ietf-core-corr-clar-latest
 
 venue:
   mail: core@ietf.org
