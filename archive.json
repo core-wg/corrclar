@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-20T01:52:39.087097+00:00",
+  "timestamp": "2024-10-22T01:46:15.482839+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -453,7 +453,7 @@
       ],
       "body": "The RFC uses \"request URI\" terminology, but there is no definition or reference of what a request URI is.\r\n\r\nAlso, while the RFC document does describe how the request URI can be generated based on CoAP message elements, it is not very clear that the request URI is not a message element itself (in SIP, the request URI is part of the message syntax).\r\n\r\n",
       "createdAt": "2019-10-14T12:09:33Z",
-      "updatedAt": "2024-09-30T13:08:24Z",
+      "updatedAt": "2024-10-20T20:20:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -476,6 +476,20 @@
           "body": "Let's try to enumerate all the URIs that come with a CoAP request/response:\r\n* [x] The \"Request URI\", eg. <coap://[ff02::1]/foo>. Described in this document since #33\r\n* [ ] The URI that was actually acted on, which the client (in the multicast case) only learns when a response comes, eg <coap://[2001:db8::1]/foo>. I'm not sure this is relevant anywhere other than being the starting point for the next step.\r\n* [ ] The URI that the response tells us something about, which is different from the acted-on URI when there are Location options. If there is a response body, that is also the base URI for resolving URI references in the response body. Eg. if the Location was `[\"a\", \"b\"]`, that is <coap://[2001:db8::1]/a/b>. When there is no response body, that can still have an impact on caches. This may be related .\r\n* [ ] The URI the of the client for when a role reversal happens. This has no path components so it may be <coap://[2001:db8::2]:61616>. In some transports that may not be expressible or limited in its usefulness (a TCP client has a port but only the connected server can send). This is relevant eg. for a Resource Directory.",
           "createdAt": "2024-09-30T13:08:22Z",
           "updatedAt": "2024-09-30T13:08:22Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "As part of enumerating those URIs, we should also look at where the Reply-From option of https://www.ietf.org/archive/id/draft-ietf-core-groupcomm-proxy-02.html fits in here. @marco-tiloca-sics, can that be one of those 4 categories? (I'd guess it's the 2nd, because if there is a Location option\u2026)",
+          "createdAt": "2024-10-20T19:06:05Z",
+          "updatedAt": "2024-10-20T19:08:45Z"
+        },
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Yes, I think that the \"Reply-From\" option conceptually fits in the second category. More in detail:\r\n\r\n* The option conceptually provides the client with \"instructions\" about where to send a follow-up request that reaches the originator of the response.\r\n\r\n* In case the option is added by a forward-proxy or by a reverse-proxy that does not hide individual servers in the group, then the option specifies actual addressing information of the origin server. That's a strong fitting with the second category.\r\n\r\n* In case the option is added by a reverse-proxy that hides also the individual servers in the group, then the option specifies addressing information pertaining to the proxy, such a that a request sent there will be forwarded by the proxy to the server in the group that originated the response. It feels like even this case still fits the second category, although in a broader sense.",
+          "createdAt": "2024-10-20T20:20:04Z",
+          "updatedAt": "2024-10-20T20:20:04Z"
         }
       ]
     },
