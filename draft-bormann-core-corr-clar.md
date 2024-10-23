@@ -540,7 +540,7 @@ can often be responded to safely on the CoAP layer even without any replay prote
 There are resources for which more requests than those with safe codes may be handled without replay protection,
 but as that assessment is hard to make, it is prudent to err at the side of caution.
 
-This situation can happen in OSCORE after a partial loss of context.
+Uncertainty about whether a request might be a replay can happen in OSCORE after a partial loss of context.
 Currently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}}). However, that may change if a future document defines a profile for using early data with CoAP.
 
 Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
