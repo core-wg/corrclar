@@ -496,7 +496,7 @@ INCOMPLETE:
 PENDING.
 
 Established security contexts and established return addresses can become obsolete.
-For example, this happens when a DTLS session is resumed via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of [Appendix B.1.2 of RFC8613].
+For example, this happens when a DTLS session is continued via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of [Appendix B.1.2 of RFC8613].
 In those situations, a server still needs to maintain its security and amplification mitigation properties,
 which are generally independent concerns but can be addressed using the same tools.
 
