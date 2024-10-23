@@ -528,10 +528,10 @@ If it is not certain that the request is not a replay,
 but the request handler is safe
 and there is no risk of metadata revealing data,
 the server can answer the request.
-Metadata that can reveal data are the size of the response
+Kinds of metadata to look out for are the size of the response
 (which, in a replay situation, can give an active attacker additional data)
 as well as any processing delays.
-(There should be no observable side effects for safe or previously processed idempotent requests).
+(Side effects would also fall into that category, but there should not be any effects for safe requests).
 
 If nothing else, GET requests to constant resources,
 such as queries to /.well-known/core,
