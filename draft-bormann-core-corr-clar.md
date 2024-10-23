@@ -525,7 +525,7 @@ RRC provides the right tools to make it.
 ### Replay protection
 
 If it is not certain that the request is not a replay,
-but the request handler is safe or long-term idempotent
+but the request handler is safe
 and there is no risk of metadata revealing data,
 the server can answer the request.
 Metadata that can reveal data are the size of the response
@@ -533,10 +533,12 @@ Metadata that can reveal data are the size of the response
 as well as any processing delays.
 (There should be no observable side effects for safe or previously processed idempotent requests).
 
-Assessing whether a resource is long-term idempotent is not always trivial, and it is prudent to err at the side of caution.
 If nothing else, GET requests to constant resources,
 such as queries to /.well-known/core,
 can often be responded to safely on the CoAP layer even without any replay protection.
+
+There are resources for which more requests than those with safe codes may be handled without replay protection,
+but as that assessment is hard to make, it is prudent to err at the side of caution.
 
 This situation can happen in OSCORE after a partial loss of context.
 Currently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}}). However, that may change if a future document defines a profile for using early data with CoAP.
