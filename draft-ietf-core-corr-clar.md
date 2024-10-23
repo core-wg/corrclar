@@ -7,7 +7,7 @@ updates: 6690, 7252, 7641, 7959, 8132, 8323
 title: >
   Constrained Application Protocol (CoAP): Corrections and Clarifications
 abbrev: Corrections and Clarifications to CoAP
-docname: draft-bormann-core-corr-clar-latest
+docname: draft-ietf-core-corr-clar-latest
 
 venue:
   mail: core@ietf.org
@@ -281,7 +281,7 @@ outcome in email thread
 A slightly updated version of the proposed note might be:
 
 {:vspace}
-INCOMPLETE; FORMAL ADDITION at the end of {{Section 6.4 of RFC7252}}:
+FORMAL ADDITION at the end of {{Section 6.4 of RFC7252}}:
 : Also note that a trailing slash character in the \<path> component
   represents a separate, zero-character path segment (see the ABNF in
   {{Section 3.3 of -uri}}).
