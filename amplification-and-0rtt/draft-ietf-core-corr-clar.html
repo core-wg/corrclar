@@ -1768,22 +1768,23 @@ RRC provides the right tools to make it.<a href="#section-2.6.1-4" class="pilcro
 <a href="#section-2.6.2" class="section-number selfRef">2.6.2. </a><a href="#name-replay-protection" class="section-name selfRef">Replay protection</a>
           </h4>
 <p id="section-2.6.2-1">If it is not certain that the request is not a replay,
-but the request handler is safe or long-term idempotent
+but the request handler is safe
 and there is no risk of metadata revealing data,
 the server can answer the request.
-Metadata that can reveal data are the size of the response
+Kinds of metadata to look out for are the size of the response
 (which, in a replay situation, can give an active attacker additional data)
 as well as any processing delays.
-(There should be no observable side effects for safe or previously processed idempotent requests).<a href="#section-2.6.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.6.2-2">Assessing whether a resource is long-term idempotent is not always trivial, and it is prudent to err at the side of caution.
-If nothing else, GET requests to constant resources,
+(Side effects would also fall into that category, but there should not be any effects for safe requests).<a href="#section-2.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.6.2-2">If nothing else, GET requests to constant resources,
 such as queries to /.well-known/core,
 can often be responded to safely on the CoAP layer even without any replay protection.<a href="#section-2.6.2-2" class="pilcrow">¶</a></p>
-<p id="section-2.6.2-3">This situation can happen in OSCORE after a partial loss of context.
-Currently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-09#section-14" class="relref">Section 14</a> of [<a href="#I-D.ietf-uta-tls13-iot-profile-09" class="cite xref">I-D.ietf-uta-tls13-iot-profile-09</a>]</span>). However, that may change if a future document defines a profile for using early data with CoAP.<a href="#section-2.6.2-3" class="pilcrow">¶</a></p>
-<p id="section-2.6.2-4">Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
+<p id="section-2.6.2-3">There are resources for which more requests than those with safe codes may be handled without replay protection,
+but as that assessment is hard to make, it is prudent to err at the side of caution.<a href="#section-2.6.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.6.2-4">Uncertainty about whether a request might be a replay can happen in OSCORE after a partial loss of context.
+Currently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-09#section-14" class="relref">Section 14</a> of [<a href="#I-D.ietf-uta-tls13-iot-profile-09" class="cite xref">I-D.ietf-uta-tls13-iot-profile-09</a>]</span>). However, that may change if a future document defines a profile for using early data with CoAP.<a href="#section-2.6.2-4" class="pilcrow">¶</a></p>
+<p id="section-2.6.2-5">Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
 As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,
-the response can not reuse the request's nonce, but needs to take an own sequence number from the server's space.<a href="#section-2.6.2-4" class="pilcrow">¶</a></p>
+the response can not reuse the request's nonce, but needs to take an own sequence number from the server's space.<a href="#section-2.6.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

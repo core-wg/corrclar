@@ -868,28 +868,28 @@ Internet-Draft   Corrections and Clarifications to CoAP     October 2024
 2.6.2.  Replay protection
 
    If it is not certain that the request is not a replay, but the
-   request handler is safe or long-term idempotent and there is no risk
-   of metadata revealing data, the server can answer the request.
-   Metadata that can reveal data are the size of the response (which, in
-   a replay situation, can give an active attacker additional data) as
-   well as any processing delays.  (There should be no observable side
-   effects for safe or previously processed idempotent requests).
+   request handler is safe and there is no risk of metadata revealing
+   data, the server can answer the request.  Kinds of metadata to look
+   out for are the size of the response (which, in a replay situation,
+   can give an active attacker additional data) as well as any
+   processing delays.  (Side effects would also fall into that category,
+   but there should not be any effects for safe requests).
 
-   Assessing whether a resource is long-term idempotent is not always
-   trivial, and it is prudent to err at the side of caution.  If nothing
-   else, GET requests to constant resources, such as queries to /.well-
-   known/core, can often be responded to safely on the CoAP layer even
-   without any replay protection.
+   If nothing else, GET requests to constant resources, such as queries
+   to /.well-known/core, can often be responded to safely on the CoAP
+   layer even without any replay protection.
 
-   This situation can happen in OSCORE after a partial loss of context.
-   Currently, this cannot happen in DTLS because 0-RTT Data is not
-   allowed for CoAP (cf.  Section 14 of
-   [I-D.ietf-uta-tls13-iot-profile-09]).  However, that may change if a
-   future document defines a profile for using early data with CoAP.
+   There are resources for which more requests than those with safe
+   codes may be handled without replay protection, but as that
+   assessment is hard to make, it is prudent to err at the side of
+   caution.
 
-   Implementers of OSCORE should be aware that answering potential
-   replays is only safe from the CoAP application's point of view.  As
-   always, unless the sender sequence number of the request has just
+   Uncertainty about whether a request might be a replay can happen in
+   OSCORE after a partial loss of context.  Currently, this cannot
+   happen in DTLS because 0-RTT Data is not allowed for CoAP (cf.
+   Section 14 of [I-D.ietf-uta-tls13-iot-profile-09]).  However, that
+   may change if a future document defines a profile for using early
+   data with CoAP.
 
 
 
@@ -898,6 +898,9 @@ Bormann                   Expires 26 April 2025                [Page 16]
 Internet-Draft   Corrections and Clarifications to CoAP     October 2024
 
 
+   Implementers of OSCORE should be aware that answering potential
+   replays is only safe from the CoAP application's point of view.  As
+   always, unless the sender sequence number of the request has just
    been removed from a correctly initialized replay window, the response
    can not reuse the request's nonce, but needs to take an own sequence
    number from the server's space.
@@ -942,9 +945,6 @@ Internet-Draft   Corrections and Clarifications to CoAP     October 2024
       column of the Content-Format registry to "Content Type" and the
       name of the second field to "Content Coding".  This change has
       been carried out by IANA.
-
-
-
 
 
 
