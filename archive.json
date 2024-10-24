@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-22T01:46:15.482839+00:00",
+  "timestamp": "2024-10-24T01:44:56.192276+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -52,6 +52,11 @@
       "name": "example-desirable",
       "description": "",
       "color": "c2e0c6"
+    },
+    {
+      "name": "completing",
+      "description": "We are currently focusing on getting this one done",
+      "color": "FCB91D"
     }
   ],
   "issues": [
@@ -1509,10 +1514,12 @@
       "author": "chrysn",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "completing"
+      ],
       "body": "CoAP based documents receive comments on how to correctly work with CIDs, eg. in <https://mailarchive.ietf.org/arch/msg/core/Md4gV_0tUq7K6uyIwCjuRHSJOaA/>. I'd prefer if those comments would not need to be addressed in those documents but once and for all in some CoAP update such as corr-clar.\r\n\r\nThe original comments were about DTLS CIDs, but we'd have the same with any zero-round-trip encrypted requests; for example, if an OSCORE server uses [RFC8613 Appendix B.1.2](https://datatracker.ietf.org/doc/html/rfc8613#appendix-B.1.2) recovery, it's actually legitimate to send something else than a 4.01 Unauthorized along with the Echo option (but that needs some explanation as to when that's OK; [DTLS RRCs](https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc#name-rrc-and-cid-interplay) hint at something similar on the DTLS side without going into CoAP specifics).\r\n\r\nProposed text (wherever that'll fit):\r\n\r\n> Established security contexts and established return addresses can become obsolete.\r\n> For example, this happens when a DTLS session is resumed via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of [Appendix B.1.2 of RFC8613].\r\n> In those situations, a server still needs to maintain its security and and amplification mitigation properties,\r\n> which are generally independent but can be addressed using the same tools.\r\n>\r\n> A safe option is always to reject the initial request and request confirmation,\r\n> either using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option\r\n> (where a subsequent request with the same Echo value proves to the server that the destination was reachable)\r\n> or by using a more security mechanism specific tool such as RRC ({{?I-D.ietf-tls-dtls-rrc}}.\r\n>\r\n> If it is not certain that the client is reachable on the request's sender address,\r\n> but the response does not exceed the request's size by a factor of 3 ({{Section 2.4 of RFC9175}}, item 3),\r\n> the server can answer the request.\r\n> It should still include an Echo value, whose presence in the next request serves to confirm the client's address.\r\n>\r\n> If it is not certain that the request is not a replay,\r\n> but the request handler is safe or long-term idempotent\r\n> and there is no risk of metadata revealing data,\r\n> the server can answer the request.\r\n> Metadata that can reveal data are the size of the response\r\n> (which, in a replay situation, can give an active attacker additional data)\r\n> as well as any processing delays.\r\n> (There should be no observable side effects for safe or previously processed idempotent requests).\r\n> Assessing whether a resource is long-term idempotent is not always trivial, and it is prudent to err at the side of caution.\r\n> If nothing else, GET requests to constant resources,\r\n> such as queries to /.well-known/core,\r\n> can often be responded to safely on the CoAP layer even without any replay protection.\r\n>\r\n> Implementors of OSCORE beware answering potential replays is only safe from the CoAP application's point of view.\r\n> As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,\r\n> the response can not reuse the request's nonce, but needs to take an own sequence number from the server's space.\r\n\r\n(I think this also picks up everything that is important from [Section 3.1 of draft-amsuess-lwig-oscore-00](https://www.ietf.org/archive/id/draft-amsuess-lwig-oscore-00.html#name-replay-freshness-and-safety), which doesn't really have a new home with LWIG shut down)\r\n\r\nI'm taking the liberty to CC\r\n* @miri64 (who is just addressing comments around this in [DoC](https://datatracker.ietf.org/doc/draft-ietf-core-dns-over-coap/))\r\n* @thomas-fossati (who made the comments and is also an author of RRC)\r\n* @gselander, @emanjon, @rikard-sics and @marco-tiloca-sics (who are active around the OSCORE protection mechanisms)",
       "createdAt": "2024-09-19T13:46:11Z",
-      "updatedAt": "2024-10-01T12:04:17Z",
+      "updatedAt": "2024-10-23T12:17:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -1557,9 +1564,17 @@
       "labels": [],
       "body": "This is a bit wobbly still, but IMO something we should clarify better:\r\n\r\n**What are the pieces that go into dereferencing a CoAP URI, especially when OSCORE is involved (which unlike DTLS does not bring its own scheme)?**\r\n\r\nIt's tempting to claim that OSCORE makes this special, but even dereferencing a coaps URI needs a piece of policy: \"How is the stack supposed to know whom to trust and which credentials to present?\" In a web-browser-style deployment, the implied policy is \"whoever presents a valid certificate for that name from the root CA\", but different uses of CoAP exist, eg. on LwM2M where AIU there is a coaps URI with an IP literal of the bootstrap server, and next to it a certificate (or RPK) that needs to present.\r\n\r\nAnd then there is the choice of whether or not a proxy should be taken. This can be a simple no/yes-and-which choice (as is offered by browsers), but can also become more complex when URIs are not DNS based (eg. with `6tisch.arpa`, \"where is my Tor entry point so I can resolve .onion addresses?\").\r\n\r\nAll those are decisions that a CoAP stack probably may in good conscience claim to just solve automatically, but others may offer those as choices (and some applications need the choices). Right now there is no place that explains that there *are* choices in the first place.\r\n\r\nThe [documentation of RIOT-rs](https://github.com/future-proof-iot/RIOT-rs/blob/d80a2cdd2ff7da2e164cac20d3e33c0729897925/book/src/tooling/coap.md#usage-client-side) has a current PR with some text on that matter (that is biased towards RIOT-rs's choices, but might provide some starting point); [discussion around that PR](https://github.com/future-proof-iot/RIOT-rs/pull/448/files#r1780983238) triggered the creation of this issue.",
       "createdAt": "2024-09-30T13:20:36Z",
-      "updatedAt": "2024-09-30T13:20:36Z",
+      "updatedAt": "2024-10-23T22:32:26Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "A question that has come up now twice is that of how these are needed or not needed in HTTP:\r\n\r\n* The URI is required in HTTP just as in CoAP.\r\n* In HTTP, there are also choices:\r\n  * Should a proxy be used? If so, are there proxy-exempt addresses?\r\n  * Should the system's name resolution service be used, or should DoH be used?\r\n  * Is a browser plugin available that intercepts requests to `.onion` and redirects them into a different transport? (Optionally, this is implemented in a proxy that makes the decision internally and presents as a single proxy towards the browser)\r\n  Outside of the browser, splitting between the host name and the next hop destination is possible in a more fine grained way, eg. using curl's `--connect-to` and `--resolve` options.\r\n* The security policy in the browser is usually fixed: \"Accept everything that has an X509 certificate chain down to one of these root certificates\" -- augmented with a list of system installed authorities (which the browser may or may not respect) and explicit exceptions (\"for wrong.host.badssl.com:443, accept a certificate with fingerprint fa:a1:63:...\"), which are usually created interactively on demand, and pinnings managed through HSTS.\r\n  This default policy is now also active in most command line tools, but can be overridden by giving an explicit CA or an explicit certificate.\r\n\r\nThere are extra reasons in CoAP to use them, for example:\r\n* Carrying 216KiB (`du -schL --apparent-size /etc/ssl/certs/*.pem`) of CA certificates is not what a typical IoT device can do, and the trust model is typically a different one anyway (one *can* use CWTs for authentication, while https://datatracker.ietf.org/doc/draft-tschofenig-tls-cwt/ is not even there for TLS let alone HTTPS let alone browsers).\r\n* CoAP can be used with a lot more auto-discovery than HTTP, enabling uses such as CoJP (`6tisch.arpa`) or using a peer that just established a connection to the device to relay requests to.\r\n\r\nBut all these choices are there in HTTP just as well, and as with HTTP, a system-wide policy is quite a sensible option -- but still just an option.",
+          "createdAt": "2024-10-23T22:32:24Z",
+          "updatedAt": "2024-10-23T22:32:24Z"
+        }
+      ]
     },
     {
       "number": 42,
@@ -1726,7 +1741,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-06-17T17:11:05Z",
-      "updatedAt": "2024-07-02T20:17:18Z",
+      "updatedAt": "2024-10-23T11:29:50Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "897d1e57630e1d46bceffe78b5a04a87e95535ae",
@@ -1853,7 +1868,7 @@
       "labels": [],
       "body": "Match boxing when using OSCORE, KUDOS, and Group OSCORE",
       "createdAt": "2024-07-02T21:01:18Z",
-      "updatedAt": "2024-09-24T16:09:08Z",
+      "updatedAt": "2024-10-23T11:29:43Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "f15f73d5b23dd483ad6efd51b5a84962a10f98ab",
@@ -2002,7 +2017,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-07-03T18:32:01Z",
-      "updatedAt": "2024-09-24T14:40:09Z",
+      "updatedAt": "2024-10-23T11:29:46Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "b2615344f74fed17e6d31eaf95dc03c598ed57c7",
@@ -2027,16 +2042,18 @@
       "author": "chrysn",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "completing"
+      ],
       "body": "This adds text I suggested in #39 to close it.\r\n\r\nCompared to the text discussed there, it also takes up the TBD item of covering the advanced return routability strategies (mainly by saying \"apply what you can or just use RRC\"). Unlike envisioned there I did *not* say that that doesn't work on OSCORE, because as long as it's all about flipping NATs and attacks sending the response through the old address *will* work, but I don't want to waste time on IPv4 stuff, and it kind of feels off to counter an attack by doing layering violations (sending the OSCORE response to the old address is one, as it affects the underlying CoAP layer). If there is a need to ensure that there are no proxies on an OSCORE hop (or that all are known), I'd rather discuss how to do that once-and-for-all than by probing around at address change time.\r\n\r\nSlightly differently from the interim discussion the text is *not* marked as \"this will go away\", because it's more offering criteria for when a 0RTT response is good than saying that it can be done over DTLS (so it now only contains an unspec reference to whichever document will say that it *is* allowed, and that document can then defer to corrclar for criteria or take the text, depending on preferences and timelines).\r\n\r\nCC'ing @boaks as per @thomas-fossati's suggestion",
       "createdAt": "2024-09-25T21:22:44Z",
-      "updatedAt": "2024-10-01T23:27:14Z",
+      "updatedAt": "2024-10-23T14:36:54Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
-      "baseRefOid": "c77bd9e7f6841d1a22c694ecfb81feb32d868ead",
+      "baseRefOid": "21df35a18db69964930b6e7a7d822776266fdfbb",
       "headRepository": "chrysn-pull-requests/corrclar",
       "headRefName": "amplification-and-0rtt",
-      "headRefOid": "05d250b82904701656fe98de9eab3fa4da99e725",
+      "headRefOid": "50ecfb09bd14cc74b7220f363725e0ae7ed9302c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -2268,8 +2285,174 @@
               "updatedAt": "2024-10-01T23:27:14Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6OWfSZ",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T11:17:47Z",
+          "updatedAt": "2024-10-23T11:17:47Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "I think there is value in the \"As always\" as it emphasizes that we're not making new rules here.\r\n\r\n\"request sequence number\" and \"its sequence number\" are kind of right, but given that not every OSCORE message even carries a sequence number (or when it does not carry one, there is an implied one from another number space), I'll try to find more a precise rephrasing.\r\n\r\n",
+              "createdAt": "2024-10-23T11:17:47Z",
+              "updatedAt": "2024-10-23T11:17:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6OXHQi",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T12:13:45Z",
+          "updatedAt": "2024-10-23T12:13:45Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "Since f031d5253a83d25d6d87c8ecd8192a4ac420e2bf, the statement is only about \"safe\" and no longer about \"long-term idempotent\", with just an added statement that there may be more but it's hard to tell so let's not.",
+              "createdAt": "2024-10-23T12:13:45Z",
+              "updatedAt": "2024-10-23T12:13:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6OXKuF",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T12:16:41Z",
+          "updatedAt": "2024-10-23T12:16:41Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "Fixed to \"Uncertainty about whether a request might be a replay can happen in OSCORE\"",
+              "createdAt": "2024-10-23T12:16:41Z",
+              "updatedAt": "2024-10-23T12:16:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6OXjHx",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T12:43:33Z",
+          "updatedAt": "2024-10-23T12:43:33Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "Rephrased for clarity.",
+              "createdAt": "2024-10-23T12:43:33Z",
+              "updatedAt": "2024-10-23T12:43:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6OYsKc",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T13:57:18Z",
+          "updatedAt": "2024-10-23T13:57:18Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "Says \"continued\" now; are those different mechanisms?",
+              "createdAt": "2024-10-23T13:57:18Z",
+              "updatedAt": "2024-10-23T13:57:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6OYvkK",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T14:01:35Z",
+          "updatedAt": "2024-10-23T14:01:35Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "I've changed the sentence a bit.\r\n\r\nAre you sure about the comma? The sentence parts on both sides have full verbs, which IIRC is the criterion for when to use a comma in situations such as this.",
+              "createdAt": "2024-10-23T14:01:35Z",
+              "updatedAt": "2024-10-23T14:01:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6OZSS4",
+          "commit": {
+            "abbreviatedOid": "05d250b"
+          },
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T14:36:54Z",
+          "updatedAt": "2024-10-23T14:36:54Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "Not sure, if I get the question:\r\nA [DTLS 1.2 session resumption](https://www.rfc-editor.org/rfc/rfc6347.html#page-21) is a sequence of messages. Before DTLS 1.2 CID, this was a common approach to continue encryption, if a peer assumes an ip-address change. But it comes with overhead. \r\nDTLS 1.2 CID is a general solution for such address changes, the overhead there is mainly the bytes for the CID.\r\n\r\n",
+              "createdAt": "2024-10-23T14:36:54Z",
+              "updatedAt": "2024-10-23T14:36:54Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOJ-N8wM5_sHgF",
+      "title": "New section: Treat Proxy-Scheme as having a default",
+      "url": "https://github.com/core-wg/corrclar/pull/43",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "When I brought this up in today's interim, this sounded like a good idea to add in a section.",
+      "createdAt": "2024-10-23T23:07:44Z",
+      "updatedAt": "2024-10-23T23:07:44Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "21df35a18db69964930b6e7a7d822776266fdfbb",
+      "headRepository": "chrysn-pull-requests/corrclar",
+      "headRefName": "proxy-scheme-can-have-default",
+      "headRefOid": "5b1137967283e3490d959e86c5d14194d494afbc",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
