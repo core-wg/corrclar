@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-24T01:44:56.192276+00:00",
+  "timestamp": "2024-10-27T01:51:26.941745+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1564,15 +1564,15 @@
       "labels": [],
       "body": "This is a bit wobbly still, but IMO something we should clarify better:\r\n\r\n**What are the pieces that go into dereferencing a CoAP URI, especially when OSCORE is involved (which unlike DTLS does not bring its own scheme)?**\r\n\r\nIt's tempting to claim that OSCORE makes this special, but even dereferencing a coaps URI needs a piece of policy: \"How is the stack supposed to know whom to trust and which credentials to present?\" In a web-browser-style deployment, the implied policy is \"whoever presents a valid certificate for that name from the root CA\", but different uses of CoAP exist, eg. on LwM2M where AIU there is a coaps URI with an IP literal of the bootstrap server, and next to it a certificate (or RPK) that needs to present.\r\n\r\nAnd then there is the choice of whether or not a proxy should be taken. This can be a simple no/yes-and-which choice (as is offered by browsers), but can also become more complex when URIs are not DNS based (eg. with `6tisch.arpa`, \"where is my Tor entry point so I can resolve .onion addresses?\").\r\n\r\nAll those are decisions that a CoAP stack probably may in good conscience claim to just solve automatically, but others may offer those as choices (and some applications need the choices). Right now there is no place that explains that there *are* choices in the first place.\r\n\r\nThe [documentation of RIOT-rs](https://github.com/future-proof-iot/RIOT-rs/blob/d80a2cdd2ff7da2e164cac20d3e33c0729897925/book/src/tooling/coap.md#usage-client-side) has a current PR with some text on that matter (that is biased towards RIOT-rs's choices, but might provide some starting point); [discussion around that PR](https://github.com/future-proof-iot/RIOT-rs/pull/448/files#r1780983238) triggered the creation of this issue.",
       "createdAt": "2024-09-30T13:20:36Z",
-      "updatedAt": "2024-10-23T22:32:26Z",
+      "updatedAt": "2024-10-24T13:10:06Z",
       "closedAt": null,
       "comments": [
         {
           "author": "chrysn",
           "authorAssociation": "MEMBER",
-          "body": "A question that has come up now twice is that of how these are needed or not needed in HTTP:\r\n\r\n* The URI is required in HTTP just as in CoAP.\r\n* In HTTP, there are also choices:\r\n  * Should a proxy be used? If so, are there proxy-exempt addresses?\r\n  * Should the system's name resolution service be used, or should DoH be used?\r\n  * Is a browser plugin available that intercepts requests to `.onion` and redirects them into a different transport? (Optionally, this is implemented in a proxy that makes the decision internally and presents as a single proxy towards the browser)\r\n  Outside of the browser, splitting between the host name and the next hop destination is possible in a more fine grained way, eg. using curl's `--connect-to` and `--resolve` options.\r\n* The security policy in the browser is usually fixed: \"Accept everything that has an X509 certificate chain down to one of these root certificates\" -- augmented with a list of system installed authorities (which the browser may or may not respect) and explicit exceptions (\"for wrong.host.badssl.com:443, accept a certificate with fingerprint fa:a1:63:...\"), which are usually created interactively on demand, and pinnings managed through HSTS.\r\n  This default policy is now also active in most command line tools, but can be overridden by giving an explicit CA or an explicit certificate.\r\n\r\nThere are extra reasons in CoAP to use them, for example:\r\n* Carrying 216KiB (`du -schL --apparent-size /etc/ssl/certs/*.pem`) of CA certificates is not what a typical IoT device can do, and the trust model is typically a different one anyway (one *can* use CWTs for authentication, while https://datatracker.ietf.org/doc/draft-tschofenig-tls-cwt/ is not even there for TLS let alone HTTPS let alone browsers).\r\n* CoAP can be used with a lot more auto-discovery than HTTP, enabling uses such as CoJP (`6tisch.arpa`) or using a peer that just established a connection to the device to relay requests to.\r\n\r\nBut all these choices are there in HTTP just as well, and as with HTTP, a system-wide policy is quite a sensible option -- but still just an option.",
+          "body": "A question that has come up now twice is that of how these are needed or not needed in HTTP:\r\n\r\n* The URI is required in HTTP just as in CoAP.\r\n* In HTTP, there are also choices:\r\n  * Should a proxy be used? If so, are there proxy-exempt addresses?\r\n  * Should the system's name resolution service be used, or should DoH be used?\r\n  * Is a browser plugin available that intercepts requests to `.onion` and redirects them into a different transport? (Optionally, this is implemented in a proxy that makes the decision internally and presents as a single proxy towards the browser)\r\n  Outside of the browser, splitting between the host name and the next hop destination is possible in a more fine grained way, eg. using curl's `--connect-to` and `--resolve` options.\r\n* The security policy in the browser is usually fixed: \"Accept everything that has an X509 certificate chain down to one of these root certificates\" -- augmented with a list of system installed authorities (which the browser may or may not respect) and explicit exceptions (\"for wrong.host.badssl.com:443, accept a certificate with fingerprint fa:a1:63:...\"), which are usually created interactively on demand, and pinnings managed through HSTS.\r\n  This default policy is now also active in most command line tools, but can be overridden by giving an explicit CA or an explicit certificate.\r\n  [edit, added:] Clients authenticating with client certificates is rarely used in browsers (mostly, clients are identified using cookies acting as short-lived bearer tokens, which comes with its own set of complexities). When client certificates are used, a GUI popup presents the user with a runtime choice.\r\n\r\nThere are extra reasons in CoAP to use them, for example:\r\n* Carrying 216KiB (`du -schL --apparent-size /etc/ssl/certs/*.pem`) of CA certificates is not what a typical IoT device can do, and the trust model is typically a different one anyway (one *can* use CWTs for authentication, while https://datatracker.ietf.org/doc/draft-tschofenig-tls-cwt/ is not even there for TLS let alone HTTPS let alone browsers).\r\n* CoAP can be used with a lot more auto-discovery than HTTP, enabling uses such as CoJP (`6tisch.arpa`) or using a peer that just established a connection to the device to relay requests to.\r\n\r\nBut all these choices are there in HTTP just as well, and as with HTTP, a system-wide policy is quite a sensible option -- but still just an option.",
           "createdAt": "2024-10-23T22:32:24Z",
-          "updatedAt": "2024-10-23T22:32:24Z"
+          "updatedAt": "2024-10-24T13:10:06Z"
         }
       ]
     },
@@ -2047,7 +2047,7 @@
       ],
       "body": "This adds text I suggested in #39 to close it.\r\n\r\nCompared to the text discussed there, it also takes up the TBD item of covering the advanced return routability strategies (mainly by saying \"apply what you can or just use RRC\"). Unlike envisioned there I did *not* say that that doesn't work on OSCORE, because as long as it's all about flipping NATs and attacks sending the response through the old address *will* work, but I don't want to waste time on IPv4 stuff, and it kind of feels off to counter an attack by doing layering violations (sending the OSCORE response to the old address is one, as it affects the underlying CoAP layer). If there is a need to ensure that there are no proxies on an OSCORE hop (or that all are known), I'd rather discuss how to do that once-and-for-all than by probing around at address change time.\r\n\r\nSlightly differently from the interim discussion the text is *not* marked as \"this will go away\", because it's more offering criteria for when a 0RTT response is good than saying that it can be done over DTLS (so it now only contains an unspec reference to whichever document will say that it *is* allowed, and that document can then defer to corrclar for criteria or take the text, depending on preferences and timelines).\r\n\r\nCC'ing @boaks as per @thomas-fossati's suggestion",
       "createdAt": "2024-09-25T21:22:44Z",
-      "updatedAt": "2024-10-23T14:36:54Z",
+      "updatedAt": "2024-10-24T15:48:50Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "21df35a18db69964930b6e7a7d822776266fdfbb",
@@ -2065,6 +2065,34 @@
           "body": "We had an action item in today's interim to inform the RRC authors of what we're doing, but thanks, you already took care of that yourselves :-)",
           "createdAt": "2024-09-25T21:25:45Z",
           "updatedAt": "2024-09-25T21:25:45Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "ToDo on this from [yesterday's interim](https://datatracker.ietf.org/meeting/interim-2024-core-15/session/core): Restructure so that it becomes apparent that\r\n\r\n* There are two different concerns that can come up in different situations (although the term \"continuity\" may apply to both, gotta check notes)\r\n* They are explained together because\r\n  - it is common that they do coincide (after long time, the client may have changed address, the server may have discarded state, possibly including the client's address)\r\n  - the same mechanism can be used to counteract both issues\r\n  - counteracting them can be done in a single round tip",
+          "createdAt": "2024-10-24T13:17:47Z",
+          "updatedAt": "2024-10-24T13:18:49Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> it is common that they do coincide (after long time, the client may have changed address, the server may have discarded state, possibly including the client's address)\r\n\r\nI guess the point will be, that this may apply when using a server with a \"general configuration\". But if the operator are aware of the applications specific communication pattern (long quiet phases to save energy) then it should be possible to configure the server with larger timeouts and so the only thing, which is changing is the client's ip-address and nothing will be lost.\r\n\r\n> counteracting them can be done in a single round tip\r\n\r\nStill not sure, if I get that. DTLS 1.2 CID doesn't need a round trip. There is nothing required, because the address change is considered and doesn't require more to do. From the perspective of CoAP this is a simple request from one endpoint to the other. Just instead of a \"changing ip-address\" it uses the \"static CID\" to identify that endpoint, that's it.\r\n  ",
+          "createdAt": "2024-10-24T15:30:40Z",
+          "updatedAt": "2024-10-24T15:31:44Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "> general configuration\r\n\r\nSure: A highly capable server may never run into the situation of having lost OSCORE context. The point here is more about justifying why those would treated together in the first place, and based on your comment I'll make sure to phrase that in a way that makes it clear that this is a merely a general expectaton.\r\n\r\n> CID doesn't need a round trip\r\n\r\nThe only point where the round trip dance is fundamentally required is when (independently of any OSCORE state loss) the client address changed *and* the server needs to send more than 3x the data the client requested. I have the full CID document on my reading list, but as far as I understand it so far, I don't see how CID behaves differently. Otherwise, any captured packet could be used either as an amplification vector, or its injection from a different address denies the continuation to the legitimate client.\r\n\r\nAll other situations where the round trip is needed merely occur if some simplifications or optimizations are used (for example because the server needs to keep its flash writes low).",
+          "createdAt": "2024-10-24T15:45:43Z",
+          "updatedAt": "2024-10-24T15:45:43Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> send more than 3x the data the client requested. \r\n\r\nAh, OK, that's RRC, which is in the (review?) pipe of the tls working group.",
+          "createdAt": "2024-10-24T15:48:48Z",
+          "updatedAt": "2024-10-24T15:48:48Z"
         }
       ],
       "reviews": [
