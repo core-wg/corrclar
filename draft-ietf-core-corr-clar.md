@@ -491,7 +491,7 @@ issue include:
 ## RFC 7252-9.1/11.3: Handling outdated addresses and security contexts {#amp-0rtt}
 
 INCOMPLETE:
-: Tools for mitigating these scenarios were unavailable when specified, and are now explained.
+: Tools for mitigating these scenarios were unavailable when CoAP was specified, and are now explained.
 
 PENDING.
 
@@ -566,7 +566,7 @@ as well as any processing delays.
 If nothing else, GET requests to constant resources,
 such as queries to /.well-known/core,
 can often be responded to safely on the CoAP layer even without any replay protection.
-There are resources for which more requests than those with safe codes may be handled without replay protection,
+There are resources for which more requests than those with safe methods may be handled without replay protection,
 but as that assessment is hard to make, it is prudent to err at the side of caution.
 
 CoAP has no error code like HTTP's 425 Too Early with which a server could ask the client to resubmit its request later
@@ -579,7 +579,7 @@ Exceeding what is described there, a server can safely send a successful respons
 provided its criteria for 0RTT responses are met.
 The server can still send an Echo option with the successful response:
 Only when the client repeats that Echo value in a subsequent response can the replay window be initialized.
-Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
+Implementers of OSCORE should be aware that answering potential replays can only be determined to be safe from the CoAP application's point of view.
 As always, unless the sequence number in the request has just been removed from an initialized replay window,
 the response can not reuse the request's nonce, but needs to be sent with a new sequence number from the server's space.
 
