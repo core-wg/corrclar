@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-03T01:51:47.355171+00:00",
+  "timestamp": "2024-11-05T01:43:35.831282+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -2047,13 +2047,13 @@
       ],
       "body": "This adds text I suggested in #39 to close it.\r\n\r\nCompared to the text discussed there, it also takes up the TBD item of covering the advanced return routability strategies (mainly by saying \"apply what you can or just use RRC\"). Unlike envisioned there I did *not* say that that doesn't work on OSCORE, because as long as it's all about flipping NATs and attacks sending the response through the old address *will* work, but I don't want to waste time on IPv4 stuff, and it kind of feels off to counter an attack by doing layering violations (sending the OSCORE response to the old address is one, as it affects the underlying CoAP layer). If there is a need to ensure that there are no proxies on an OSCORE hop (or that all are known), I'd rather discuss how to do that once-and-for-all than by probing around at address change time.\r\n\r\nSlightly differently from the interim discussion the text is *not* marked as \"this will go away\", because it's more offering criteria for when a 0RTT response is good than saying that it can be done over DTLS (so it now only contains an unspec reference to whichever document will say that it *is* allowed, and that document can then defer to corrclar for criteria or take the text, depending on preferences and timelines).\r\n\r\nCC'ing @boaks as per @thomas-fossati's suggestion",
       "createdAt": "2024-09-25T21:22:44Z",
-      "updatedAt": "2024-10-24T15:48:50Z",
+      "updatedAt": "2024-11-03T23:47:09Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "21df35a18db69964930b6e7a7d822776266fdfbb",
       "headRepository": "chrysn-pull-requests/corrclar",
       "headRefName": "amplification-and-0rtt",
-      "headRefOid": "50ecfb09bd14cc74b7220f363725e0ae7ed9302c",
+      "headRefOid": "cfe7fec160cb173db656dd53ca053bc62dd052b1",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -2093,6 +2093,13 @@
           "body": "> send more than 3x the data the client requested. \r\n\r\nAh, OK, that's RRC, which is in the (review?) pipe of the tls working group.",
           "createdAt": "2024-10-24T15:48:48Z",
           "updatedAt": "2024-10-24T15:48:48Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "As requested in the last interim, I've rewritten this section to focus more on why this is needed, what it does and what the commonalities are. It's a large rewrite, diff-wise, but the fact that Carsten's latest 3 comments all touched on text that is still around makes me more confident that I didn't completely turn it around.",
+          "createdAt": "2024-11-03T23:47:09Z",
+          "updatedAt": "2024-11-03T23:47:09Z"
         }
       ],
       "reviews": [
@@ -2451,6 +2458,38 @@
               "body": "Not sure, if I get the question:\r\nA [DTLS 1.2 session resumption](https://www.rfc-editor.org/rfc/rfc6347.html#page-21) is a sequence of messages. Before DTLS 1.2 CID, this was a common approach to continue encryption, if a peer assumes an ip-address change. But it comes with overhead. \r\nDTLS 1.2 CID is a general solution for such address changes, the overhead there is mainly the bytes for the CID.\r\n\r\n",
               "createdAt": "2024-10-23T14:36:54Z",
               "updatedAt": "2024-10-23T14:36:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6Pw1ej",
+          "commit": {
+            "abbreviatedOid": "50ecfb0"
+          },
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "A couple passages that are hard to understand.",
+          "createdAt": "2024-11-03T21:05:58Z",
+          "updatedAt": "2024-11-03T21:18:12Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "\"unavailable when specified\" -- please explain.",
+              "createdAt": "2024-11-03T21:05:58Z",
+              "updatedAt": "2024-11-03T21:18:12Z"
+            },
+            {
+              "originalPosition": 53,
+              "body": "codes == request codes (methods)?",
+              "createdAt": "2024-11-03T21:16:24Z",
+              "updatedAt": "2024-11-03T21:18:12Z"
+            },
+            {
+              "originalPosition": 59,
+              "body": "... can only determined to be safe...?",
+              "createdAt": "2024-11-03T21:17:26Z",
+              "updatedAt": "2024-11-03T21:18:12Z"
             }
           ]
         }
