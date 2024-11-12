@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-10T01:48:41.579403+00:00",
+  "timestamp": "2024-11-12T01:42:15.321742+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -2047,7 +2047,7 @@
       ],
       "body": "This adds text I suggested in #39 to close it.\r\n\r\nCompared to the text discussed there, it also takes up the TBD item of covering the advanced return routability strategies (mainly by saying \"apply what you can or just use RRC\"). Unlike envisioned there I did *not* say that that doesn't work on OSCORE, because as long as it's all about flipping NATs and attacks sending the response through the old address *will* work, but I don't want to waste time on IPv4 stuff, and it kind of feels off to counter an attack by doing layering violations (sending the OSCORE response to the old address is one, as it affects the underlying CoAP layer). If there is a need to ensure that there are no proxies on an OSCORE hop (or that all are known), I'd rather discuss how to do that once-and-for-all than by probing around at address change time.\r\n\r\nSlightly differently from the interim discussion the text is *not* marked as \"this will go away\", because it's more offering criteria for when a 0RTT response is good than saying that it can be done over DTLS (so it now only contains an unspec reference to whichever document will say that it *is* allowed, and that document can then defer to corrclar for criteria or take the text, depending on preferences and timelines).\r\n\r\nCC'ing @boaks as per @thomas-fossati's suggestion",
       "createdAt": "2024-09-25T21:22:44Z",
-      "updatedAt": "2024-11-03T23:47:09Z",
+      "updatedAt": "2024-11-11T12:33:15Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "21df35a18db69964930b6e7a7d822776266fdfbb",
@@ -2100,6 +2100,13 @@
           "body": "As requested in the last interim, I've rewritten this section to focus more on why this is needed, what it does and what the commonalities are. It's a large rewrite, diff-wise, but the fact that Carsten's latest 3 comments all touched on text that is still around makes me more confident that I didn't completely turn it around.",
           "createdAt": "2024-11-03T23:47:09Z",
           "updatedAt": "2024-11-03T23:47:09Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "@cabo, @boaks, @thomas-fossati, is the updated text fine with you?",
+          "createdAt": "2024-11-11T12:33:13Z",
+          "updatedAt": "2024-11-11T12:33:13Z"
         }
       ],
       "reviews": [
