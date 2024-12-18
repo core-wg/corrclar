@@ -501,7 +501,7 @@ and become obsolete.
 This can happen on different levels:
 For example,
 return routability information is lost when client's IP address changes,
-and information about whether a request was already handled can be lost when an OSCORE context is recovered as described in its [Appendix B.1.2 of RFC8613].
+and information about whether a request was already handled can be lost when an OSCORE context is recovered as described in its {{Appendix B.1.2 of RFC8613}}.
 No matter the cause of the loss, a server still needs to maintain its security and amplification mitigation properties.
 
 The concerns addressed in the following subsections are independent on a specification level,
