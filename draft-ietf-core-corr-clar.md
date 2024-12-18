@@ -553,10 +553,10 @@ With those mechanisms, the server recognizes that a request is sent in such a 0R
 but can still decide to send a response.
 The general trade-off is that an attacker may intercept such a message
 and replay it at any later time, possibly multiple times,
-without the server having a relibale way of recognizing the replay.
+without the server having a reliable way of recognizing the replay.
 
 The semantics of CoAP are conducive to using such facilities:
-Safe requests are recognized by their code to not have side effects.
+Safe requests are recognized by their request method code to not have side effects.
 Nonetheless, more aspects need to be considered:
 There is no risk of metadata revealing data if the server answers a request multiple times.
 Kinds of metadata to look out for are the size of the response
