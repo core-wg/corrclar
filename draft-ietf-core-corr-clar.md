@@ -492,7 +492,7 @@ issue include:
 ## RFC 7252-9.1/11.3: Handling outdated addresses and security contexts {#amp-0rtt}
 
 INCOMPLETE:
-: Tools for mitigating these scenarios were unavailable when CoAP was specified, and are now explained.
+: Tools for mitigating these scenarios were unavailable when CoAP originally was specified, and are now explained.
 
 PENDING.
 
@@ -500,7 +500,7 @@ Information obtained about an established communication partner can experience c
 and become obsolete.
 This can happen on different levels:
 For example,
-return routability information is lost when client's IP address changes,
+return routability information is lost when client's IP address changes;
 and information about whether a request was already handled can be lost when an OSCORE context is recovered as described in its {{Appendix B.1.2 of RFC8613}}.
 No matter the cause of the loss, a server still needs to maintain its security and amplification mitigation properties.
 
