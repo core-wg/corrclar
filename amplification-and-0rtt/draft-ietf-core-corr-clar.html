@@ -25,15 +25,15 @@ specifications, including RFC 7390 and RFC 8075, are also provided.
 <meta content="draft-ietf-core-corr-clar-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.25.0
-    Python 3.12.7
+    Python 3.12.8
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
     lxml 5.3.0
     platformdirs 4.3.6
-    pycountry 22.3.5
-    PyYAML 6.0.1
+    pycountry 24.6.1
+    PyYAML 6.0.2
     requests 2.32.3
     setuptools 70.3.0
     wcwidth 0.2.13
@@ -1059,7 +1059,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bormann</td>
-<td class="center">Expires 19 June 2025</td>
+<td class="center">Expires 21 June 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1075,12 +1075,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6690" class="eref">6690</a>, <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a>, <a href="https://www.rfc-editor.org/rfc/rfc7641" class="eref">7641</a>, <a href="https://www.rfc-editor.org/rfc/rfc7959" class="eref">7959</a>, <a href="https://www.rfc-editor.org/rfc/rfc8132" class="eref">8132</a>, <a href="https://www.rfc-editor.org/rfc/rfc8323" class="eref">8323</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-12-16" class="published">16 December 2024</time>
+<time datetime="2024-12-18" class="published">18 December 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-06-19">19 June 2025</time></dd>
+<dd class="expires"><time datetime="2025-06-21">21 June 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1141,7 +1141,7 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1764,7 +1764,7 @@ which are generally independent concerns but can be addressed using the same too
 The <span class="bcp14">RECOMMENDED</span> way to do that is using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option
 (where a subsequent request with the same Echo value proves to the server that the destination was reachable);
 clients <span class="bcp14">SHOULD</span> act to the Echo option as specified in <span>[<a href="#RFC9175" class="cite xref">RFC9175</a>]</span>.
-Tools specific to a security protocol, such as RRC (<span>[<a href="#I-D.ietf-tls-dtls-rrc" class="cite xref">I-D.ietf-tls-dtls-rrc</a>]</span>) in case of DTLS, may be used. However, their use may depend on successful negotiation.<a href="#section-2.6-4" class="pilcrow">¶</a></p>
+Tools specific to a security protocol, such as RRC <span>[<a href="#I-D.ietf-tls-dtls-rrc" class="cite xref">I-D.ietf-tls-dtls-rrc</a>]</span> in case of DTLS, may be used. However, their use may depend on successful negotiation.<a href="#section-2.6-4" class="pilcrow">¶</a></p>
 <div id="amplification-mitigation-and-return-routability">
 <section id="section-2.6.1">
           <h4 id="name-amplification-mitigation-an">
@@ -1775,11 +1775,11 @@ but the response does not exceed the request's size by a factor of 3 (<span><a h
 the server can answer the request.
 It should still include an Echo value, whose presence in the next request serves to confirm the client's address.<a href="#section-2.6.1-1" class="pilcrow">¶</a></p>
 <p id="section-2.6.1-2">This situation can happen at any time, especially after a prolonged period of quiescence, regardless of the security protocol.<a href="#section-2.6.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.6.1-3">Verifying the client's address is not only crucial for mitigating amplification attacks (<span>[<a href="#I-D.irtf-t2trg-amplification-attacks" class="cite xref">I-D.irtf-t2trg-amplification-attacks</a>]</span>), but also to avoid traffic misdirection.
+<p id="section-2.6.1-3">Verifying the client's address is not only crucial for mitigating amplification attacks <span>[<a href="#I-D.irtf-t2trg-amplification-attacks" class="cite xref">I-D.irtf-t2trg-amplification-attacks</a>]</span>, but also to avoid traffic misdirection.
 <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc-12#section-7" class="relref">Section 7</a> of [<a href="#I-D.ietf-tls-dtls-rrc" class="cite xref">I-D.ietf-tls-dtls-rrc</a>]</span> describes options for how to use RRC messages to distinguish different cases.
-A 4.01 response with Echo can perform some of the same functions, with the Echo value replacing the RRC cookie. However, it does not offer a way to distinguish between non-preferred and preferred paths.<a href="#section-2.6.1-3" class="pilcrow">¶</a></p>
-<p id="section-2.6.1-4">Where that distinction matters,
-RRC provides the right tools to make it.<a href="#section-2.6.1-4" class="pilcrow">¶</a></p>
+A 4.01 response with Echo can perform some of the same functions, with the Echo value replacing the RRC cookie. However, it does not offer a way to distinguish between non-preferred and preferred paths.
+Where that distinction matters,
+RRC provides the right tools to make it.<a href="#section-2.6.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="replay-protection">
@@ -1804,7 +1804,7 @@ but as that assessment is hard to make, it is prudent to err at the side of caut
 Currently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-09#section-14" class="relref">Section 14</a> of [<a href="#I-D.ietf-uta-tls13-iot-profile-09" class="cite xref">I-D.ietf-uta-tls13-iot-profile-09</a>]</span>). However, that may change if a future document defines a profile for using early data with CoAP.<a href="#section-2.6.2-4" class="pilcrow">¶</a></p>
 <p id="section-2.6.2-5">Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
 As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,
-the response can not reuse the request's nonce, but needs to take an own sequence number from the server's space.<a href="#section-2.6.2-5" class="pilcrow">¶</a></p>
+the response can not reuse the request's nonce, but needs to take a separate sequence number from the server's space.<a href="#section-2.6.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
