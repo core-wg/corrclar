@@ -1751,20 +1751,26 @@ issue include:<a href="#section-2.5.3-3" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-2.6-1">
           <dt id="section-2.6-1.1">INCOMPLETE:</dt>
           <dd style="margin-left: 1.5em" id="section-2.6-1.2">
-            <p id="section-2.6-1.2.1">Tools for mitigating these scenarios were unavailable when specified, and are now explained.<a href="#section-2.6-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-2.6-1.2.1">Tools for mitigating these scenarios were unavailable at the time
+<span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> was written, and are now being explained.<a href="#section-2.6-1.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
 <p id="section-2.6-2">PENDING.<a href="#section-2.6-2" class="pilcrow">¶</a></p>
-<p id="section-2.6-3">Established security contexts and established return addresses can become obsolete.
-For example, this happens when a DTLS session is resumed via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of <span><a href="https://rfc-editor.org/rfc/rfc8613#appendix-B.1.2" class="relref">Appendix B.1.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.
-In those situations, a server still needs to maintain its security and amplification mitigation properties,
-which are generally independent concerns but can be addressed using the same tools.<a href="#section-2.6-3" class="pilcrow">¶</a></p>
-<p id="section-2.6-4">A safe option is always to reject the initial request and request confirmation.
+<p id="section-2.6-3">Established security contexts can become obsolete.
+For example, when the replay window of an OSCORE context is lost and
+recovered through the mechanism described in <span><a href="https://rfc-editor.org/rfc/rfc8613#appendix-B.1.2" class="relref">Appendix B.1.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.<a href="#section-2.6-3" class="pilcrow">¶</a></p>
+<p id="section-2.6-4">Established return addresses can become obsolete.
+For example, this happens when the use of Connection ID (CID)
+<span>[<a href="#RFC9146" class="cite xref">RFC9146</a>]</span> allows the DTLS session to survive the client's IP address
+change.<a href="#section-2.6-4" class="pilcrow">¶</a></p>
+<p id="section-2.6-5">In those situations, a server still needs to maintain its security and amplification mitigation properties,
+which are generally independent concerns but can be addressed using the same tools.<a href="#section-2.6-5" class="pilcrow">¶</a></p>
+<p id="section-2.6-6">A safe option is always to reject the initial request and request confirmation.
 The <span class="bcp14">RECOMMENDED</span> way to do that is using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option
 (where a subsequent request with the same Echo value proves to the server that the destination was reachable);
 clients <span class="bcp14">SHOULD</span> act to the Echo option as specified in <span>[<a href="#RFC9175" class="cite xref">RFC9175</a>]</span>.
-Tools specific to a security protocol, such as RRC <span>[<a href="#I-D.ietf-tls-dtls-rrc" class="cite xref">I-D.ietf-tls-dtls-rrc</a>]</span> in case of DTLS, may be used. However, their use may depend on successful negotiation.<a href="#section-2.6-4" class="pilcrow">¶</a></p>
+Tools specific to a security protocol, such as RRC <span>[<a href="#I-D.ietf-tls-dtls-rrc" class="cite xref">I-D.ietf-tls-dtls-rrc</a>]</span> in case of DTLS, may be used. However, their use may depend on successful negotiation.<a href="#section-2.6-6" class="pilcrow">¶</a></p>
 <div id="amplification-mitigation-and-return-routability">
 <section id="section-2.6.1">
           <h4 id="name-amplification-mitigation-an">
@@ -1798,7 +1804,8 @@ as well as any processing delays.
 <p id="section-2.6.2-2">If nothing else, GET requests to constant resources,
 such as queries to /.well-known/core,
 can often be responded to safely on the CoAP layer even without any replay protection.<a href="#section-2.6.2-2" class="pilcrow">¶</a></p>
-<p id="section-2.6.2-3">There are resources for which more requests than those with safe codes may be handled without replay protection,
+<p id="section-2.6.2-3">There are resources for which more requests than those with safe
+request methods may be handled without replay protection,
 but as that assessment is hard to make, it is prudent to err at the side of caution.<a href="#section-2.6.2-3" class="pilcrow">¶</a></p>
 <p id="section-2.6.2-4">Uncertainty about whether a request might be a replay can happen in OSCORE after a partial loss of context.
 Currently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-09#section-14" class="relref">Section 14</a> of [<a href="#I-D.ietf-uta-tls13-iot-profile-09" class="cite xref">I-D.ietf-uta-tls13-iot-profile-09</a>]</span>). However, that may change if a future document defines a profile for using early data with CoAP.<a href="#section-2.6.2-4" class="pilcrow">¶</a></p>

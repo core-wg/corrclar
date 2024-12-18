@@ -805,19 +805,22 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 2.6.  RFC 7252-9.1/11.3: Handling outdated addresses and security
       contexts
 
-   INCOMPLETE:  Tools for mitigating these scenarios were unavailable
-      when specified, and are now explained.
+   INCOMPLETE:  Tools for mitigating these scenarios were unavailable at
+      the time [RFC7252] was written, and are now being explained.
 
    PENDING.
 
-   Established security contexts and established return addresses can
-   become obsolete.  For example, this happens when a DTLS session is
-   resumed via CIDs, when the client's IP address changes, or when the
-   replay window of an OSCORE context is lost and recovered through the
-   mechanism of Appendix B.1.2 of [RFC8613].  In those situations, a
-   server still needs to maintain its security and amplification
-   mitigation properties, which are generally independent concerns but
-   can be addressed using the same tools.
+   Established security contexts can become obsolete.  For example, when
+   the replay window of an OSCORE context is lost and recovered through
+   the mechanism described in Appendix B.1.2 of [RFC8613].
+
+   Established return addresses can become obsolete.  For example, this
+   happens when the use of Connection ID (CID) [RFC9146] allows the DTLS
+   session to survive the client's IP address change.
+
+   In those situations, a server still needs to maintain its security
+   and amplification mitigation properties, which are generally
+   independent concerns but can be addressed using the same tools.
 
    A safe option is always to reject the initial request and request
    confirmation.  The RECOMMENDED way to do that is using CoAP's
@@ -828,9 +831,6 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    security protocol, such as RRC [I-D.ietf-tls-dtls-rrc] in case of
    DTLS, may be used.  However, their use may depend on successful
    negotiation.
-
-
-
 
 
 
@@ -878,7 +878,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    layer even without any replay protection.
 
    There are resources for which more requests than those with safe
-   codes may be handled without replay protection, but as that
+   request methods may be handled without replay protection, but as that
    assessment is hard to make, it is prudent to err at the side of
    caution.
 
