@@ -497,19 +497,20 @@ INCOMPLETE:
 
 PENDING.
 
-Established security contexts can become obsolete.
-For example, when the replay window of an OSCORE context is lost and
-recovered through the mechanism described in {{Appendix B.1.2 of
-RFC8613}}.
+Information obtained about an established communication partner can experience continuity interruptions
+and become obsolete.
+This can happen on different levels:
+For example,
+return routability information is lost when client's IP address changes,
+and information about whether a request was already handled can be lost when an OSCORE context is recovered as described in its [Appendix B.1.2 of RFC8613].
+No matter the cause of the loss, a server still needs to maintain its security and amplification mitigation properties.
 
-Established return addresses can become obsolete.
-For example, this happens when the use of Connection ID (CID)
-{{RFC9146}} allows the DTLS session to survive the client's IP address
-change.
+The concerns addressed in the following subsections are independent on a specification level,
+but are described together because they can be addressed with the same tools --
+moreover, a single round trip of using Echo in a response can address both at the same time.
+In some scenarios, these are even expected to coincide.
 
-In those situations, a server still needs to maintain its security and amplification mitigation properties,
-which are generally independent concerns but can be addressed using the same tools.
-
+(move)
 A safe option is always to reject the initial request and request confirmation.
 The RECOMMENDED way to do that is using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option
 (where a subsequent request with the same Echo value proves to the server that the destination was reachable);
@@ -518,11 +519,22 @@ Tools specific to a security protocol, such as RRC {{I-D.ietf-tls-dtls-rrc}} in 
 
 ### Amplification mitigation and return routability
 
-If it is not certain that the client is reachable on the request's sender address,
-but the response does not exceed the request's size by a factor of 3 ({{Section 2.4 of RFC9175}}, item 3),
-the server can answer the request.
-It should still include an Echo value, whose presence in the next request serves to confirm the client's address.
+CoAP servers have to mitigate the effects of traffic amplification
+as required in {{Section 11.3 of RFC7252}};
+the maximum acceptable amplification factor of 3 is now the IETF consensus
+reflected for CoAP in {{Section 2.4 of RFC9175}},
+which can be summarized for this application as follows:
 
+If the server has learned that the client is reachable on the request's sender address,
+it can send a response.
+Otherwise, if the response does not exceed the request's size by a factor of 3 ({{Section 2.4 of RFC9175}}, item 3),
+the server can answer the request successfully, but should still include an Echo value,
+whose presence in the next request serves to confirm the client's address.
+Otherwise, a 4.01 (Unautorized) error response with an Echo value is sent.
+
+Address verification is triggered
+both for new clients
+and for existing clients that changed their address.
 This situation can happen at any time, especially after a prolonged period of quiescence, regardless of the security protocol.
 
 Verifying the client's address is not only crucial for mitigating amplification attacks {{I-D.irtf-t2trg-amplification-attacks}}, but also to avoid traffic misdirection.
@@ -531,12 +543,22 @@ A 4.01 response with Echo can perform some of the same functions, with the Echo 
 Where that distinction matters,
 RRC provides the right tools to make it.
 
+<!-- maybe compare Echo to HelloRetryRequest from 9147? -->
+
 ### Replay protection
 
-If it is not certain that the request is not a replay,
-but the request handler is safe
-and there is no risk of metadata revealing data,
-the server can answer the request.
+Security mechanisms can offer trade-offs between performance and the security properties freshness and replay protection.
+They sometimes use names such as "0RTT" (zero round-trip time).
+With those mechanisms, the server recognizes that a request is sent in such a 0RTT mode,
+but can still decide to send a response.
+The general trade-off is that an attacker may intercept such a message
+and replay it at any later time, possibly multiple times,
+without the server having a relibale way of recognizing the replay.
+
+The semantics of CoAP are conducive to using such facilities:
+Safe requests are recognized by their code to not have side effects.
+Nonetheless, more aspects need to be considered:
+There is no risk of metadata revealing data if the server answers a request multiple times.
 Kinds of metadata to look out for are the size of the response
 (which, in a replay situation, can give an active attacker additional data)
 as well as any processing delays.
@@ -550,12 +572,22 @@ There are resources for which more requests than those with safe
 request methods may be handled without replay protection,
 but as that assessment is hard to make, it is prudent to err at the side of caution.
 
-Uncertainty about whether a request might be a replay can happen in OSCORE after a partial loss of context.
-Currently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}}). However, that may change if a future document defines a profile for using early data with CoAP.
+CoAP has no error code like HTTP's 425 Too Early with which a server could ask the client to resubmit its request later
+when all the security mechanism's guarantees are available.
+Instead, servers can send 4.01 Unauthorized responses with Echo option;
+clients then repeat the request with the Echo value in the request.
 
+[Appendix B.1.2 of RFC8613] describes how this is used to recover loss of state in OSCORE.
+Exceeding what is described there, a server can safely send a successful response,
+provided its criteria for 0RTT responses are met.
+The server can still send an Echo option with the successful response:
+Only when the client repeats that Echo value in a subsequent response can the replay window be initialized.
 Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
 As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,
 the response can not reuse the request's nonce, but needs to take a separate sequence number from the server's space.
+
+Requests with 0RTT properties can currently not happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}}). However, that may change if a future document defines a profile for using early data with CoAP.
+
 
 ## RFC 7252-12.3: Content-Format Registry {#ct}
 
