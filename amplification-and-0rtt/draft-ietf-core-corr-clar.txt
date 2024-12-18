@@ -105,7 +105,7 @@ Table of Contents
            contexts  . . . . . . . . . . . . . . . . . . . . . . . .  15
        2.6.1.  Amplification mitigation and return routability . . .  16
        2.6.2.  Replay protection . . . . . . . . . . . . . . . . . .  16
-     2.7.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .  18
+     2.7.  RFC 7252-12.3: Content-Format Registry  . . . . . . . . .  17
 
 
 
@@ -114,7 +114,7 @@ Bormann                   Expires 21 June 2025                  [Page 2]
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
-   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  19
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .  19
    5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
      5.1.  Normative References  . . . . . . . . . . . . . . . . . .  19
@@ -924,6 +924,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    responses are met.  The server can still send an Echo option with the
    successful response: Only when the client repeats that Echo value in
    a subsequent response can the replay window be initialized.
+
    Implementers of OSCORE should be aware that answering potential
    replays can only be determined to be safe from the CoAP application's
    point of view.  As always, unless the sequence number in the request
@@ -931,28 +932,10 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    can not reuse the request's nonce, but needs to be sent with a new
    sequence number from the server's space.
 
-   Requests with 0RTT properties can currently not happen in DTLS
-   because 0-RTT Data is not allowed for CoAP (cf.  Section 14 of
+   Requests with 0RTT properties currently cannot happen in DTLS because
+   0-RTT Data is not allowed for CoAP (cf.  Section 14 of
    [I-D.ietf-uta-tls13-iot-profile-09]).  However, that may change if a
    future document defines a profile for using early data with CoAP.
-
-   Implementers of OSCORE should be aware that answering potential
-   replays is only safe from the CoAP application's point of view.  As
-   always, unless the sender sequence number of the request has just
-   been removed from a correctly initialized replay window, the response
-   cannot reuse the request's nonce, but needs to take a separate
-   sequence number from the server's space.
-
-
-
-
-
-
-
-Bormann                   Expires 21 June 2025                 [Page 17]
-
-Internet-Draft   Corrections and Clarifications to CoAP    December 2024
-
 
 2.7.  RFC 7252-12.3: Content-Format Registry
 
@@ -963,6 +946,14 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    is more than a Media-Type-Name (see [RFC9193] for an extensive
    discussion), i.e., it may contain parameters beyond the mere
    combination of a type-name and a subtype-name registered in
+
+
+
+Bormann                   Expires 21 June 2025                 [Page 17]
+
+Internet-Draft   Corrections and Clarifications to CoAP    December 2024
+
+
    [IANA.media-types], as per [RFC6838], conventionally identified by
    the two names separated by a slash.  This construct is often called a
    Content Type to reduce the confusion with a Media-Type-Name (e.g., in
@@ -1000,6 +991,15 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    however quite useful as a reference when preparing additional
    Content-Format registrations.
 
+3.  IANA Considerations
+
+   This document makes no new requests to IANA.
+
+   Individual clarifications may contain IANA considerations; as for
+   example in Section 2.7.
+
+
+
 
 
 
@@ -1009,13 +1009,6 @@ Bormann                   Expires 21 June 2025                 [Page 18]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
-
-3.  IANA Considerations
-
-   This document makes no new requests to IANA.
-
-   Individual clarifications may contain IANA considerations; as for
-   example in Section 2.7.
 
 4.  Security Considerations
 
@@ -1055,7 +1048,14 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
               DOI 10.17487/RFC7959, August 2016,
               <https://www.rfc-editor.org/rfc/rfc7959>.
 
+   [RFC8132]  van der Stok, P., Bormann, C., and A. Sehgal, "PATCH and
+              FETCH Methods for the Constrained Application Protocol
+              (CoAP)", RFC 8132, DOI 10.17487/RFC8132, April 2017,
+              <https://www.rfc-editor.org/rfc/rfc8132>.
 
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
 
 
@@ -1065,15 +1065,6 @@ Bormann                   Expires 21 June 2025                 [Page 19]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
-
-   [RFC8132]  van der Stok, P., Bormann, C., and A. Sehgal, "PATCH and
-              FETCH Methods for the Constrained Application Protocol
-              (CoAP)", RFC 8132, DOI 10.17487/RFC8132, April 2017,
-              <https://www.rfc-editor.org/rfc/rfc8132>.
-
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
    [RFC8323]  Bormann, C., Lemay, S., Tschofenig, H., Hartke, K.,
               Silverajan, B., and B. Raymor, Ed., "CoAP (Constrained
@@ -1115,13 +1106,6 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
               <https://datatracker.ietf.org/doc/html/draft-bormann-core-
               responses-03>.
 
-
-
-Bormann                   Expires 21 June 2025                 [Page 20]
-
-Internet-Draft   Corrections and Clarifications to CoAP    December 2024
-
-
    [I-D.ietf-core-groupcomm-bis]
               Dijk, E., Wang, C., and M. Tiloca, "Group Communication
               for the Constrained Application Protocol (CoAP)", Work in
@@ -1129,6 +1113,14 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
               12, 21 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
               groupcomm-bis-12>.
+
+
+
+
+Bormann                   Expires 21 June 2025                 [Page 20]
+
+Internet-Draft   Corrections and Clarifications to CoAP    December 2024
+
 
    [I-D.ietf-core-oscore-capable-proxies]
               Tiloca, M. and R. Höglund, "OSCORE-capable Proxies", Work
@@ -1170,14 +1162,6 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    [I-D.irtf-t2trg-amplification-attacks]
               Mattsson, J. P., Selander, G., and C. Amsüss,
               "Amplification Attacks Using the Constrained Application
-
-
-
-Bormann                   Expires 21 June 2025                 [Page 21]
-
-Internet-Draft   Corrections and Clarifications to CoAP    December 2024
-
-
               Protocol (CoAP)", Work in Progress, Internet-Draft, draft-
               irtf-t2trg-amplification-attacks-04, 8 December 2024,
               <https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-
@@ -1186,6 +1170,13 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    [IANA.media-types]
               IANA, "Media Types",
               <https://www.iana.org/assignments/media-types>.
+
+
+
+Bormann                   Expires 21 June 2025                 [Page 21]
+
+Internet-Draft   Corrections and Clarifications to CoAP    December 2024
+
 
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
@@ -1222,18 +1213,6 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
               DOI 10.17487/RFC9146, March 2022,
               <https://www.rfc-editor.org/rfc/rfc9146>.
 
-
-
-
-
-
-
-
-Bormann                   Expires 21 June 2025                 [Page 22]
-
-Internet-Draft   Corrections and Clarifications to CoAP    December 2024
-
-
    [RFC9148]  van der Stok, P., Kampanakis, P., Richardson, M., and S.
               Raza, "EST-coaps: Enrollment over Secure Transport with
               the Secure Constrained Application Protocol", RFC 9148,
@@ -1245,6 +1224,15 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
               Tag, and Token Processing", RFC 9175,
               DOI 10.17487/RFC9175, February 2022,
               <https://www.rfc-editor.org/rfc/rfc9175>.
+
+
+
+
+
+Bormann                   Expires 21 June 2025                 [Page 22]
+
+Internet-Draft   Corrections and Clarifications to CoAP    December 2024
+
 
    [RFC9176]  Amsüss, C., Ed., Shelby, Z., Koster, M., Bormann, C., and
               P. van der Stok, "Constrained RESTful Environments (CoRE)
@@ -1272,6 +1260,18 @@ Author's Address
    Germany
    Phone: +49-421-218-63921
    Email: cabo@tzi.org
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
