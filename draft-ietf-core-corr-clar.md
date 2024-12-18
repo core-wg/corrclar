@@ -53,7 +53,8 @@ informative:
     # Connection Identifiers for DTLS 1.2. That keeps the session/epoch and enables to change the ip-address/port, if the matching is relaxed from the ip-endpoints.
   I-D.irtf-t2trg-amplification-attacks:
   I-D.ietf-tls-dtls-rrc:
-
+  I-D.ietf-uta-tls13-iot-profile:
+  
 --- abstract
 
 
@@ -587,7 +588,7 @@ Implementers of OSCORE should be aware that answering potential replays can only
 As always, unless the sequence number in the request has just been removed from an initialized replay window,
 the response can not reuse the request's nonce, but needs to be sent with a new sequence number from the server's space.
 
-Requests with 0RTT properties currently cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}}). However, that may change if a future document defines a profile for using early data with CoAP.
+Requests with 0RTT properties currently cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of I-D.ietf-uta-tls13-iot-profile}}). However, that may change if a future document defines a profile for using early data with CoAP.
 
 ## RFC 7252-12.3: Content-Format Registry {#ct}
 
