@@ -587,6 +587,9 @@ the response can not reuse the request's nonce, but needs to be sent with a new 
 
 Requests with 0RTT properties can currently not happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}}). However, that may change if a future document defines a profile for using early data with CoAP.
 
+Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
+As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,
+the response cannot reuse the request's nonce, but needs to take a separate sequence number from the server's space.
 
 ## RFC 7252-12.3: Content-Format Registry {#ct}
 
