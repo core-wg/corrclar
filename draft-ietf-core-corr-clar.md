@@ -577,7 +577,7 @@ when all the security mechanism's guarantees are available.
 Instead, servers can send 4.01 Unauthorized responses with Echo option;
 clients then repeat the request with the Echo value in the request.
 
-[Appendix B.1.2 of RFC8613] describes how this is used to recover loss of state in OSCORE.
+{{Appendix B.1.2 of RFC8613}} describes how this is used to recover loss of state in OSCORE.
 Exceeding what is described there, a server can safely send a successful response,
 provided its criteria for 0RTT responses are met.
 The server can still send an Echo option with the successful response:
