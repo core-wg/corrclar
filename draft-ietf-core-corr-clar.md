@@ -492,12 +492,21 @@ issue include:
 ## RFC 7252-9.1/11.3: Handling outdated addresses and security contexts {#amp-0rtt}
 
 INCOMPLETE:
-: Tools for mitigating these scenarios were unavailable when specified, and are now explained.
+: Tools for mitigating these scenarios were unavailable at the time
+  {{RFC7252}} was written, and are now being explained.
 
 PENDING.
 
-Established security contexts and established return addresses can become obsolete.
-For example, this happens when a DTLS session is resumed via CIDs, when the client's IP address changes, or when the replay window of an OSCORE context is lost and recovered through the mechanism of {{Appendix B.1.2 of RFC8613}}.
+Established security contexts can become obsolete.
+For example, when the replay window of an OSCORE context is lost and
+recovered through the mechanism described in {{Appendix B.1.2 of
+RFC8613}}.
+
+Established return addresses can become obsolete.
+For example, this happens when the use of Connection ID (CID)
+{{RFC9146}} allows the DTLS session to survive the client's IP address
+change.
+
 In those situations, a server still needs to maintain its security and amplification mitigation properties,
 which are generally independent concerns but can be addressed using the same tools.
 
@@ -537,7 +546,8 @@ If nothing else, GET requests to constant resources,
 such as queries to /.well-known/core,
 can often be responded to safely on the CoAP layer even without any replay protection.
 
-There are resources for which more requests than those with safe codes may be handled without replay protection,
+There are resources for which more requests than those with safe
+request methods may be handled without replay protection,
 but as that assessment is hard to make, it is prudent to err at the side of caution.
 
 Uncertainty about whether a request might be a replay can happen in OSCORE after a partial loss of context.
