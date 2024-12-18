@@ -51,7 +51,8 @@ informative:
     date: false
   RFC9146:
     # Connection Identifiers for DTLS 1.2. That keeps the session/epoch and enables to change the ip-address/port, if the matching is relaxed from the ip-endpoints.
-
+  I-D.irtf-t2trg-amplification-attacks:
+  I-D.ietf-tls-dtls-rrc:
 
 --- abstract
 
@@ -504,7 +505,7 @@ A safe option is always to reject the initial request and request confirmation.
 The RECOMMENDED way to do that is using CoAP's mechanism of sending a 4.01 (Unauthorized) response with an Echo option
 (where a subsequent request with the same Echo value proves to the server that the destination was reachable);
 clients SHOULD act to the Echo option as specified in {{?RFC9175}}.
-Tools specific to a security protocol, such as RRC ({{?I-D.ietf-tls-dtls-rrc}}) in case of DTLS, may be used. However, their use may depend on successful negotiation.
+Tools specific to a security protocol, such as RRC {{I-D.ietf-tls-dtls-rrc}} in case of DTLS, may be used. However, their use may depend on successful negotiation.
 
 ### Amplification mitigation and return routability
 
@@ -515,10 +516,9 @@ It should still include an Echo value, whose presence in the next request serves
 
 This situation can happen at any time, especially after a prolonged period of quiescence, regardless of the security protocol.
 
-Verifying the client's address is not only crucial for mitigating amplification attacks ({{?I-D.irtf-t2trg-amplification-attacks}}), but also to avoid traffic misdirection.
-{{Section 7 of ?I-D.ietf-tls-dtls-rrc}} describes options for how to use RRC messages to distinguish different cases.
+Verifying the client's address is not only crucial for mitigating amplification attacks {{I-D.irtf-t2trg-amplification-attacks}}, but also to avoid traffic misdirection.
+{{Section 7 of I-D.ietf-tls-dtls-rrc}} describes options for how to use RRC messages to distinguish different cases.
 A 4.01 response with Echo can perform some of the same functions, with the Echo value replacing the RRC cookie. However, it does not offer a way to distinguish between non-preferred and preferred paths.
-
 Where that distinction matters,
 RRC provides the right tools to make it.
 
@@ -545,7 +545,7 @@ Currently, this cannot happen in DTLS because 0-RTT Data is not allowed for CoAP
 
 Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
 As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,
-the response can not reuse the request's nonce, but needs to take an own sequence number from the server's space.
+the response can not reuse the request's nonce, but needs to take a separate sequence number from the server's space.
 
 ## RFC 7252-12.3: Content-Format Registry {#ct}
 
