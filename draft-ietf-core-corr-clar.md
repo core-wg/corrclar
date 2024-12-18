@@ -492,8 +492,7 @@ issue include:
 ## RFC 7252-9.1/11.3: Handling outdated addresses and security contexts {#amp-0rtt}
 
 INCOMPLETE:
-: Tools for mitigating these scenarios were unavailable at the time
-  {{RFC7252}} was written, and are now being explained.
+: Tools for mitigating these scenarios were unavailable when CoAP was specified, and are now explained.
 
 PENDING.
 
@@ -582,9 +581,9 @@ Exceeding what is described there, a server can safely send a successful respons
 provided its criteria for 0RTT responses are met.
 The server can still send an Echo option with the successful response:
 Only when the client repeats that Echo value in a subsequent response can the replay window be initialized.
-Implementers of OSCORE should be aware that answering potential replays is only safe from the CoAP application's point of view.
-As always, unless the sender sequence number of the request has just been removed from a correctly initialized replay window,
-the response can not reuse the request's nonce, but needs to take a separate sequence number from the server's space.
+Implementers of OSCORE should be aware that answering potential replays can only be determined to be safe from the CoAP application's point of view.
+As always, unless the sequence number in the request has just been removed from an initialized replay window,
+the response can not reuse the request's nonce, but needs to be sent with a new sequence number from the server's space.
 
 Requests with 0RTT properties can currently not happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. {{Section 14 of ?I-D.ietf-uta-tls13-iot-profile-09}}). However, that may change if a future document defines a profile for using early data with CoAP.
 
