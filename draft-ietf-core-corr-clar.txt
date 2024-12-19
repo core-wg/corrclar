@@ -4,10 +4,10 @@
 
 Network Working Group                                         C. Bormann
 Internet-Draft                                    Universität Bremen TZI
-Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if         18 December 2024
+Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if         19 December 2024
          approved)                                                      
 Intended status: Standards Track                                        
-Expires: 21 June 2025
+Expires: 22 June 2025
 
 
 Constrained Application Protocol (CoAP): Corrections and Clarifications
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 1]
+Bormann                   Expires 22 June 2025                  [Page 1]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -68,7 +68,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 June 2025.
+   This Internet-Draft will expire on 22 June 2025.
 
 Copyright Notice
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 2]
+Bormann                   Expires 22 June 2025                  [Page 2]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -165,7 +165,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 3]
+Bormann                   Expires 22 June 2025                  [Page 3]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -221,7 +221,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 4]
+Bormann                   Expires 22 June 2025                  [Page 4]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -277,7 +277,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 5]
+Bormann                   Expires 22 June 2025                  [Page 5]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -333,7 +333,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 6]
+Bormann                   Expires 22 June 2025                  [Page 6]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -389,7 +389,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 7]
+Bormann                   Expires 22 June 2025                  [Page 7]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -445,7 +445,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 8]
+Bormann                   Expires 22 June 2025                  [Page 8]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -501,7 +501,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                  [Page 9]
+Bormann                   Expires 22 June 2025                  [Page 9]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -557,7 +557,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 10]
+Bormann                   Expires 22 June 2025                 [Page 10]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -613,7 +613,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 11]
+Bormann                   Expires 22 June 2025                 [Page 11]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -669,7 +669,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 12]
+Bormann                   Expires 22 June 2025                 [Page 12]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -725,7 +725,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 13]
+Bormann                   Expires 22 June 2025                 [Page 13]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -781,7 +781,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 14]
+Bormann                   Expires 22 June 2025                 [Page 14]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -837,7 +837,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 15]
+Bormann                   Expires 22 June 2025                 [Page 15]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -893,7 +893,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 16]
+Bormann                   Expires 22 June 2025                 [Page 16]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -918,7 +918,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
    send 4.01 Unauthorized responses with Echo option; clients then
    repeat the request with the Echo value in the request.
 
-   [Appendix B.1.2 of RFC8613] describes how this is used to recover
+   Appendix B.1.2 of [RFC8613] describes how this is used to recover
    loss of state in OSCORE.  Exceeding what is described there, a server
    can safely send a successful response, provided its criteria for 0RTT
    responses are met.  The server can still send an Echo option with the
@@ -934,7 +934,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
    Requests with 0RTT properties currently cannot happen in DTLS because
    0-RTT Data is not allowed for CoAP (cf.  Section 14 of
-   [I-D.ietf-uta-tls13-iot-profile-09]).  However, that may change if a
+   [I-D.ietf-uta-tls13-iot-profile]).  However, that may change if a
    future document defines a profile for using early data with CoAP.
 
 2.7.  RFC 7252-12.3: Content-Format Registry
@@ -949,7 +949,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 17]
+Bormann                   Expires 22 June 2025                 [Page 17]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -1005,7 +1005,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 18]
+Bormann                   Expires 22 June 2025                 [Page 18]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -1061,7 +1061,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 19]
+Bormann                   Expires 22 June 2025                 [Page 19]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -1117,7 +1117,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 20]
+Bormann                   Expires 22 June 2025                 [Page 20]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -1151,13 +1151,13 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
               September 2024, <https://datatracker.ietf.org/doc/html/
               draft-ietf-tls-dtls-rrc-12>.
 
-   [I-D.ietf-uta-tls13-iot-profile-09]
+   [I-D.ietf-uta-tls13-iot-profile]
               Tschofenig, H., Fossati, T., and M. Richardson, "TLS/DTLS
               1.3 Profiles for the Internet of Things", Work in
               Progress, Internet-Draft, draft-ietf-uta-tls13-iot-
-              profile-09, 3 March 2024,
+              profile-11, 20 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-uta-
-              tls13-iot-profile-09>.
+              tls13-iot-profile-11>.
 
    [I-D.irtf-t2trg-amplification-attacks]
               Mattsson, J. P., Selander, G., and C. Amsüss,
@@ -1173,7 +1173,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 21]
+Bormann                   Expires 22 June 2025                 [Page 21]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -1229,7 +1229,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 22]
+Bormann                   Expires 22 June 2025                 [Page 22]
 
 Internet-Draft   Corrections and Clarifications to CoAP    December 2024
 
@@ -1285,4 +1285,4 @@ Author's Address
 
 
 
-Bormann                   Expires 21 June 2025                 [Page 23]
+Bormann                   Expires 22 June 2025                 [Page 23]
