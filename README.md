@@ -1,13 +1,12 @@
 # Constrained Application Protocol (CoAP): Corrections and Clarifications
 
-This is the working area for the IETF [CORE Working Group](https://datatracker.ietf.org/wg/core/documents/) Internet-Draft, "Constrained Application Protocol (CoAP): Corrections and Clarifications".
+This is the working area for the IETF [CORE Working Group](https://datatracker.ietf.org/group/core/documents/) Internet-Draft, "Constrained Application Protocol (CoAP): Corrections and Clarifications".
 
 * [Editor's Copy](https://core-wg.github.io/corrclar/#go.draft-ietf-core-corr-clar.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-core-corr-clar)
 * [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-core-corr-clar)
 * [Compare Editor's Copy to Working Group Draft](https://core-wg.github.io/corrclar/#go.draft-ietf-core-corr-clar.diff)
 
-[Access to all branches](https://core-wg.github.io/corrclar/)
 
 ## Contributing
 
