@@ -7,7 +7,6 @@ This is the working area for the IETF [CORE Working Group](https://datatracker.i
 * [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-core-corr-clar)
 * [Compare Editor's Copy to Working Group Draft](https://core-wg.github.io/corrclar/#go.draft-ietf-core-corr-clar.diff)
 
-[Access to all branches](https://core-wg.github.io/corrclar/)
 
 ## Contributing
 
