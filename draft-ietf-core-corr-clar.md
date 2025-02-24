@@ -398,7 +398,6 @@ match boxing rules are specified for the stitching mechanism.
 (These rules either need to be defined to be implicitly active
 for any use of the mechanism or they may require negotiation.)
 
-
 ### OSCORE, KUDOS, and Group OSCORE # {#match-boxing-oscore}
 
 The security protocol Object Security for Constrained RESTful Environments (OSCORE) defined in {{-oscore}} provides end-to-end security for CoAP messages at the application level, by using CBOR Object Signing and Encryption (COSE) {{-cose}}. In order to protect their communications, two peers need to have already established an OSCORE Security Context.
@@ -635,6 +634,46 @@ INCORRECT, CORRECTED:
 Content-Format registrations.
 These are not repeated here; they are however quite useful as a
 reference when preparing additional Content-Format registrations.
+
+## RFC 7959 Block-Wise: szx=7
+
+The original definition of szx in {{!RFC7959}} left the value 7 "reserved" ("MUST NOT be sent", "MUST lead to a 4.00 Bad Request response").
+
+In {{?RFC8323}}, specifically for the transports introduced there, that value was assigned the meaning of triggering the Block-wise Extension for Reliable Transport (BERT):
+It signifies that the logical block size is still 1024
+(i.e., the block numbers express the offset of the payload in the body in multiples of 1 KiB),
+but multiple blocks can be sent in a single message.
+
+This specification updates {{!RFC7959}} to apply the same mechanism to *any* transport.
+It does not introduce any new means for transports to determine the value equivalent to Max-Message-Size that indicates usable sizes.
+
+This is done both for two reasons:
+
+* It simplifies the overall specification landscape by making the interpretation of an option not depend on the underlying transport.
+
+* There are transports that can already utilize this without any further modifications:
+
+  - In OSCORE ({{RFC8613}}, outer Block options are used to assemble messages up to a policy defined `MAX_UNFRAGMENTED_SIZE` parameter
+    until an inner block (or the full message) is assembled and can be cryptographically verified.
+
+    Without BERT, `MAX_UNFRAGMENTED_SIZE` is practically limited to the ciphertext of an inner block with szx=6 (1 KiB),
+    or the full message body needs to fit in that size
+    (if that is even supported by the AEAD algorithm: AES-16-64-128 places an effective limit at 64 KiB).
+    With BERT, intermediate values of `MAX_UNFRAGMENTED_SIZE` become usable.
+
+    This is particularly interesting in group mode,
+    where the overheads per OSCORE message (that would previously be balanced against only 1 KiB of plaintext) are larger.
+
+    Agreeing on the parameter's value may be part of the OSCORE context's setup.
+
+  - Outside constrained systems, jumbo frames can enable larger UDP datagrams even without IP fragmentation.
+    With a typical Jumbo MTU of 9001 bytes, blocks of 8 KiB can be sent in a single CoAP message.
+
+{: vspace='0'}
+INCORRECT(?) (Section 2.2 item SZX):
+  : The value 7 for SZX (which would indicate a block size of 2048)
+    indicates the use of BERT (originally "Block-wise Extension for Reliable Transport", now "Block-wise Extended to RepeTition").
+    Its semantics are described in {{Section 6 of !RFC8323}}.
 
 # IANA Considerations
 
