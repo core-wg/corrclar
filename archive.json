@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T01:40:56.986880+00:00",
+  "timestamp": "2025-02-25T01:48:10.671653+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1591,6 +1591,22 @@
       "updatedAt": "2024-10-08T10:54:45Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 44,
+      "id": "I_kwDOJ-N8wM6rZbWL",
+      "title": "Transporting local IP addresses in payloads",
+      "url": "https://github.com/core-wg/corrclar/issues/44",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a topic that has come up in different seemingly unrelated CoAP based drafts, and maybe corr-clar can provide some more generic language:\n\nTalking of IP addresses that are not globally unique is asking for trouble when it is not assured that the peer interprets them the same way.\n\n* This is part of [RFC9176](https://datatracker.ietf.org/doc/html/rfc9176#section-5-7.8.2.10.6): \"If the base URI contains a link-local IP literal, it MUST NOT contain a Zone Identifier and MUST be local to the link on which the registration request is received.\" (basically doing split-horizon -- don't talk about resources the peer can't reach)\n\n  In hindsight, that may not even be completely sharp: a better criterion would have been \"link-local addresses must only be sent to clients that use link-local addresses of the same link\", and maybe some words on reverse proxies.\n\n* In multicast-notifications we've started out with some language against link-local addresses, but found that they'd be fine in some cases, but that there is also some trouble to be found with non-global multicast addresses in some scenarios (unicast-prefix-based site-local address should be fine: it's OK to send them if it can be ensured that the peer will fail to join them if it tried, unless it's really the right group).\n\nBack in 7252 we didn't know that we'd one day have secure connections across proxies, so a proxy might still have inspected addresses if it had knowledge of the content format -- but that was shaky back then and is impossible now.\n\nI think we should at some point encode some expectations on non-global addresses (mainly IP addresses, not sure how that'd relate to names -- anyone talking of `localhost` probably has the intention of that being a host-relative reference). Those could be:\n\n* If a client selects a proxy (informally a \"forward proxy\", formally maybe \"sends a request to an address that it does not believe to be the authoritative source of the information\") and receives non-global addresses through it, it knows that those are to be understood in the context of that proxy. It better resolve any references through the proxy, and make no assumptions on their meanings when accessed directly or though another proxy.\n* When a service is hosted behind a reverse proxy (and it'd be the owner of the service who knows that, for they put one address in the resolution mechanism for its name but instruct that system there to forward the request), the server better not hand out non-global addresses unless they are either part of some data structure where the client knows that they are local to the server, or client and server have some out-of-band knowledge of each other.\n\nThis might also be part of a larger \"responsibilities around selecting proxies\" topic (with yet another example in RD: \"You can't use simple registration with a proxy\" means for a client that it can't select a proxy, and for a server that it can't enable simple registration unless it empowers the proxy to play along).\n\nCC'ing @rikard-sics and @marco-tiloca-sics with whom I discussed this earlier today.",
+      "createdAt": "2025-02-24T16:39:14Z",
+      "updatedAt": "2025-02-24T16:39:14Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -2533,6 +2549,47 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 45,
+      "id": "PR_kwDOJ-N8wM6MU9py",
+      "title": "BERT for non-reliable transports",
+      "url": "https://github.com/core-wg/corrclar/pull/45",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes: https://github.com/core-wg/corrclar/issues/17\r\n\r\nThis may need a bit of iteration (esp. w/rt the normative update text), but it's a starting point.",
+      "createdAt": "2025-02-24T17:22:43Z",
+      "updatedAt": "2025-02-24T19:00:17Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "2212b5df5b988952c7b83e6e00fc3a78893d9da5",
+      "headRepository": "chrysn-pull-requests/corrclar",
+      "headRefName": "bert-for-nonreliable",
+      "headRefOid": "a3b1483dbad440e0d6009c1091233bb0adb753c3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "I like this initiative a lot, and the text looks good.\r\nBut is this something that can be done without an RFC, i.e., is corr-clar the right venue?\r\nI'm almost thinking that we should have added this to groupcomm-bis, which we just pushed to the IESG.\r\n",
+          "createdAt": "2025-02-24T17:28:01Z",
+          "updatedAt": "2025-02-24T17:28:01Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "It will need an RFC that Updates 7959; can be a reason to eventually publish this, or to spin small documents from text once it is ready here.\n\nIf nothing else, having this in a consensus section in a WG document already assurer users that szx=7 won't mean anything but BERT.\n",
+          "createdAt": "2025-02-24T18:18:55Z",
+          "updatedAt": "2025-02-24T18:18:55Z"
+        }
+      ],
       "reviews": []
     }
   ]
