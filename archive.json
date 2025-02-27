@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-25T01:48:10.671653+00:00",
+  "timestamp": "2025-02-27T01:48:01.854034+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1477,7 +1477,7 @@
       "labels": [],
       "body": "There are a few places where I think we were too narrow in where we defined new behavior:\r\n\r\n* BERT could be useful outside of TCPish transports: https://github.com/core-wg/corrclar/issues/17\r\n* Observe has been redefined to have an implicit value twice now (TCPish, OSCORE); a clarification could generalize that notifications carry a Observe: 0 on transports that provide implicit ordering.\r\n* Signalling messages were defined for TCPish transports. OSCORE said they can be encrypted too without losing many more words on them. Defining that 7xx is signalling (sharing the number space and the per-code option space across all transports)\r\n\r\nEven though some of those are no-ops in the protocol (there are no other ordered transports right now, and describing that some signalling messages might be usable on TCP is a different topic), stating that those fundamentally apply everywhere would help readers understand them better, and help implementers find the right abstractions. (Like, \"do I need to know the transport just to be able to interpret the code?\" \u2026 so far, with signaling only on TCPish, an update to CoAP-over-UDP could define different codes there).",
       "createdAt": "2024-06-19T10:40:59Z",
-      "updatedAt": "2024-09-30T12:56:57Z",
+      "updatedAt": "2025-02-26T16:22:42Z",
       "closedAt": null,
       "comments": [
         {
@@ -1486,6 +1486,13 @@
           "body": "It may also make sense to generalize that \"Observation has an implicit value\" property into one of possibly multiple properties that transports have and that applications that set the option need to know. Other properties on that list are the implied scheme, and the way to get the default values for some options (Uri-Host/-Port).",
           "createdAt": "2024-09-30T12:56:56Z",
           "updatedAt": "2024-09-30T12:56:56Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Takeaway from today's interim is that those would likely make sense to stew form some time in corr-clar, but would eventually need their own small document.",
+          "createdAt": "2025-02-26T16:22:40Z",
+          "updatedAt": "2025-02-26T16:22:40Z"
         }
       ]
     },
