@@ -636,6 +636,28 @@ Content-Format registrations.
 These are not repeated here; they are however quite useful as a
 reference when preparing additional Content-Format registrations.
 
+## RFC 7252-5.10.2: Proxy-Scheme
+
+RFC 7252 differentiates between requests made to a forward-proxy
+that contain the Proxy-Scheme option (or the Proxy-Uri option)
+and regular requests where no Proxy- option is set.
+
+For a unified view on requests, it can be beneficial for implementers (especially of servers)
+to treat Proxy-Scheme the same way as Uri-Host
+in that it expresses a part of the request URI,
+and in that it has a default value influenced by the scheme indicated in the transport's URI compositon rules.
+
+The behavior of a server applying that perspective
+is consistent with RFC 7252.
+<!-- Stating details here is probably just inviting controversy and do not provide a benefit for the reader:
+When acting as a proxy, the server is already required to recognize all of its server names (including variations),
+and when not acting as a proxy, the Proxy- options being critical lead to errors anyway.
+-->
+
+For compatibility, clients that apply that perspective
+do not set the Proxy-Scheme option its value is equal to the default,
+but always set when interacting with a declared forward proxy.
+
 # IANA Considerations
 
 This document makes no new requests to IANA.
