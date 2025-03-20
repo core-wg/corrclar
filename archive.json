@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-18T01:52:02.449401+00:00",
+  "timestamp": "2025-03-20T01:51:02.317688+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1614,6 +1614,37 @@
       "updatedAt": "2025-02-24T16:39:14Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 46,
+      "id": "I_kwDOJ-N8wM6uwiNA",
+      "title": "Feature: Zero-length ETag in GET",
+      "url": "https://github.com/core-wg/corrclar/issues/46",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This is exceeding the current corrections-clarifications and even maybe-orthogonal classification, but running into it as an implementer *and* having remembered it wrong for several years gave me reason to suggest a relaxation of the specification.\n\nThis list summarizes what is in 7252 (and 7959 for the Block2 relation):\n\n* ETag can be set in a response to indicate a property of the tagged representation, and is 1-8 byte long. It can not be repeated\n* ETag can be set in a request to indicate that the client has some ETags and wants to have them validated. It can be repeated.\n* Most of the time, the server may or may not send one, but there are a few situations where it MUST send it with a 2.03 Valid, and SHOULD send it with a Block2 (it won't send it, for example, if that resource is constant).\n* ETag has lengths 1-8. In contrast, If-Match also allows the empty ETag, which means \"only process this request if there is no current resource\".\n\nWhat this is missing is a way for the client to solicit the ETag, which makes sense when the server chooses not to send it (eg. on a resource too small to trigger block-wise transfer, or where the representation is in the order of size of the ETag). Still, a client can be in a situation where it needs to know the ETag, eg. to trigger a conditional deletion.\n\nCurrently, the only way for a client to obtain an ETag where the server doesn't usually send it is to either request a ridiculously small block size (for payloads >16 byte), or to guess a wrong ETag, send it in the request, hope that the server takes the hint to send the current one, and retries with a different guessed ETag if it was so unlucky as to be lucky with its guess. Yikes.\n\nProposed change, updating 7252:\n\n> ETag has a length of 0-8. A server IS ENCOURAGED TO send the tagged resource's ETag when responding to any request that contains an ETag. The zero-length ETag MUST only be used in requests, and by virtue of not matching any possible ETag, solicits the current representation and ETag. \n\nInspired by https://github.com/chrysn/aiocoap/pull/371",
+      "createdAt": "2025-03-19T14:13:12Z",
+      "updatedAt": "2025-03-19T16:38:11Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "> ETag has lengths 1-8. In contrast, If-Match also allows the empty ETag, which means \"only process this request if there is no current resource\".\n\nI think we need clarity between the ETag Option usage, and ETag value usage in any updates.\n\nMy understanding of [RFC7252 5.10.8.1 If-Match](https://datatracker.ietf.org/doc/html/rfc7252#section-5.10.8.1) was that the If-Match option could either contain an ETag value (not the ETag CoAP option) or an empty string.  If an empty string, then it matches any appropriate target resource based on the other CoAP options.\n````\n   The value of an If-Match option is either an ETag or the empty\n   string.  An If-Match option with an ETag matches a representation\n   with that exact ETag.  An If-Match option with an empty value matches\n   any existing representation (i.e., it places the precondition on the\n   existence of any current representation for the target resource).\n````\nSo, to me, a zero length ETag option is invalid, but If-Match has a work-around.  \n\n[RFC7252 5.8.1 GET](https://datatracker.ietf.org/doc/html/rfc7252#section-5.8.1)\n````\n   If the request includes an\n   ETag Option, the GET method requests that ETag be validated and that\n   the representation be transferred only if validation failed.\n````\nI guess the question here is whether the server will add the correct ETag option in the 2.05 response if the ETag was guessed incorrectly.\n\nMy concern here is that if we did allow a 0 value length for the ETag option in a request, some CoAP implementations will treat this as an invalidly formatted option (libcoap currently would reject this request as being badly formatted).",
+          "createdAt": "2025-03-19T15:57:54Z",
+          "updatedAt": "2025-03-19T15:57:54Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "To clarify: I'm only talking about ETag option usage, ETag values themselves (as representing a tagged representation, in a response) are not touched by this proposal.\n\nThe libcoap input is valuable here: the implementations I have looked at so far (the RIOT ones, coap-rs and mine) just accepted it. That libcoap is strict here certainly makes this issue a lot harder. (It even responds with an RST instead of a 4.02, which is a tad odd given how [RST is described](https://datatracker.ietf.org/doc/html/rfc7252#section-2.1), but doesn't change the effect it has on the issue).",
+          "createdAt": "2025-03-19T16:37:55Z",
+          "updatedAt": "2025-03-19T16:38:11Z"
+        }
+      ]
     }
   ],
   "pulls": [
