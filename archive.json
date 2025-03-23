@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-20T01:51:02.317688+00:00",
+  "timestamp": "2025-03-23T01:58:18.479528+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1627,7 +1627,7 @@
       "labels": [],
       "body": "This is exceeding the current corrections-clarifications and even maybe-orthogonal classification, but running into it as an implementer *and* having remembered it wrong for several years gave me reason to suggest a relaxation of the specification.\n\nThis list summarizes what is in 7252 (and 7959 for the Block2 relation):\n\n* ETag can be set in a response to indicate a property of the tagged representation, and is 1-8 byte long. It can not be repeated\n* ETag can be set in a request to indicate that the client has some ETags and wants to have them validated. It can be repeated.\n* Most of the time, the server may or may not send one, but there are a few situations where it MUST send it with a 2.03 Valid, and SHOULD send it with a Block2 (it won't send it, for example, if that resource is constant).\n* ETag has lengths 1-8. In contrast, If-Match also allows the empty ETag, which means \"only process this request if there is no current resource\".\n\nWhat this is missing is a way for the client to solicit the ETag, which makes sense when the server chooses not to send it (eg. on a resource too small to trigger block-wise transfer, or where the representation is in the order of size of the ETag). Still, a client can be in a situation where it needs to know the ETag, eg. to trigger a conditional deletion.\n\nCurrently, the only way for a client to obtain an ETag where the server doesn't usually send it is to either request a ridiculously small block size (for payloads >16 byte), or to guess a wrong ETag, send it in the request, hope that the server takes the hint to send the current one, and retries with a different guessed ETag if it was so unlucky as to be lucky with its guess. Yikes.\n\nProposed change, updating 7252:\n\n> ETag has a length of 0-8. A server IS ENCOURAGED TO send the tagged resource's ETag when responding to any request that contains an ETag. The zero-length ETag MUST only be used in requests, and by virtue of not matching any possible ETag, solicits the current representation and ETag. \n\nInspired by https://github.com/chrysn/aiocoap/pull/371",
       "createdAt": "2025-03-19T14:13:12Z",
-      "updatedAt": "2025-03-19T16:38:11Z",
+      "updatedAt": "2025-03-20T18:58:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -1643,6 +1643,27 @@
           "body": "To clarify: I'm only talking about ETag option usage, ETag values themselves (as representing a tagged representation, in a response) are not touched by this proposal.\n\nThe libcoap input is valuable here: the implementations I have looked at so far (the RIOT ones, coap-rs and mine) just accepted it. That libcoap is strict here certainly makes this issue a lot harder. (It even responds with an RST instead of a 4.02, which is a tad odd given how [RST is described](https://datatracker.ietf.org/doc/html/rfc7252#section-2.1), but doesn't change the effect it has on the issue).",
           "createdAt": "2025-03-19T16:37:55Z",
           "updatedAt": "2025-03-19T16:38:11Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "The libcoap ETag option 0 length check has been in place for about 4 years.\n\nHowever, an ETag option that is 1 byte long with a value of zero is valid (it does not obey a SHOULD where leading zero bytes are stripped off) and this (or perhaps 8 bytes, all 0) could be used to prompt a response containing an ETag.",
+          "createdAt": "2025-03-20T13:07:07Z",
+          "updatedAt": "2025-03-20T13:07:07Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "I'm not so hot on giving a previously disallowed or questionable option a new meaning and then relying upon our implementation survey to be good.\n\nWe can always define a new elective option ETag-Requested or such.\n",
+          "createdAt": "2025-03-20T13:11:48Z",
+          "updatedAt": "2025-03-20T13:11:48Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "I see the \"use-case\" (e.g. trigger a conditional deletion), but I would go to advice then to use a etag in the server response also for small payload, if  \"conditional\" operations makes sense for that server. So I'm not sure, why that would need a new etag option.",
+          "createdAt": "2025-03-20T18:58:45Z",
+          "updatedAt": "2025-03-20T18:58:45Z"
         }
       ]
     }
