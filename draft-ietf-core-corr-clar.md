@@ -111,7 +111,6 @@ happens.)
 The status of this document as a running document of the WG implies a
 consensus process that is applied in making updates to it.  The rest
 of this subsection provides more details about this consensus process.
-(This is the intended status; currently, the document is an individual submission only.)
 
 (Consensus process TBD, but it will likely be based on an editor's
 version in a publicly accessible git repository, as well as periodic
