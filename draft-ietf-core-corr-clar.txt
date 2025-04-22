@@ -4,10 +4,10 @@
 
 Network Working Group                                         C. Bormann
 Internet-Draft                                    Universität Bremen TZI
-Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if         24 February 2025
+Updates: 6690, 7252, 7641, 7959, 8132, 8323 (if            22 April 2025
          approved)                                                      
 Intended status: Standards Track                                        
-Expires: 28 August 2025
+Expires: 24 October 2025
 
 
 Constrained Application Protocol (CoAP): Corrections and Clarifications
@@ -53,9 +53,9 @@ Status of This Memo
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 1]
+Bormann                  Expires 24 October 2025                [Page 1]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    Internet-Drafts are working documents of the Internet Engineering
@@ -68,7 +68,7 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 August 2025.
+   This Internet-Draft will expire on 24 October 2025.
 
 Copyright Notice
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 2]
+Bormann                  Expires 24 October 2025                [Page 2]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
@@ -158,16 +158,16 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
    The status of this document as a running document of the WG implies a
    consensus process that is applied in making updates to it.  The rest
    of this subsection provides more details about this consensus
-   process.  (This is the intended status; currently, the document is an
-   individual submission only.)
+   process.
 
 
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 3]
+
+Bormann                  Expires 24 October 2025                [Page 3]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    (Consensus process TBD, but it will likely be based on an editor's
@@ -221,9 +221,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 4]
+Bormann                  Expires 24 October 2025                [Page 4]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
        *  Omitted in -corr-clar and left for a possible -bis document.
@@ -277,9 +277,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 5]
+Bormann                  Expires 24 October 2025                [Page 5]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
 2.1.  RFC7252-1.2: Terminology (Request-URI)
@@ -333,9 +333,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 6]
+Bormann                  Expires 24 October 2025                [Page 6]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
 2.2.  RFC7252-5.10.5: Max-Age
@@ -389,9 +389,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 7]
+Bormann                  Expires 24 October 2025                [Page 7]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
          |  This exception means that, for a CoAP server, no difference
@@ -445,9 +445,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 8]
+Bormann                  Expires 24 October 2025                [Page 8]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    This appears to be an oversight.  Published examples in Section 4.1
@@ -501,9 +501,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                 [Page 9]
+Bormann                  Expires 24 October 2025                [Page 9]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
 2.5.1.  DTLS with Connection ID
@@ -557,9 +557,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 10]
+Bormann                  Expires 24 October 2025               [Page 10]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
 2.5.2.1.  Match Boxing
@@ -613,9 +613,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 11]
+Bormann                  Expires 24 October 2025               [Page 11]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    Consistent with the above, (Group) OSCORE does not interfere with any
@@ -669,9 +669,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 12]
+Bormann                  Expires 24 October 2025               [Page 12]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    information from the CoAP OSCORE Option in the incoming request to
@@ -725,9 +725,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 13]
+Bormann                  Expires 24 October 2025               [Page 13]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    *  Group OSCORE: The Group Manager can distribute new group keying
@@ -781,9 +781,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 14]
+Bormann                  Expires 24 October 2025               [Page 14]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    *  https://mailarchive.ietf.org/arch/msg/core/
@@ -837,9 +837,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 15]
+Bormann                  Expires 24 October 2025               [Page 15]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
 2.6.1.  Amplification mitigation and return routability
@@ -893,9 +893,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 16]
+Bormann                  Expires 24 October 2025               [Page 16]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    the response (which, in a replay situation, can give an active
@@ -949,9 +949,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 17]
+Bormann                  Expires 24 October 2025               [Page 17]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    [IANA.media-types], as per [RFC6838], conventionally identified by
@@ -1005,9 +1005,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 18]
+Bormann                  Expires 24 October 2025               [Page 18]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
 4.  Security Considerations
@@ -1061,9 +1061,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 19]
+Bormann                  Expires 24 October 2025               [Page 19]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    [RFC8323]  Bormann, C., Lemay, S., Tschofenig, H., Hartke, K.,
@@ -1102,9 +1102,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
    [I-D.bormann-core-responses]
               Bormann, C. and C. Amsüss, "CoAP: Non-traditional response
               forms", Work in Progress, Internet-Draft, draft-bormann-
-              core-responses-03, 1 September 2024,
+              core-responses-04, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-bormann-core-
-              responses-03>.
+              responses-04>.
 
    [I-D.ietf-core-groupcomm-bis]
               Dijk, E. and M. Tiloca, "Group Communication for the
@@ -1117,47 +1117,47 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 20]
+Bormann                  Expires 24 October 2025               [Page 20]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    [I-D.ietf-core-oscore-capable-proxies]
               Tiloca, M. and R. Höglund, "OSCORE-capable Proxies", Work
               in Progress, Internet-Draft, draft-ietf-core-oscore-
-              capable-proxies-03, 21 October 2024,
+              capable-proxies-04, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-capable-proxies-03>.
+              oscore-capable-proxies-04>.
 
    [I-D.ietf-core-oscore-groupcomm]
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
               and R. Höglund, "Group Object Security for Constrained
               RESTful Environments (Group OSCORE)", Work in Progress,
-              Internet-Draft, draft-ietf-core-oscore-groupcomm-24, 8
-              February 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-oscore-groupcomm-24>.
+              Internet-Draft, draft-ietf-core-oscore-groupcomm-25, 16
+              March 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-core-oscore-groupcomm-25>.
 
    [I-D.ietf-core-oscore-key-update]
               Höglund, R. and M. Tiloca, "Key Update for OSCORE
               (KUDOS)", Work in Progress, Internet-Draft, draft-ietf-
-              core-oscore-key-update-09, 21 October 2024,
+              core-oscore-key-update-10, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-key-update-09>.
+              oscore-key-update-10>.
 
    [I-D.ietf-tls-dtls-rrc]
               Tschofenig, H., Kraus, A., and T. Fossati, "Return
               Routability Check for DTLS 1.2 and DTLS 1.3", Work in
-              Progress, Internet-Draft, draft-ietf-tls-dtls-rrc-12, 24
-              September 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-tls-dtls-rrc-12>.
+              Progress, Internet-Draft, draft-ietf-tls-dtls-rrc-13, 25
+              March 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-tls-dtls-rrc-13>.
 
    [I-D.ietf-uta-tls13-iot-profile]
               Tschofenig, H., Fossati, T., and M. Richardson, "TLS/DTLS
               1.3 Profiles for the Internet of Things", Work in
               Progress, Internet-Draft, draft-ietf-uta-tls13-iot-
-              profile-12, 20 January 2025,
+              profile-13, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-uta-
-              tls13-iot-profile-12>.
+              tls13-iot-profile-13>.
 
    [I-D.irtf-t2trg-amplification-attacks]
               Mattsson, J. P., Selander, G., and C. Amsüss,
@@ -1173,9 +1173,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 21]
+Bormann                  Expires 24 October 2025               [Page 21]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
@@ -1229,9 +1229,9 @@ Internet-Draft   Corrections and Clarifications to CoAP    February 2025
 
 
 
-Bormann                  Expires 28 August 2025                [Page 22]
+Bormann                  Expires 24 October 2025               [Page 22]
 
-Internet-Draft   Corrections and Clarifications to CoAP    February 2025
+Internet-Draft   Corrections and Clarifications to CoAP       April 2025
 
 
    [RFC9176]  Amsüss, C., Ed., Shelby, Z., Koster, M., Bormann, C., and
@@ -1285,4 +1285,4 @@ Author's Address
 
 
 
-Bormann                  Expires 28 August 2025                [Page 23]
+Bormann                  Expires 24 October 2025               [Page 23]
