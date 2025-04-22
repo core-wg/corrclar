@@ -36,7 +36,9 @@ normative:
   RFC9052: cose
 informative:
   RFC8516: RC429
+  RFC9110: http
   I-D.bormann-core-responses: responses
+  I-D.ietf-core-conditional-attributes: cond
   RFC3986: uri
   Err4895: 7252
   Err4954: 7252
@@ -51,6 +53,10 @@ informative:
     date: false
   RFC9146:
     # Connection Identifiers for DTLS 1.2. That keeps the session/epoch and enables to change the ip-address/port, if the matching is relaxed from the ip-endpoints.
+  COAP-RESOURCE:
+    target: https://libcoap.net/doc/reference/4.3.0/man_coap_resource.html
+    title: >
+      libcoap: coap_resource(3)
   I-D.irtf-t2trg-amplification-attacks:
   I-D.ietf-tls-dtls-rrc:
   I-D.ietf-uta-tls13-iot-profile:
@@ -240,6 +246,76 @@ Similarly, {{Section 8.2.1 of -coap}} (Caching) says:
 Further discussion of a more generalized response concept can be found in
 {{-responses}}.
 
+
+## RFC7252-5.10.1/6.1: Query Parameters
+
+{{Section 3.4 of -uri}} explains the query component of a URI as
+follows:
+
+{:quote}
+>  The query component contains non-hierarchical data that, along with
+   data in the path component (Section 3.3), serves to identify a
+   resource within the scope of the URI's scheme and naming authority
+   (if any).  \[...]
+
+So there is no technical difference between a path and a query
+component in a URI except that the path is hierarchical, and the query
+is non-hierarchical.
+Both combine with scheme and authority to identify the resource, and
+changing any of these leads to a different resource.
+
+{{-coap}} generally follows this definition, but has a few passages
+where it is somewhat questionable whether they fully agree:
+
+{{Section 5.10.1 (Uri-Host, Uri-Port, Uri-Path, and Uri-Query) of
+-coap}} says:
+
+{:quote}
+>   \[...] each Uri-Query Option specifies one argument parameterizing the resource.
+
+(Analog text about Location-Query is in {{Section 5.10.7 (Location-Path
+and Location-Query) of -coap}}.)
+
+Similarly, {{Section 6.1 (coap URI Scheme) of -coap}} says:
+
+{:quote}
+>   The query serves to further parameterize the resource.  \[...]
+
+This could be read to say that the *same* resource can be accessed
+with different parameters in the Uri-Query options.
+It is likely that these passages were meant in the sense of
+"parameterize the resource name", i.e., changing the parameters does
+indeed lead to a different resource.
+
+So this could be clarified by applying this change in these three
+places:
+
+INCORRECT:
+: further parameterize the resource
+
+CORRECTED:
+: further parameterize the resource name
+
+However, the view that the query component supplies parameters to a
+request on a resource that exists independent of these parameters is
+widely held by implementers in the "big web" (HTTP) world, even if
+{{-http}} strictly follows {{-uri}}.
+
+This view seems to be fueled by the way that an application may use
+({{Section 17.9 (Disclosure of Sensitive Information in URIs) of -http}})...
+
+{:quote}
+> client-side mechanisms to construct a target URI out of
+  user-provided information, such as the query fields of a form using
+  GET
+
+This view also seems to be suggested to some by the way query
+parameters are used in specifications such as {{-cond}}; implementations
+of CoAP servers also often provide primitives to set up a single
+"resource" that bundles requests to a specific path and receives the
+query parameters as additional request parameters {{COAP-RESOURCE}}.
+
+PENDING.
 
 ## RFC7252-5.10.5: Max-Age
 
