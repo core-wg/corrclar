@@ -1059,7 +1059,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bormann</td>
-<td class="center">Expires 24 October 2025</td>
+<td class="center">Expires 25 October 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1075,12 +1075,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6690" class="eref">6690</a>, <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a>, <a href="https://www.rfc-editor.org/rfc/rfc7641" class="eref">7641</a>, <a href="https://www.rfc-editor.org/rfc/rfc7959" class="eref">7959</a>, <a href="https://www.rfc-editor.org/rfc/rfc8132" class="eref">8132</a>, <a href="https://www.rfc-editor.org/rfc/rfc8323" class="eref">8323</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-04-22" class="published">22 April 2025</time>
+<time datetime="2025-04-23" class="published">23 April 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-10-24">24 October 2025</time></dd>
+<dd class="expires"><time datetime="2025-10-25">25 October 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1141,7 +1141,7 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1537,7 +1537,54 @@ parameters are used in specifications such as <span>[<a href="#I-D.ietf-core-con
 of CoAP servers also often provide primitives to set up a single
 "resource" that bundles requests to a specific path and receives the
 query parameters as additional request parameters <span>[<a href="#COAP-RESOURCE" class="cite xref">COAP-RESOURCE</a>]</span>.<a href="#section-2.2-16" class="pilcrow">¶</a></p>
-<p id="section-2.2-17">PENDING.<a href="#section-2.2-17" class="pilcrow">¶</a></p>
+<p id="section-2.2-17"><span>[<a href="#BCP190" class="cite xref">BCP190</a>]</span> establishes guidelines with respect to "URI Design and
+Ownership".
+Section <a href="https://rfc-editor.org/rfc/rfc8820#section-2.4" class="relref">2.4</a> of RFC 8820 <span>[<a href="#BCP190" class="cite xref">BCP190</a>]</span> specifically discusses the query
+component of the URI.
+On one hand, it says:<a href="#section-2.2-17" class="pilcrow">¶</a></p>
+<blockquote id="section-2.2-18">
+          <p id="section-2.2-18.1">Applications can specify the syntax of queries for the resources under their control.<a href="#section-2.2-18.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-2.2-19">On the other hand, it warns:<a href="#section-2.2-19" class="pilcrow">¶</a></p>
+<blockquote id="section-2.2-20">
+          <p id="section-2.2-20.1">Extensions <span class="bcp14">MUST NOT</span> constrain the format or semantics of queries, to avoid collisions and erroneous client assumptions. For example, an Extension that indicates that all query parameters with the name "sig" indicate a cryptographic signature would collide with potentially preexisting query parameters on sites and lead clients to assume that any matching query parameter is a signature.<a href="#section-2.2-20.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-2.2-21">It also acknowledges:<a href="#section-2.2-21" class="pilcrow">¶</a></p>
+<blockquote id="section-2.2-22">
+          <p id="section-2.2-22.1">Per the "Form submission" section of [HTML5], HTML constrains the syntax of query strings used in form submission. New form languages are encouraged to allow creation of a broader variety of URIs (e.g., by allowing the form to create new path components, and so forth).<a href="#section-2.2-22.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-2.2-23"><span>[<a href="#I-D.ietf-core-conditional-attributes" class="cite xref">I-D.ietf-core-conditional-attributes</a>]</span> is a specification that defines a set of query parameters.
+It can be adopted by an "Application" in the sense of <span>[<a href="#BCP190" class="cite xref">BCP190</a>]</span>.
+The current discussion goes in the direction of providing an interface
+type (for use in <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span> <code>if=</code>) that a server can declare in resource discovery to indicate
+to a client that the conditional query parameters interface is available.<a href="#section-2.2-23" class="pilcrow">¶</a></p>
+<p id="section-2.2-24"><span><a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.irtf-t2trg-rest-iot" class="cite xref">I-D.irtf-t2trg-rest-iot</a>]</span> contains a brief discussion of the role of
+query parameters in URIs.
+It points to <span><a href="https://rfc-editor.org/rfc/rfc6943#section-3.3.4" class="relref">Section 3.3.4</a> of [<a href="#RFC6943" class="cite xref">RFC6943</a>]</span>, which discusses identifier
+comparison and points out that<a href="#section-2.2-24" class="pilcrow">¶</a></p>
+<blockquote id="section-2.2-25">
+          <p id="section-2.2-25.1">[...] it is unspecified whether the order of values matters.<a href="#section-2.2-25.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-2.2-26"><span><a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.irtf-t2trg-rest-iot" class="cite xref">I-D.irtf-t2trg-rest-iot</a>]</span> further mentions that in some implementations,<a href="#section-2.2-26" class="pilcrow">¶</a></p>
+<blockquote id="section-2.2-27">
+          <p id="section-2.2-27.1">they might even be re-ordered, for instance by intermediaries.<a href="#section-2.2-27.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-2.2-28"><span>[<a href="#I-D.ietf-core-conditional-attributes" class="cite xref">I-D.ietf-core-conditional-attributes</a>]</span> is designed to allow evolution of the set of conditional query
+parameters and provides a registry for the registration of additional ones.
+To facilitate the introduction of new parameters, it has been
+discussed whether <span>[<a href="#I-D.ietf-core-conditional-attributes" class="cite xref">I-D.ietf-core-conditional-attributes</a>]</span> should adopt an "ignore unknown" policy.
+Since that policy would not necessarily apply to query parameters
+outside the conditional set, it would require a test whether a
+parameter is a conditional query parameter.
+The names of all parameters initially registered start with "<code>c.</code>",
+which might be a convention that might be part of the <code>if=</code> interface type.<a href="#section-2.2-28" class="pilcrow">¶</a></p>
+<p id="section-2.2-29">Any "ignore unknown" policy raises the question whether there,
+conversely, need to be "must understand" exceptions, here chosen by
+the client.
+For instance, the client might use the parameter name "<code>C.pmin</code>" instead
+of "<code>c.pmin</code>" to indicate that ans the request to fail if its
+preference for a minimum period between notifications cannot be fulfilled.<a href="#section-2.2-29" class="pilcrow">¶</a></p>
+<p id="section-2.2-30">PENDING.<a href="#section-2.2-30" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="rfc7252-5105-max-age">
@@ -2052,6 +2099,14 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="BCP190">[BCP190]</dt>
+        <dd>
+<div class="refInstance">Best Current Practice 190, <span>&lt;<a href="https://www.rfc-editor.org/info/bcp190">https://www.rfc-editor.org/info/bcp190</a>&gt;</span>.<br><span>At the time of writing, this BCP comprises the following:</span>
+</div>
+<div class="refInstance" id="RFC8820">
+            <span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"URI Design and Ownership"</span>, <span class="seriesInfo">BCP 190</span>, <span class="seriesInfo">RFC 8820</span>, <span class="seriesInfo">DOI 10.17487/RFC8820</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8820">https://www.rfc-editor.org/info/rfc8820</a>&gt;</span>. </div>
+</dd>
+<dd class="break"></dd>
 <dt id="CF-MATCHER">[CF-MATCHER]</dt>
         <dd>
 <span class="refTitle">"EndpointContextMatcher.java"</span>, <span>&lt;<a href="https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java">https://github.com/eclipse-californium/californium/blob/main/element-connector/src/main/java/org/eclipse/californium/elements/EndpointContextMatcher.java</a>&gt;</span>. </dd>
@@ -2108,6 +2163,10 @@ considerations will then be on the individual clarifications.)<a href="#section-
         <dd>
 <span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, and <span class="refAuthor">C. Amsüss</span>, <span class="refTitle">"Amplification Attacks Using the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-t2trg-amplification-attacks-04</span>, <time datetime="2024-12-08" class="refDate">8 December 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-amplification-attacks-04">https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-amplification-attacks-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.irtf-t2trg-rest-iot">[I-D.irtf-t2trg-rest-iot]</dt>
+        <dd>
+<span class="refAuthor">Keränen, A.</span>, <span class="refAuthor">Kovatsch, M.</span>, and <span class="refAuthor">K. Hartke</span>, <span class="refTitle">"Guidance on RESTful Design for Internet of Things Systems"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-t2trg-rest-iot-15</span>, <time datetime="2024-10-21" class="refDate">21 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-15">https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-15</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="IANA.media-types">[IANA.media-types]</dt>
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Media Types"</span>, <span>&lt;<a href="https://www.iana.org/assignments/media-types">https://www.iana.org/assignments/media-types</a>&gt;</span>. </dd>
@@ -2119,6 +2178,10 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <dt id="RFC6838">[RFC6838]</dt>
         <dd>
 <span class="refAuthor">Freed, N.</span>, <span class="refAuthor">Klensin, J.</span>, and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"Media Type Specifications and Registration Procedures"</span>, <span class="seriesInfo">BCP 13</span>, <span class="seriesInfo">RFC 6838</span>, <span class="seriesInfo">DOI 10.17487/RFC6838</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6838">https://www.rfc-editor.org/rfc/rfc6838</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6943">[RFC6943]</dt>
+        <dd>
+<span class="refAuthor">Thaler, D., Ed.</span>, <span class="refTitle">"Issues in Identifier Comparison for Security Purposes"</span>, <span class="seriesInfo">RFC 6943</span>, <span class="seriesInfo">DOI 10.17487/RFC6943</span>, <time datetime="2013-05" class="refDate">May 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6943">https://www.rfc-editor.org/rfc/rfc6943</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7230">[RFC7230]</dt>
         <dd>
