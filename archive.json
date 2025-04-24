@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-30T02:00:40.709351+00:00",
+  "timestamp": "2025-04-24T01:57:29.686692+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -2691,6 +2691,53 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 47,
+      "id": "PR_kwDOJ-N8wM6Tdx7v",
+      "title": "Query parameters",
+      "url": "https://github.com/core-wg/corrclar/pull/47",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-22T16:32:05Z",
+      "updatedAt": "2025-04-23T16:10:20Z",
+      "baseRepository": "core-wg/corrclar",
+      "baseRefName": "main",
+      "baseRefOid": "5f3fa06f19b94ed66cab8ec7d21e71eab615697e",
+      "headRepository": "core-wg/corrclar",
+      "headRefName": "query-parameters",
+      "headRefOid": "3f7915594441351f79437b339aef568c6dd8f57f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ-N8wM6mLDIy",
+          "commit": {
+            "abbreviatedOid": "3f79155"
+          },
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-23T16:10:19Z",
+          "updatedAt": "2025-04-23T16:10:20Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "I would have gone for https://libcoap.net/doc/reference/4.3.5/man_coap_resource.html, but maybe the later information is too verbose.",
+              "createdAt": "2025-04-23T16:10:20Z",
+              "updatedAt": "2025-04-23T16:10:20Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
