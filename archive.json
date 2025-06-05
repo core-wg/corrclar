@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-24T01:57:29.686692+00:00",
+  "timestamp": "2025-06-05T02:03:27.445014+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1664,6 +1664,37 @@
           "body": "I see the \"use-case\" (e.g. trigger a conditional deletion), but I would go to advice then to use a etag in the server response also for small payload, if  \"conditional\" operations makes sense for that server. So I'm not sure, why that would need a new etag option.",
           "createdAt": "2025-03-20T18:58:45Z",
           "updatedAt": "2025-03-20T18:58:45Z"
+        }
+      ]
+    },
+    {
+      "number": 48,
+      "id": "I_kwDOJ-N8wM654j0h",
+      "title": "RFC 7252, 5.8 Method Definitions => 4.05 (Method Not Allowed) piggybacked response",
+      "url": "https://github.com/core-wg/corrclar/issues/48",
+      "state": "OPEN",
+      "author": "boaks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "[RFC 7252, 5.8 Method Definitions](https://www.rfc-editor.org/rfc/rfc7252#section-5.8)\n\n> In this section, each method is defined along with its behavior.  A\n> request with an unrecognized or unsupported Method Code MUST generate\n> a 4.05 (Method Not Allowed) piggybacked response.\n\nWhat should happen, if a NON request uses a unrecognized/unsupported Method Code?\n\nI vague remember, that there is some specific in handling NON requests, but I fail to see it again.\n\n(Related to [Californium issue 2346](https://github.com/eclipse-californium/californium/issues/2346) )",
+      "createdAt": "2025-06-04T17:46:59Z",
+      "updatedAt": "2025-06-04T18:29:44Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Never noticed this requirement before. Given that proxies may operate across different latency domains, I don't see how this would be enforceable. (It'd effectively rule out separate responses from them.)\n",
+          "createdAt": "2025-06-04T18:00:22Z",
+          "updatedAt": "2025-06-04T18:00:22Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "I found it again, but it wasn't about method codes.\n\n[RFC7252, 5.4.1 Options - Critical/Elective](https://www.rfc-editor.org/rfc/rfc7252#section-5.4.1)\n\n>    o Unrecognized options of class \"critical\" that occur in a\n>       Confirmable request MUST cause the return of a 4.02 (Bad Option)\n>       response.  This response SHOULD include a diagnostic payload\n>       describing the unrecognized option(s) (see [Section 5.5.2](https://www.rfc-editor.org/rfc/rfc7252#section-5.5.2)).\n> \n>    o  Unrecognized options of class \"critical\" that occur in a\n>       Confirmable response, or piggybacked in an Acknowledgement, MUST\n>       cause the response to be rejected ([Section 4.2](https://www.rfc-editor.org/rfc/rfc7252#section-4.2)).\n> \n>    o  Unrecognized options of class \"critical\" that occur in a Non-\n>       confirmable message MUST cause the message to be rejected\n>       ([Section 4.3](https://www.rfc-editor.org/rfc/rfc7252#section-4.3)).\n\nHere CON and NON request are handled different, one with an error response, the other with a optional RST.\n\nSo, still not that sure, what we should use in case of method codes.",
+          "createdAt": "2025-06-04T18:29:43Z",
+          "updatedAt": "2025-06-04T18:29:43Z"
         }
       ]
     }
