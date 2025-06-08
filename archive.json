@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-05T02:03:27.445014+00:00",
+  "timestamp": "2025-06-08T02:18:56.008322+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -598,9 +598,17 @@
       "labels": [],
       "body": "The prescribed behavior for processing critical options (to wit, reject when it happens in a NON but 4.02 in CON) has [repeatedly tripped up people](https://mailarchive.ietf.org/arch/msg/core/6YElhypRFiP6p7uXeuCGTmhCpBk).\r\n\r\nAs any client already needs to be prepared to receive the 4.02 anyway (after all, the server could be behind a reverse proxy that sent CON or used reliable transport, and then wouldn't know the precise cause and respond NON 4.02), I suggest that expected behavior be changed to reject with 4.02 independently of the transport, and just to allow a server to completely reject requests that are not understood for compatibility reasons.",
       "createdAt": "2021-02-17T08:54:22Z",
-      "updatedAt": "2023-07-22T19:17:50Z",
+      "updatedAt": "2025-06-06T07:52:31Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "For me this seems to be now rather an \"cluster issue\", we should clarify that not only for \"bad option\", also for \"method not allowed\". ",
+          "createdAt": "2025-06-06T07:52:30Z",
+          "updatedAt": "2025-06-06T07:52:30Z"
+        }
+      ]
     },
     {
       "number": 15,
@@ -1679,7 +1687,7 @@
       "labels": [],
       "body": "[RFC 7252, 5.8 Method Definitions](https://www.rfc-editor.org/rfc/rfc7252#section-5.8)\n\n> In this section, each method is defined along with its behavior.  A\n> request with an unrecognized or unsupported Method Code MUST generate\n> a 4.05 (Method Not Allowed) piggybacked response.\n\nWhat should happen, if a NON request uses a unrecognized/unsupported Method Code?\n\nI vague remember, that there is some specific in handling NON requests, but I fail to see it again.\n\n(Related to [Californium issue 2346](https://github.com/eclipse-californium/californium/issues/2346) )",
       "createdAt": "2025-06-04T17:46:59Z",
-      "updatedAt": "2025-06-04T18:29:44Z",
+      "updatedAt": "2025-06-06T07:49:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -1695,6 +1703,20 @@
           "body": "I found it again, but it wasn't about method codes.\n\n[RFC7252, 5.4.1 Options - Critical/Elective](https://www.rfc-editor.org/rfc/rfc7252#section-5.4.1)\n\n>    o Unrecognized options of class \"critical\" that occur in a\n>       Confirmable request MUST cause the return of a 4.02 (Bad Option)\n>       response.  This response SHOULD include a diagnostic payload\n>       describing the unrecognized option(s) (see [Section 5.5.2](https://www.rfc-editor.org/rfc/rfc7252#section-5.5.2)).\n> \n>    o  Unrecognized options of class \"critical\" that occur in a\n>       Confirmable response, or piggybacked in an Acknowledgement, MUST\n>       cause the response to be rejected ([Section 4.2](https://www.rfc-editor.org/rfc/rfc7252#section-4.2)).\n> \n>    o  Unrecognized options of class \"critical\" that occur in a Non-\n>       confirmable message MUST cause the message to be rejected\n>       ([Section 4.3](https://www.rfc-editor.org/rfc/rfc7252#section-4.3)).\n\nHere CON and NON request are handled different, one with an error response, the other with a optional RST.\n\nSo, still not that sure, what we should use in case of method codes.",
           "createdAt": "2025-06-04T18:29:43Z",
           "updatedAt": "2025-06-04T18:29:43Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Related to issue #14 ",
+          "createdAt": "2025-06-06T07:41:57Z",
+          "updatedAt": "2025-06-06T07:41:57Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "Mailing list:\n\n[Responses to NON with 4.02](https://mailarchive.ietf.org/arch/msg/core/DrTN46-IhZDeCUsZRlFLy05iI0o/)\n\n[RFC7252 - 5.4.1 Critical/Elective](https://mailarchive.ietf.org/arch/msg/core/wd4LleVnnvt2WOXj28ouNZcCTXU/)\n\n(Therefore I remembered that similar discussion.)",
+          "createdAt": "2025-06-06T07:49:12Z",
+          "updatedAt": "2025-06-06T07:49:12Z"
         }
       ]
     }
