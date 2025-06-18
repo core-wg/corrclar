@@ -666,6 +666,8 @@ This is done both for two reasons:
     where the overheads per OSCORE message (that would previously be balanced against only 1 KiB of plaintext) are larger.
 
     Agreeing on the parameter's value may be part of the OSCORE context's setup.
+    For example, future extensions to the {{?RFC9203}} might define an OSCORE_Input_Material label through which the parties could learn their peer's `MAX_UNFRAGMENTED_SIZE`;
+    application profiles ({{?I-D.tiloca-lake-app-profiles}}) could convey the same information.
 
   - Outside constrained systems, jumbo frames can enable larger UDP datagrams even without IP fragmentation.
     With a typical Jumbo MTU of 9001 bytes, blocks of 8 KiB can be sent in a single CoAP message.
