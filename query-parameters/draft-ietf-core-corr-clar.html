@@ -21,21 +21,21 @@ RFCs.
 In addition, other clarifications related to the use of CoAP in other
 specifications, including RFC 7390 and RFC 8075, are also provided. 
     " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="draft-ietf-core-corr-clar-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.10
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
-    lxml 5.3.0
-    platformdirs 4.3.7
+    lxml 5.3.1
+    platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
+    requests 2.32.4
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-core-corr-clar.xml" rel="alternate" type="application/rfc+xml">
@@ -1055,11 +1055,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Corrections and Clarifications to CoAP</td>
-<td class="right">April 2025</td>
+<td class="right">June 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bormann</td>
-<td class="center">Expires 25 October 2025</td>
+<td class="center">Expires 20 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1075,12 +1075,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6690" class="eref">6690</a>, <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a>, <a href="https://www.rfc-editor.org/rfc/rfc7641" class="eref">7641</a>, <a href="https://www.rfc-editor.org/rfc/rfc7959" class="eref">7959</a>, <a href="https://www.rfc-editor.org/rfc/rfc8132" class="eref">8132</a>, <a href="https://www.rfc-editor.org/rfc/rfc8323" class="eref">8323</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-04-23" class="published">23 April 2025</time>
+<time datetime="2025-06-18" class="published">18 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-10-25">25 October 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-20">20 December 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1141,7 +1141,7 @@ specifications, including RFC 7390 and RFC 8075, are also provided.<a href="#sec
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1535,7 +1535,7 @@ widely held by implementers in the "big web" (HTTP) world, even if
 <p id="section-2.2-16">This view also seems to be suggested to some by the way query
 parameters are used in specifications such as <span>[<a href="#I-D.ietf-core-conditional-attributes" class="cite xref">I-D.ietf-core-conditional-attributes</a>]</span>; implementations
 of CoAP servers also often provide primitives to set up a single
-"resource" that bundles requests to a specific path and receives the
+"resource handler" that bundles requests to a specific path and receives the
 query parameters as additional request parameters <span>[<a href="#COAP-RESOURCE" class="cite xref">COAP-RESOURCE</a>]</span>.<a href="#section-2.2-16" class="pilcrow">¶</a></p>
 <p id="section-2.2-17"><span>[<a href="#BCP190" class="cite xref">BCP190</a>]</span> establishes guidelines with respect to "URI Design and
 Ownership".
@@ -1558,14 +1558,14 @@ It can be adopted by an "Application" in the sense of <span>[<a href="#BCP190" c
 The current discussion goes in the direction of providing an interface
 type (for use in <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span> <code>if=</code>) that a server can declare in resource discovery to indicate
 to a client that the conditional query parameters interface is available.<a href="#section-2.2-23" class="pilcrow">¶</a></p>
-<p id="section-2.2-24"><span><a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.irtf-t2trg-rest-iot" class="cite xref">I-D.irtf-t2trg-rest-iot</a>]</span> contains a brief discussion of the role of
+<p id="section-2.2-24"><span><a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-16#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.irtf-t2trg-rest-iot" class="cite xref">I-D.irtf-t2trg-rest-iot</a>]</span> contains a brief discussion of the role of
 query parameters in URIs.
 It points to <span><a href="https://rfc-editor.org/rfc/rfc6943#section-3.3.4" class="relref">Section 3.3.4</a> of [<a href="#RFC6943" class="cite xref">RFC6943</a>]</span>, which discusses identifier
 comparison and points out that<a href="#section-2.2-24" class="pilcrow">¶</a></p>
 <blockquote id="section-2.2-25">
           <p id="section-2.2-25.1">[...] it is unspecified whether the order of values matters.<a href="#section-2.2-25.1" class="pilcrow">¶</a></p>
 </blockquote>
-<p id="section-2.2-26"><span><a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.irtf-t2trg-rest-iot" class="cite xref">I-D.irtf-t2trg-rest-iot</a>]</span> further mentions that in some implementations,<a href="#section-2.2-26" class="pilcrow">¶</a></p>
+<p id="section-2.2-26"><span><a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-16#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.irtf-t2trg-rest-iot" class="cite xref">I-D.irtf-t2trg-rest-iot</a>]</span> further mentions that in some implementations,<a href="#section-2.2-26" class="pilcrow">¶</a></p>
 <blockquote id="section-2.2-27">
           <p id="section-2.2-27.1">they might even be re-ordered, for instance by intermediaries.<a href="#section-2.2-27.1" class="pilcrow">¶</a></p>
 </blockquote>
@@ -1584,7 +1584,17 @@ the client.
 For instance, the client might use the parameter name "<code>C.pmin</code>" instead
 of "<code>c.pmin</code>" to indicate that ans the request to fail if its
 preference for a minimum period between notifications cannot be fulfilled.<a href="#section-2.2-29" class="pilcrow">¶</a></p>
-<p id="section-2.2-30">PENDING.<a href="#section-2.2-30" class="pilcrow">¶</a></p>
+<p id="section-2.2-30">In summary:
+In the definitions of URIs and of HTTP, the URI query
+parameters are not much different from path components.
+In practice, implementations tend to provide ways to handle query
+parameters more in terms of additional parameters to a single resource
+handler that handles a number of related URIs, differing in query
+parameters only.
+There appears to be little to be gained by discussing this more in the
+documentation (outside the present document); however, the duality
+between these two perspectives on query parameters needs to be kept in
+mind in discussions.<a href="#section-2.2-30" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="rfc7252-5105-max-age">
@@ -1910,7 +1920,7 @@ both for new clients
 and for existing clients that changed their address.
 This situation can happen at any time, especially after a prolonged period of quiescence, regardless of the security protocol.<a href="#section-2.7.1-3" class="pilcrow">¶</a></p>
 <p id="section-2.7.1-4">Verifying the client's address is not only crucial for mitigating amplification attacks <span>[<a href="#I-D.irtf-t2trg-amplification-attacks" class="cite xref">I-D.irtf-t2trg-amplification-attacks</a>]</span>, but also to avoid traffic misdirection.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc-13#section-7" class="relref">Section 7</a> of [<a href="#I-D.ietf-tls-dtls-rrc" class="cite xref">I-D.ietf-tls-dtls-rrc</a>]</span> describes options for how to use RRC messages to distinguish different cases.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc-16#section-7" class="relref">Section 7</a> of [<a href="#I-D.ietf-tls-dtls-rrc" class="cite xref">I-D.ietf-tls-dtls-rrc</a>]</span> describes options for how to use RRC messages to distinguish different cases.
 A 4.01 response with Echo can perform some of the same functions, with the Echo value replacing the RRC cookie. However, it does not offer a way to distinguish between non-preferred and preferred paths.
 Where that distinction matters,
 RRC provides the right tools to make it.<a href="#section-2.7.1-4" class="pilcrow">¶</a></p>
@@ -1955,7 +1965,7 @@ can the replay window be initialized.<a href="#section-2.7.2-6" class="pilcrow">
 <p id="section-2.7.2-7">Implementers of OSCORE should be aware that answering potential replays can only be determined to be safe from the CoAP application's point of view.
 As always, unless the sequence number in the request has just been removed from an initialized replay window,
 the response can not reuse the request's nonce, but needs to be sent with a new sequence number from the server's space.<a href="#section-2.7.2-7" class="pilcrow">¶</a></p>
-<p id="section-2.7.2-8">Requests with 0RTT properties currently cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-13#section-14" class="relref">Section 14</a> of [<a href="#I-D.ietf-uta-tls13-iot-profile" class="cite xref">I-D.ietf-uta-tls13-iot-profile</a>]</span>). However, that may change if a future document defines a profile for using early data with CoAP.<a href="#section-2.7.2-8" class="pilcrow">¶</a></p>
+<p id="section-2.7.2-8">Requests with 0RTT properties currently cannot happen in DTLS because 0-RTT Data is not allowed for CoAP (cf. <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-14#section-14" class="relref">Section 14</a> of [<a href="#I-D.ietf-uta-tls13-iot-profile" class="cite xref">I-D.ietf-uta-tls13-iot-profile</a>]</span>). However, that may change if a future document defines a profile for using early data with CoAP.<a href="#section-2.7.2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2113,7 +2123,7 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <dd class="break"></dd>
 <dt id="COAP-RESOURCE">[COAP-RESOURCE]</dt>
         <dd>
-<span class="refTitle">"libcoap: coap_resource(3)"</span>, <span>n.d.</span>, <span>&lt;<a href="https://libcoap.net/doc/reference/4.3.0/man_coap_resource.html">https://libcoap.net/doc/reference/4.3.0/man_coap_resource.html</a>&gt;</span>. </dd>
+<span class="refTitle">"libcoap: coap_resource(3)"</span>, <span>n.d.</span>, <span>&lt;<a href="https://libcoap.net/doc/reference/4.3.5/man_coap_resource.html">https://libcoap.net/doc/reference/4.3.5/man_coap_resource.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Err4895">[Err4895]</dt>
         <dd>
@@ -2153,11 +2163,11 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <dd class="break"></dd>
 <dt id="I-D.ietf-tls-dtls-rrc">[I-D.ietf-tls-dtls-rrc]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Kraus, A.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Return Routability Check for DTLS 1.2 and DTLS 1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-dtls-rrc-13</span>, <time datetime="2025-03-25" class="refDate">25 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc-13">https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc-13</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Kraus, A.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Return Routability Check for DTLS 1.2 and DTLS 1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-dtls-rrc-16</span>, <time datetime="2025-06-16" class="refDate">16 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc-16">https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls-rrc-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-uta-tls13-iot-profile">[I-D.ietf-uta-tls13-iot-profile]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">M. Richardson</span>, <span class="refTitle">"TLS/DTLS 1.3 Profiles for the Internet of Things"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-uta-tls13-iot-profile-13</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-13">https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-13</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">M. Richardson</span>, <span class="refTitle">"TLS/DTLS 1.3 Profiles for the Internet of Things"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-uta-tls13-iot-profile-14</span>, <time datetime="2025-05-05" class="refDate">5 May 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-14">https://datatracker.ietf.org/doc/html/draft-ietf-uta-tls13-iot-profile-14</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.irtf-t2trg-amplification-attacks">[I-D.irtf-t2trg-amplification-attacks]</dt>
         <dd>
@@ -2165,7 +2175,7 @@ considerations will then be on the individual clarifications.)<a href="#section-
 <dd class="break"></dd>
 <dt id="I-D.irtf-t2trg-rest-iot">[I-D.irtf-t2trg-rest-iot]</dt>
         <dd>
-<span class="refAuthor">Keränen, A.</span>, <span class="refAuthor">Kovatsch, M.</span>, and <span class="refAuthor">K. Hartke</span>, <span class="refTitle">"Guidance on RESTful Design for Internet of Things Systems"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-t2trg-rest-iot-15</span>, <time datetime="2024-10-21" class="refDate">21 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-15">https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-15</a>&gt;</span>. </dd>
+<span class="refAuthor">Keränen, A.</span>, <span class="refAuthor">Kovatsch, M.</span>, and <span class="refAuthor">K. Hartke</span>, <span class="refTitle">"Guidance on RESTful Design for Internet of Things Systems"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-t2trg-rest-iot-16</span>, <time datetime="2025-04-23" class="refDate">23 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-16">https://datatracker.ietf.org/doc/html/draft-irtf-t2trg-rest-iot-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.media-types">[IANA.media-types]</dt>
         <dd>
