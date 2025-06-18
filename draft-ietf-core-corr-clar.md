@@ -372,7 +372,18 @@ For instance, the client might use the parameter name "`C.pmin`" instead
 of "`c.pmin`" to indicate that ans the request to fail if its
 preference for a minimum period between notifications cannot be fulfilled.
 
-PENDING.
+In summary:
+In the definitions of URIs and of HTTP, the URI query
+parameters are not much different from path components.
+In practice, implementations tend to provide ways to handle query
+parameters more in terms of additional parameters to a single resource
+handler that handles a number of related URIs, differing in query
+parameters only.
+There appears to be little to be gained by discussing this more in the
+documentation (outside the present document); however, the duality
+between these two perspectives on query parameters needs to be kept in
+mind in discussions.
+
 
 ## RFC7252-5.10.5: Max-Age
 
