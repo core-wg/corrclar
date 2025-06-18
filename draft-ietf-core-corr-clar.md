@@ -637,14 +637,14 @@ reference when preparing additional Content-Format registrations.
 
 ## RFC 7959 Block-Wise: szx=7
 
-The original definition of szx in {{!RFC7959}} left the value 7 "reserved" ("MUST NOT be sent", "MUST lead to a 4.00 Bad Request response").
+The original definition of szx in {{RFC7959}} left the value 7 "reserved" ("MUST NOT be sent", "MUST lead to a 4.00 Bad Request response").
 
-In {{?RFC8323}}, specifically for the transports introduced there, that value was assigned the meaning of triggering the Block-wise Extension for Reliable Transport (BERT):
+In {{RFC8323}}, specifically for the transports introduced there, that value was assigned the meaning of triggering the Block-wise Extension for Reliable Transport (BERT):
 It signifies that the logical block size is still 1024
 (i.e., the block numbers express the offset of the payload in the body in multiples of 1 KiB),
 but multiple blocks can be sent in a single message.
 
-This specification updates {{!RFC7959}} to apply the same mechanism to *any* transport.
+This specification updates {{RFC7959}} to apply the same mechanism to *any* transport.
 It does not introduce any new means for transports to determine the value equivalent to Max-Message-Size that indicates usable sizes.
 
 This is done both for two reasons:
@@ -673,7 +673,7 @@ This is done both for two reasons:
 INCORRECT(?) (Section 2.2 item SZX):
   : The value 7 for SZX (which would indicate a block size of 2048)
     indicates the use of BERT (originally "Block-wise Extension for Reliable Transport", now "Block-wise Extended to RepeTition").
-    Its semantics are described in {{Section 6 of !RFC8323}}.
+    Its semantics are described in {{Section 6 of RFC8323}}.
 
 # IANA Considerations
 
