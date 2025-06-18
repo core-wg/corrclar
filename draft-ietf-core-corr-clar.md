@@ -56,7 +56,7 @@ informative:
   RFC9146:
     # Connection Identifiers for DTLS 1.2. That keeps the session/epoch and enables to change the ip-address/port, if the matching is relaxed from the ip-endpoints.
   COAP-RESOURCE:
-    target: https://libcoap.net/doc/reference/4.3.0/man_coap_resource.html
+    target: https://libcoap.net/doc/reference/4.3.5/man_coap_resource.html
     title: >
       libcoap: coap_resource(3)
   I-D.irtf-t2trg-amplification-attacks:
