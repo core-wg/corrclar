@@ -314,7 +314,7 @@ This view seems to be fueled by the way that an application may use
 This view also seems to be suggested to some by the way query
 parameters are used in specifications such as {{-cond}}; implementations
 of CoAP servers also often provide primitives to set up a single
-"resource" that bundles requests to a specific path and receives the
+"resource handler" that bundles requests to a specific path and receives the
 query parameters as additional request parameters {{COAP-RESOURCE}}.
 
 {{-lawn}} establishes guidelines with respect to "URI Design and
