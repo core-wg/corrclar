@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-17T02:05:45.666807+00:00",
+  "timestamp": "2025-06-19T02:05:41.369510+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1687,7 +1687,7 @@
       "labels": [],
       "body": "[RFC 7252, 5.8 Method Definitions](https://www.rfc-editor.org/rfc/rfc7252#section-5.8)\n\n> In this section, each method is defined along with its behavior.  A\n> request with an unrecognized or unsupported Method Code MUST generate\n> a 4.05 (Method Not Allowed) piggybacked response.\n\nWhat should happen, if a NON request uses a unrecognized/unsupported Method Code?\n\nI vague remember, that there is some specific in handling NON requests, but I fail to see it again.\n\n(Related to [Californium issue 2346](https://github.com/eclipse-californium/californium/issues/2346) )",
       "createdAt": "2025-06-04T17:46:59Z",
-      "updatedAt": "2025-06-06T07:49:13Z",
+      "updatedAt": "2025-06-18T08:24:43Z",
       "closedAt": null,
       "comments": [
         {
@@ -1717,6 +1717,13 @@
           "body": "Mailing list:\n\n[Responses to NON with 4.02](https://mailarchive.ietf.org/arch/msg/core/DrTN46-IhZDeCUsZRlFLy05iI0o/)\n\n[RFC7252 - 5.4.1 Critical/Elective](https://mailarchive.ietf.org/arch/msg/core/wd4LleVnnvt2WOXj28ouNZcCTXU/)\n\n(Therefore I remembered that similar discussion.)",
           "createdAt": "2025-06-06T07:49:12Z",
           "updatedAt": "2025-06-06T07:49:12Z"
+        },
+        {
+          "author": "mrdeep1",
+          "authorAssociation": "NONE",
+          "body": "[RFC7252 Section 4.3](https://www.rfc-editor.org/rfc/rfc7252#section-4.3) goes on to say\n````\n                                                                                              Rejecting a Non-\n   confirmable message MAY involve sending a matching Reset message, and\n   apart from the Reset message the rejected message MUST be silently\n   ignored.\n````\nAs this is a `MAY`, this does not preclude the use of a 4.02 (#14) or 4.05 for the response.\n\nSo, given that CON and TCP transport respond with 4.02 or 4.05, I do not see why NON `MAY `respond with a 4.02 or 4.05 for consistency across all the variants.",
+          "createdAt": "2025-06-18T08:24:43Z",
+          "updatedAt": "2025-06-18T08:24:43Z"
         }
       ]
     }
@@ -2796,13 +2803,13 @@
       "labels": [],
       "body": "Closes: https://github.com/core-wg/corrclar/issues/17\r\n\r\nThis may need a bit of iteration (esp. w/rt the normative update text), but it's a starting point.",
       "createdAt": "2025-02-24T17:22:43Z",
-      "updatedAt": "2025-02-24T19:00:17Z",
+      "updatedAt": "2025-06-18T14:54:52Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
-      "baseRefOid": "2212b5df5b988952c7b83e6e00fc3a78893d9da5",
+      "baseRefOid": "5f3fa06f19b94ed66cab8ec7d21e71eab615697e",
       "headRepository": "chrysn-pull-requests/corrclar",
       "headRefName": "bert-for-nonreliable",
-      "headRefOid": "a3b1483dbad440e0d6009c1091233bb0adb753c3",
+      "headRefOid": "e315656afaf097b677e0b5c1a709d6c18a06e681",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -2821,6 +2828,13 @@
           "body": "It will need an RFC that Updates 7959; can be a reason to eventually publish this, or to spin small documents from text once it is ready here.\n\nIf nothing else, having this in a consensus section in a WG document already assurer users that szx=7 won't mean anything but BERT.\n",
           "createdAt": "2025-02-24T18:18:55Z",
           "updatedAt": "2025-02-24T18:18:55Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "I've added a commit that contains pointers discussed in today's interim, namely, how the relevant reassembly size for OSCORE could be communicated.",
+          "createdAt": "2025-06-18T14:54:52Z",
+          "updatedAt": "2025-06-18T14:54:52Z"
         }
       ],
       "reviews": []
@@ -2837,13 +2851,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-04-22T16:32:05Z",
-      "updatedAt": "2025-04-23T16:10:20Z",
+      "updatedAt": "2025-06-18T15:13:58Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "5f3fa06f19b94ed66cab8ec7d21e71eab615697e",
       "headRepository": "core-wg/corrclar",
       "headRefName": "query-parameters",
-      "headRefOid": "3f7915594441351f79437b339aef568c6dd8f57f",
+      "headRefOid": "8ca4a306015da82e9dd34ca1031dfdeb5a9d168c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -2867,6 +2881,26 @@
               "body": "I would have gone for https://libcoap.net/doc/reference/4.3.5/man_coap_resource.html, but maybe the later information is too verbose.",
               "createdAt": "2025-04-23T16:10:20Z",
               "updatedAt": "2025-04-23T16:10:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ-N8wM6vN6Je",
+          "commit": {
+            "abbreviatedOid": "8ca4a30"
+          },
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "LGTM. I'd have loved a stronger statement (that any party that adds or reorders query parameters, thus minting a new URI, is clearly in the wrong, unless they are following the origin server's instructions such as a form or a if=), but this is accurate, and those who would add or reorder are here warned that that's not the only view.",
+          "createdAt": "2025-06-18T15:09:31Z",
+          "updatedAt": "2025-06-18T15:13:58Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "Just as a remark: \"Application\" is really fitting, although that only works in German, where it invokes the image of an [Appliqu\u00e9](https://en.wikipedia.org/wiki/Appliqu%C3%A9) that the designer chooses to attach to the resource.",
+              "createdAt": "2025-06-18T15:09:31Z",
+              "updatedAt": "2025-06-18T15:13:58Z"
             }
           ]
         }
