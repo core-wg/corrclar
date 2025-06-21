@@ -35,8 +35,12 @@ normative:
   RFC8613: oscore
   RFC9052: cose
 informative:
+  BCP190: lawn # 8820
+  I-D.irtf-t2trg-rest-iot: rest-iot
   RFC8516: RC429
+  RFC9110: http
   I-D.bormann-core-responses: responses
+  I-D.ietf-core-conditional-attributes: cond
   RFC3986: uri
   Err4895: 7252
   Err4954: 7252
@@ -51,6 +55,10 @@ informative:
     date: false
   RFC9146:
     # Connection Identifiers for DTLS 1.2. That keeps the session/epoch and enables to change the ip-address/port, if the matching is relaxed from the ip-endpoints.
+  COAP-RESOURCE:
+    target: https://libcoap.net/doc/reference/4.3.5/man_coap_resource.html
+    title: >
+      libcoap: coap_resource(3)
   I-D.irtf-t2trg-amplification-attacks:
   I-D.ietf-tls-dtls-rrc:
   I-D.ietf-uta-tls13-iot-profile:
@@ -206,7 +214,7 @@ INCOMPLETE; FORMAL ADDITION (Section 1.2):
     RFC7252}}, see {{Section 5.7.2 (Forward-Proxies) of
     RFC7252}} for further details.
     Related to the HTTP concept of "target URI"; see {{Section 7.1
-    (Determining the Target Resource) of ?RFC9110}}; previously called
+    (Determining the Target Resource) of RFC9110}}; previously called
     "effective request URI" in {{Section 5.5 (Effective Request URI) of
     ?RFC7230}}.
 
@@ -239,6 +247,142 @@ Similarly, {{Section 8.2.1 of -coap}} (Caching) says:
 
 Further discussion of a more generalized response concept can be found in
 {{-responses}}.
+
+
+## RFC7252-5.10.1/6.1: Query Parameters
+
+{{Section 3.4 of -uri}} explains the query component of a URI as
+follows:
+
+{:quote}
+>  The query component contains non-hierarchical data that, along with
+   data in the path component (Section 3.3), serves to identify a
+   resource within the scope of the URI's scheme and naming authority
+   (if any).  \[...]
+
+So there is no technical difference between a path and a query
+component in a URI except that the path is hierarchical, and the query
+is non-hierarchical.
+Both combine with scheme and authority to identify the resource, and
+changing any of these leads to a different resource.
+
+{{-coap}} generally follows this definition, but has a few passages
+where it is somewhat questionable whether they fully agree:
+
+{{Section 5.10.1 (Uri-Host, Uri-Port, Uri-Path, and Uri-Query) of
+-coap}} says:
+
+{:quote}
+>   \[...] each Uri-Query Option specifies one argument parameterizing the resource.
+
+(Analog text about Location-Query is in {{Section 5.10.7 (Location-Path
+and Location-Query) of -coap}}.)
+
+Similarly, {{Section 6.1 (coap URI Scheme) of -coap}} says:
+
+{:quote}
+>   The query serves to further parameterize the resource.  \[...]
+
+This could be read to say that the *same* resource can be accessed
+with different parameters in the Uri-Query options.
+It is likely that these passages were meant in the sense of
+"parameterize the resource name", i.e., changing the parameters does
+indeed lead to a different resource.
+
+So this could be clarified by applying this change in these three
+places:
+
+INCORRECT:
+: further parameterize the resource
+
+CORRECTED:
+: further parameterize the resource name
+
+However, the view that the query component supplies parameters to a
+request on a resource that exists independent of these parameters is
+widely held by implementers in the "big web" (HTTP) world, even if
+{{-http}} strictly follows {{-uri}}.
+
+This view seems to be fueled by the way that an application may use
+({{Section 17.9 (Disclosure of Sensitive Information in URIs) of -http}})...
+
+{:quote}
+> client-side mechanisms to construct a target URI out of
+  user-provided information, such as the query fields of a form using
+  GET
+
+This view also seems to be suggested to some by the way query
+parameters are used in specifications such as {{-cond}}; implementations
+of CoAP servers also often provide primitives to set up a single
+"resource handler" that bundles requests to a specific path and receives the
+query parameters as additional request parameters {{COAP-RESOURCE}}.
+
+{{-lawn}} establishes guidelines with respect to "URI Design and
+Ownership".
+{{Section 2.4 of RFC8820@-lawn}} specifically discusses the query
+component of the URI.
+On one hand, it says:
+
+{:quote}
+> Applications can specify the syntax of queries for the resources under their control.
+
+On the other hand, it warns:
+
+{:quote}
+> Extensions MUST NOT constrain the format or semantics of queries, to avoid collisions and erroneous client assumptions. For example, an Extension that indicates that all query parameters with the name "sig" indicate a cryptographic signature would collide with potentially preexisting query parameters on sites and lead clients to assume that any matching query parameter is a signature.
+
+It also acknowledges:
+
+{:quote}
+> Per the "Form submission" section of [HTML5], HTML constrains the syntax of query strings used in form submission. New form languages are encouraged to allow creation of a broader variety of URIs (e.g., by allowing the form to create new path components, and so forth).
+
+{{-cond}} is a specification that defines a set of query parameters.
+It can be adopted by an "Application" in the sense of {{-lawn}}.
+The current discussion goes in the direction of providing an interface
+type (for use in {{-link-format}} `if=`) that a server can declare in resource discovery to indicate
+to a client that the conditional query parameters interface is available.
+
+{{Section 3.3 of -rest-iot}} contains a brief discussion of the role of
+query parameters in URIs.
+It points to {{Section 3.3.4 of ?RFC6943}}, which discusses identifier
+comparison and points out that
+
+{:quote}
+> [...] it is unspecified whether the order of values matters.
+
+{{Section 3.3 of -rest-iot}} further mentions that in some implementations,
+
+{:quote}
+> they might even be re-ordered, for instance by intermediaries.
+
+{{-cond}} is designed to allow evolution of the set of conditional query
+parameters and provides a registry for the registration of additional ones.
+To facilitate the introduction of new parameters, it has been
+discussed whether {{-cond}} should adopt an "ignore unknown" policy.
+Since that policy would not necessarily apply to query parameters
+outside the conditional set, it would require a test whether a
+parameter is a conditional query parameter.
+The names of all parameters initially registered start with "`c.`",
+which might be a convention that might be part of the `if=` interface type.
+
+Any "ignore unknown" policy raises the question whether there,
+conversely, need to be "must understand" exceptions, here chosen by
+the client.
+For instance, the client might use the parameter name "`C.pmin`" instead
+of "`c.pmin`" to indicate that ans the request to fail if its
+preference for a minimum period between notifications cannot be fulfilled.
+
+In summary:
+In the definitions of URIs and of HTTP, the URI query
+parameters are not much different from path components.
+In practice, implementations tend to provide ways to handle query
+parameters more in terms of additional parameters to a single resource
+handler that handles a number of related URIs, differing in query
+parameters only.
+There appears to be little to be gained by discussing this more in the
+documentation (outside the present document); however, the duality
+between these two perspectives on query parameters needs to be kept in
+mind in discussions.
 
 
 ## RFC7252-5.10.5: Max-Age
@@ -601,11 +745,11 @@ combination of a type-name and a subtype-name registered in
 {{?IANA.media-types}}, as per {{?RFC6838}}, conventionally identified by
 the two names separated by a slash.
 This construct is often called a Content Type to reduce the confusion
-with a Media-Type-Name (e.g., in {{Section 8.3 of ?RFC9110}}, which then
+with a Media-Type-Name (e.g., in {{Section 8.3 of RFC9110}}, which then
 however also opts to use the term Media Type for the same information set).
 
 The second column of the Content-Format registry is the Content
-Coding, which is defined in {{Section 8.4.1 of ?RFC9110}}.
+Coding, which is defined in {{Section 8.4.1 of RFC9110}}.
 For historical reasons, the HTTP header field that actually carries
 the content coding is called Content-Encoding; this often leads to the
 misnaming of Content Coding as "content encoding".
