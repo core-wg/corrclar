@@ -369,7 +369,7 @@ Any "ignore unknown" policy raises the question whether there,
 conversely, need to be "must understand" exceptions, here chosen by
 the client.
 For instance, the client might use the parameter name "`C.pmin`" instead
-of "`c.pmin`" to indicate that ans the request to fail if its
+of "`c.pmin`" to indicate that it wants the request to fail if its
 preference for a minimum period between notifications cannot be fulfilled.
 
 In summary:
