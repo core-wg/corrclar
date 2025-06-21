@@ -483,9 +483,9 @@ Internet-Draft   Corrections and Clarifications to CoAP        June 2025
    Any "ignore unknown" policy raises the question whether there,
    conversely, need to be "must understand" exceptions, here chosen by
    the client.  For instance, the client might use the parameter name
-   "C.pmin" instead of "c.pmin" to indicate that ans the request to fail
-   if its preference for a minimum period between notifications cannot
-   be fulfilled.
+   "C.pmin" instead of "c.pmin" to indicate that it wants the request to
+   fail if its preference for a minimum period between notifications
+   cannot be fulfilled.
 
    In summary: In the definitions of URIs and of HTTP, the URI query
    parameters are not much different from path components.  In practice,
