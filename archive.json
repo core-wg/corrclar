@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-19T02:05:41.369510+00:00",
+  "timestamp": "2025-06-22T02:20:32.621282+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -2844,24 +2844,26 @@
       "id": "PR_kwDOJ-N8wM6Tdx7v",
       "title": "Query parameters",
       "url": "https://github.com/core-wg/corrclar/pull/47",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "cabo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-04-22T16:32:05Z",
-      "updatedAt": "2025-06-18T15:13:58Z",
+      "updatedAt": "2025-06-21T04:06:01Z",
       "baseRepository": "core-wg/corrclar",
       "baseRefName": "main",
       "baseRefOid": "5f3fa06f19b94ed66cab8ec7d21e71eab615697e",
       "headRepository": "core-wg/corrclar",
       "headRefName": "query-parameters",
       "headRefOid": "8ca4a306015da82e9dd34ca1031dfdeb5a9d168c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-06-21T04:06:01Z",
+      "mergedAt": "2025-06-21T04:06:01Z",
+      "mergedBy": "cabo",
+      "mergeCommit": {
+        "oid": "7d78945f90ce6727f2c7df3424ac8a8b93e0ddcd"
+      },
       "comments": [],
       "reviews": [
         {
