@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-22T02:20:32.621282+00:00",
+  "timestamp": "2025-06-26T02:05:43.092849+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1687,7 +1687,7 @@
       "labels": [],
       "body": "[RFC 7252, 5.8 Method Definitions](https://www.rfc-editor.org/rfc/rfc7252#section-5.8)\n\n> In this section, each method is defined along with its behavior.  A\n> request with an unrecognized or unsupported Method Code MUST generate\n> a 4.05 (Method Not Allowed) piggybacked response.\n\nWhat should happen, if a NON request uses a unrecognized/unsupported Method Code?\n\nI vague remember, that there is some specific in handling NON requests, but I fail to see it again.\n\n(Related to [Californium issue 2346](https://github.com/eclipse-californium/californium/issues/2346) )",
       "createdAt": "2025-06-04T17:46:59Z",
-      "updatedAt": "2025-06-18T08:24:43Z",
+      "updatedAt": "2025-06-25T07:40:42Z",
       "closedAt": null,
       "comments": [
         {
@@ -1724,6 +1724,13 @@
           "body": "[RFC7252 Section 4.3](https://www.rfc-editor.org/rfc/rfc7252#section-4.3) goes on to say\n````\n                                                                                              Rejecting a Non-\n   confirmable message MAY involve sending a matching Reset message, and\n   apart from the Reset message the rejected message MUST be silently\n   ignored.\n````\nAs this is a `MAY`, this does not preclude the use of a 4.02 (#14) or 4.05 for the response.\n\nSo, given that CON and TCP transport respond with 4.02 or 4.05, I do not see why NON `MAY `respond with a 4.02 or 4.05 for consistency across all the variants.",
           "createdAt": "2025-06-18T08:24:43Z",
           "updatedAt": "2025-06-18T08:24:43Z"
+        },
+        {
+          "author": "boaks",
+          "authorAssociation": "NONE",
+          "body": "> I do not see \n\nMay point was more, that for the critical options there was a explicit reference to section 4.3, here I was missing that.",
+          "createdAt": "2025-06-25T07:40:42Z",
+          "updatedAt": "2025-06-25T07:40:42Z"
         }
       ]
     }
