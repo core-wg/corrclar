@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-08T02:07:13.627417+00:00",
+  "timestamp": "2025-07-15T02:21:18.394620+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1754,7 +1754,7 @@
       "labels": [],
       "body": "https://github.com/core-wg/draft-dns-over-coap/pull/50#issuecomment-3044142318\n\n[8.5]: https://www.rfc-editor.org/rfc/rfc8323#section-8.5\n\n[Section 8.5 of CoAP over TLS (RFC8323)][8.5] defines the default value of Uri-Host to that of SNI if negotiated.\nThere is no equivalent mandate in RFC 7252 (which defines CoAP over DTLS). \nIs this something we want to \"fix\" in corr-clar? \nWhat would be the impact on existing DTLS implementations and deployments? \nWould there be a transition that needs to be managed?",
       "createdAt": "2025-07-07T15:28:35Z",
-      "updatedAt": "2025-07-07T15:47:24Z",
+      "updatedAt": "2025-07-13T19:27:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -1763,6 +1763,20 @@
           "body": "I hope we can \"fix\" this, ie. publish an update that just adopts the 8323 behavior for DTLS.\n\nI'd be tempted to do it in transport-indication, but so far that has stayed clear of performing any updates to published RFCs. Another good place might be whenever someone writes up the DTLS 1.3 fixes (because while the idea in 7252 was that it's DTLS 1.2 or later, its language is 1.2-specific IIRC).\n\nIt'll take some analysis of what kind of misunderstandings can arise from mixing the old behavior and the new behavior, but my gut feeling is that it'll only matter where a host does name based virtual hosting on DTLS, and had that happened, those users would likely have run into this issue and hopefully been verbose about it.",
           "createdAt": "2025-07-07T15:47:24Z",
           "updatedAt": "2025-07-07T15:47:24Z"
+        },
+        {
+          "author": "EskoDijk",
+          "authorAssociation": "NONE",
+          "body": "Seems ok to update this also for DTLS. E.g. in a \"Coap + DTLS 1.3\" update as suggested. Until such update is there, it could be maybe in the corrclar document?\n\nI haven't seen (in my work) yet the use of DTLS+CoAP where a SNI is added by the client - those are all cases where CoAP is used for within-site / network communication, not to the Internet. And in various cases, a hostname of the target server is not known.\nAn example is the cBRSKI protocol where we explicitly say the client shouldn't include the SNI: https://datatracker.ietf.org/doc/html/draft-ietf-anima-constrained-voucher-28#name-registrar-and-the-server-na ",
+          "createdAt": "2025-07-13T14:54:39Z",
+          "updatedAt": "2025-07-13T14:54:39Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "On Jul 13, 2025, at 16:55, Esko Dijk ***@***.***> wrote:\r\n> \r\n> Seems ok to update this also for DTLS. E.g. in a \"Coap + DTLS 1.3\" update as suggested. Until such update is there, it could be maybe in the corrclar document?\r\n\r\nI think corrclar is a good place to develop the language for now.\r\nAfter all we need to build some agreement on whether a \"CoAP + DTLS 1.3\u201d needs to be published and what should be in there, which probably needs a year or two.\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
+          "createdAt": "2025-07-13T19:27:57Z",
+          "updatedAt": "2025-07-13T19:27:57Z"
         }
       ]
     }
