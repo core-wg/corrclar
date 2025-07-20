@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-15T02:21:18.394620+00:00",
+  "timestamp": "2025-07-20T02:28:41.161199+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1483,9 +1483,9 @@
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
-      "body": "There are a few places where I think we were too narrow in where we defined new behavior:\n\n* BERT could be useful outside of TCPish transports: https://github.com/core-wg/corrclar/issues/17\n* Observe has been redefined to have an implicit value twice now (TCPish, OSCORE); a clarification could generalize that notifications carry a Observe: 0 on transports that provide implicit ordering.\n* Signalling messages were defined for TCPish transports. OSCORE said they can be encrypted too without losing many more words on them. Defining that 7xx is signalling (sharing the number space and the per-code option space across all transports)\n* [edit: added] https://github.com/core-wg/corrclar/issues/49\n\nEven though some of those are no-ops in the protocol (there are no other ordered transports right now, and describing that some signalling messages might be usable on TCP is a different topic), stating that those fundamentally apply everywhere would help readers understand them better, and help implementers find the right abstractions. (Like, \"do I need to know the transport just to be able to interpret the code?\" \u2026 so far, with signaling only on TCPish, an update to CoAP-over-UDP could define different codes there).",
+      "body": "There are a few places where I think we were too narrow in where we defined new behavior:\n\n* BERT could be useful outside of TCPish transports: https://github.com/core-wg/corrclar/issues/17\n* Observe has been redefined to have an implicit value twice now (TCPish, OSCORE); a clarification could generalize that notifications carry a Observe: 0 on transports that provide implicit ordering.\n* Signalling messages were defined for TCPish transports. OSCORE said they can be encrypted too without losing many more words on them. Defining that 7xx is signalling (sharing the number space and the per-code option space across all transports)\n* [edit: added] https://github.com/core-wg/corrclar/issues/49 (or more generally https://github.com/core-wg/corrclar/issues/38)\n\nEven though some of those are no-ops in the protocol (there are no other ordered transports right now, and describing that some signalling messages might be usable on TCP is a different topic), stating that those fundamentally apply everywhere would help readers understand them better, and help implementers find the right abstractions. (Like, \"do I need to know the transport just to be able to interpret the code?\" \u2026 so far, with signaling only on TCPish, an update to CoAP-over-UDP could define different codes there).",
       "createdAt": "2024-06-19T10:40:59Z",
-      "updatedAt": "2025-07-07T15:48:27Z",
+      "updatedAt": "2025-07-18T15:35:57Z",
       "closedAt": null,
       "comments": [
         {
