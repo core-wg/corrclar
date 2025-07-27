@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-20T02:28:41.161199+00:00",
+  "timestamp": "2025-07-27T02:29:50.235570+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1777,6 +1777,65 @@
           "body": "On Jul 13, 2025, at 16:55, Esko Dijk ***@***.***> wrote:\r\n> \r\n> Seems ok to update this also for DTLS. E.g. in a \"Coap + DTLS 1.3\" update as suggested. Until such update is there, it could be maybe in the corrclar document?\r\n\r\nI think corrclar is a good place to develop the language for now.\r\nAfter all we need to build some agreement on whether a \"CoAP + DTLS 1.3\u201d needs to be published and what should be in there, which probably needs a year or two.\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
           "createdAt": "2025-07-13T19:27:57Z",
           "updatedAt": "2025-07-13T19:27:57Z"
+        }
+      ]
+    },
+    {
+      "number": 50,
+      "id": "I_kwDOJ-N8wM7CTZRy",
+      "title": "Why is the extended table format not used in the IANA registry?",
+      "url": "https://github.com/core-wg/corrclar/issues/50",
+      "state": "OPEN",
+      "author": "miri64",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Whenever a new CoAP option is introduced, there is this nice extension of RFC 7252, Table 4, listing beyond the number and name the C, U, N, and R flags in the option number, the format, the length, and the default. When looking at the table in the IANA registry, however, to check @chrysn's claim that there are no free options left before Uri-Path in https://mailarchive.ietf.org/arch/msg/core/5dSGtHRRlaSdp766xWo-RzfZALc, I was confused about 2 and 10 (which are not critical), simply because I, as someone who is not working on options on a daily basis, forgot which bit means what in an option number.\n\nIs there a reason why the information from Table 4 is not in the IANA registry? Maybe this document could add these columns?",
+      "createdAt": "2025-07-24T13:12:45Z",
+      "updatedAt": "2025-07-24T15:48:09Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "I don't know whether that is an answer to your question, but expressing the same information in two places can lead to inconsistencies (think database normalization).\nI'd rather write a tool that presents the IANA table in Table 4 form...",
+          "createdAt": "2025-07-24T13:28:54Z",
+          "updatedAt": "2025-07-24T13:28:54Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "A generated table would also be nice; I do doubt though that the information is available in machine readable form, sometimes I think it's even just implicit in the documents. Especially on repeatability. The OSCORE class is not quite as formalized, it's sometimes \"E but with a caveat\" or \"special\".",
+          "createdAt": "2025-07-24T13:32:47Z",
+          "updatedAt": "2025-07-24T13:32:47Z"
+        },
+        {
+          "author": "miri64",
+          "authorAssociation": "NONE",
+          "body": "> I'd rather write a tool that presents the IANA table in Table 4 form...\n\nCan the format and length also be implied from the option number?",
+          "createdAt": "2025-07-24T13:43:36Z",
+          "updatedAt": "2025-07-24T13:43:36Z"
+        },
+        {
+          "author": "miri64",
+          "authorAssociation": "NONE",
+          "body": "> I don't know whether that is an answer to your question, but expressing the same information in two places can lead to inconsistencies (think database normalization).\n\nSure, but if the IANA table would be the main point of reference, I think other tables could follow. More complex tables (I am thinking, e.g., about the Media Type or the Service Name and Port Number tables) are also managing to not drift apart too much from their respective specs.",
+          "createdAt": "2025-07-24T13:47:05Z",
+          "updatedAt": "2025-07-24T13:47:24Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Only Critical, Proxy-Safe/Unsafe and NoCacheKey can be derived. The rest would need to be extracted from the documents specifying them (and the OCF ones don't even have a specification linked).",
+          "createdAt": "2025-07-24T13:48:20Z",
+          "updatedAt": "2025-07-24T13:48:20Z"
+        },
+        {
+          "author": "miri64",
+          "authorAssociation": "NONE",
+          "body": "(btw, not sure this is reflected in the e-mail notifications: I changed the title to what it was supposed to be; somehow my laptop ate the end of the sentence in the initial post)",
+          "createdAt": "2025-07-24T15:48:08Z",
+          "updatedAt": "2025-07-24T15:48:08Z"
         }
       ]
     }
