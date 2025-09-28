@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-27T02:29:50.235570+00:00",
+  "timestamp": "2025-09-28T02:01:47.537061+00:00",
   "repo": "core-wg/corrclar",
   "labels": [
     {
@@ -1838,6 +1838,22 @@
           "updatedAt": "2025-07-24T15:48:08Z"
         }
       ]
+    },
+    {
+      "number": 51,
+      "id": "I_kwDOJ-N8wM7N0U-H",
+      "title": "May a proxy turn a Uri-Path into a Proxy-Uri?",
+      "url": "https://github.com/core-wg/corrclar/issues/51",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "[Section 5.10.2 of RFC7252](https://datatracker.ietf.org/doc/html/rfc7252#section-5.10.2) describes that a Proxy-Uri can be used instead of a Uri-Path:\n\n> As a special case to simplify many proxy clients, the absolute-URI can be constructed from the Uri-* options.\n\nThis allows using Proxy-Uri when the piecemeal options would do. (Obviously, Proxy-Uri is necessary in cases inexpressible by the other options, but that's a different usecase). But *who* may do that? Is it\n\n1. Simple clients as in they are constrained or otherwise plain clients.\n2. Any client, if it wants to be simple in that aspect, even if it is a proxy itself.\n\nIn [uri-path-abbrev](https://datatracker.ietf.org/doc/draft-ietf-core-uri-path-abbrev/), it becomes visible that 1 is fine, but 2 along with its inverse operation (Proxy-Uri to options, which I think is fine) requires servers to possibly do some extra work.\n\nI have seen the Proxy-Uri option in use, but only in case 1, and have never seen. On its own that's not much, but if the whole working group has not seen any case of 2 in the 10 years it is out, maybe we could clarify that 1 was meant, and that proxies can't just start using Proxy-Uri because they feel like it.\n\nI'm fine with either clarifying outcome. If it is 2, I think that documents such as uri-path-abbrev will contain clauses that state that a server SHOULD do some things, BUT WE KNOW YOU WON'T because it's a lot of work for a case you can't even imagine will hapen.",
+      "createdAt": "2025-09-25T10:41:49Z",
+      "updatedAt": "2025-09-25T10:41:49Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
