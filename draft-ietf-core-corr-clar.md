@@ -39,6 +39,7 @@ informative:
   I-D.ietf-core-uri-path-abbrev: upa
   BCP190: lawn # 8820
   I-D.irtf-t2trg-rest-iot: rest-iot
+  RFC7967: suppress
   RFC8516: RC429
   RFC9110: http
   I-D.bormann-core-responses: responses
@@ -264,6 +265,62 @@ standards-track RFC to become effective.
 The present document therefore does not repeat the information but
 simply points to {{-upa}}, which both includes the update and also directly
 makes use of the updated functionality if it is available.
+
+## RFC7252-5.8: Piggybacking 4.05 Responses
+
+<!-- Issue #54 contributed by Marco Tiloca -->
+<!-- Issue #48 contributed by Achim Kraus -->
+
+{{Section 5.8 of -coap}} says:
+
+INCORRECT:
+: > A request with an unrecognized or unsupported Method Code MUST
+  > generate a 4.05 (Method Not Allowed) piggybacked response.
+  {:quote}
+
+However, a piggybacked response is carried in an ACK, which is only
+used if the request is a Confirmable message.
+If the request is a Non-confirmable message, the response can only be
+sent as a Separate Response ({{Section 5.2.2 of -coap}}).
+
+CORRECTED:
+: <blockquote markdown="1">
+  A request with an unrecognized or unsupported Method Code MUST
+  generate a 4.05 (Method Not Allowed) response.
+  This MUST be sent as a piggybacked response if the request is a
+  Confirmable message (responses for Non-confirmable messages can only
+  be sent as a Separate Response).
+
+  Note that the response MAY be suppressed before actually being sent,
+  e.g., when:
+
+  - The server is able to determine that the request was sent to
+    multiple recipients (e.g., over IP multicast) and the application
+    does not deem that the response ought to be sent.
+
+  - The request carried the CoAP No-Response Option {{-suppress}} with
+    an indication that 4.xx error responses are to be suppressed, and
+    the server ultimately determines such a suppression to be
+    appropriate and useful.
+
+  While this specification is explicit in requiring a 4.05 (Method Not
+  Allowed) response, the response code 5.01 (Not Implemented) is also
+  defined ({{Section 5.9.3.2 of -coap}}) and might be sent as a
+  catch-all by a server with limited precision in error handling.
+  Although this response code is not as clear in designating the
+  problem a client error, the client SHOULD be prepared to handle such
+  a response, but possibly in a degraded way.
+
+  </blockquote>
+
+PENDING.
+
+[^405-proxies]
+
+[^405-proxies]: The text so far doesn't discuss proxies that forward
+    4.05 responses; as an ACK may already have been sent by the proxy,
+    this may convert a piggy-backed response by the origin server to a
+    separate one.
 
 ## RFC7252-5.10.1/6.1: Query Parameters
 
